@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" role="img" aria-labelledby="title description">
+  <title id="title">Tondol Beach illustration placeholder</title>
+  <desc id="description">Stylized calm sea, sand, and distant islands labelled as an official photo placeholder.</desc>
+  <defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#8fd3e0"/><stop offset="1" stop-color="#edf3dd"/></linearGradient><linearGradient id="water" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#59b2c0"/><stop offset="1" stop-color="#0e5673"/></linearGradient></defs>
+  <rect width="900" height="330" fill="url(#sky)"/>
+  <circle cx="697" cy="115" r="58" fill="#fff5cb"/>
+  <path d="M0 337h900v230H0Z" fill="url(#water)"/>
+  <path d="M84 334c86-76 181-69 259 0M590 335c70-55 139-49 211 0" fill="#2b7a68"/>
+  <path d="M0 472c151-29 287 15 442-3s265-36 458-8" fill="none" stroke="#ffffff" stroke-width="11" opacity=".72"/>
+  <path d="M0 543c198-35 305 10 464-8s285-21 436 5v160H0Z" fill="#ead7a8"/>
+  <rect x="38" y="594" width="510" height="66" rx="33" fill="#083d54" fill-opacity=".9"/>
+  <text x="72" y="622" fill="#ffffff" font-family="Arial, sans-serif" font-size="17" font-weight="700" letter-spacing="1.5">BEACH PLACEHOLDER</text>
+  <text x="72" y="645" fill="#d9ebe7" font-family="Arial, sans-serif" font-size="14" letter-spacing="1">OFFICIAL PHOTO PENDING</text>
+</svg>

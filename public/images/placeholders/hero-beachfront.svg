@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-labelledby="title description">
+  <title id="title">Illustrated beachfront villa placeholder</title>
+  <desc id="description">A stylized tropical beach, villa, and palm scene labelled as an official photo placeholder.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#9bd9e4"/><stop offset="1" stop-color="#edf3dd"/></linearGradient>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#3e9fb3"/><stop offset="1" stop-color="#0e5673"/></linearGradient>
+    <linearGradient id="sand" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#e7d09b"/><stop offset="1" stop-color="#f4e6bf"/></linearGradient>
+    <linearGradient id="shade" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#083d54" stop-opacity="0"/><stop offset="1" stop-color="#083d54" stop-opacity=".35"/></linearGradient>
+  </defs>
+  <rect width="1600" height="510" fill="url(#sky)"/>
+  <circle cx="1270" cy="205" r="86" fill="#fff7d5" opacity=".84"/>
+  <path d="M0 472c216-42 383 22 578 3s399-92 600-54 263 50 422 19v309H0Z" fill="url(#sea)"/>
+  <path d="M0 669c247-55 443-7 649 34s414 42 592-4 255-49 359-25v326H0Z" fill="url(#sand)"/>
+  <path d="M0 580c260-40 440 20 681 0s452-73 919-14" fill="none" stroke="#e9fbff" stroke-width="13" opacity=".78"/>
+  <path d="M0 620c293-35 503 36 755 4s512-42 845-2" fill="none" stroke="#ffffff" stroke-width="8" opacity=".55"/>
+  <g transform="translate(670 300)">
+    <path d="M0 144 225 0l233 144" fill="#c79a44"/>
+    <rect x="37" y="130" width="390" height="261" rx="8" fill="#fbfaf5"/>
+    <rect x="76" y="181" width="106" height="99" rx="4" fill="#72b8c5"/>
+    <rect x="282" y="181" width="106" height="99" rx="4" fill="#72b8c5"/>
+    <rect x="197" y="245" width="72" height="146" fill="#2b7a68"/>
+    <path d="M57 315h350" stroke="#cddbd7" stroke-width="13"/>
+    <path d="M27 391h410" stroke="#083d54" stroke-width="13"/>
+  </g>
+  <g transform="translate(1245 205)" fill="#2b7a68">
+    <path d="M0 495c42-185 43-336 0-455" fill="none" stroke="#6f5632" stroke-width="28"/>
+    <path d="M3 47c-142-48-203 0-226 65 91-28 163-17 226 7-121 15-159 75-160 136 70-52 116-78 171-86 39-93 32-129-11-122Z"/>
+    <path d="M1 43c116-67 199-21 238 31-99-10-168 16-224 52 118-10 170 40 187 97-80-35-134-51-193-44-53-83-52-119-8-136Z"/>
+  </g>
+  <rect width="1600" height="1000" fill="url(#shade)"/>
+  <g transform="translate(64 850)">
+    <rect width="650" height="86" rx="43" fill="#083d54" fill-opacity=".9"/>
+    <circle cx="47" cy="43" r="18" fill="#c79a44"/>
+    <text x="82" y="38" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" letter-spacing="2">ILLUSTRATED PLACEHOLDER</text>
+    <text x="82" y="65" fill="#d9ebe7" font-family="Arial, Helvetica, sans-serif" font-size="17" letter-spacing="1.4">OFFICIAL VILLA PHOTO PENDING</text>
+  </g>
+</svg>

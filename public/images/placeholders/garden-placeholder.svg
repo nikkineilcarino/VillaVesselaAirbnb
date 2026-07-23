@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" role="img" aria-labelledby="title description">
+  <title id="title">Tropical garden illustration placeholder</title>
+  <desc id="description">Stylized garden path, leaves, and flowers labelled as an official photo placeholder.</desc>
+  <defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#b8e1df"/><stop offset="1" stop-color="#f0eed8"/></linearGradient></defs>
+  <rect width="900" height="700" fill="url(#sky)"/>
+  <circle cx="730" cy="118" r="66" fill="#fff4bd"/>
+  <path d="M0 380c151-80 265-15 390 19s261 22 510-78v379H0Z" fill="#4f8d67"/>
+  <path d="M356 700c37-148 78-245 134-323 74 82 133 190 178 323Z" fill="#e7d09b"/>
+  <g fill="#2b7a68"><ellipse cx="88" cy="316" rx="65" ry="164" transform="rotate(-20 88 316)"/><ellipse cx="805" cy="338" rx="75" ry="182" transform="rotate(18 805 338)"/><ellipse cx="213" cy="425" rx="94" ry="132" transform="rotate(-42 213 425)"/></g>
+  <g fill="#ffffff"><circle cx="120" cy="405" r="13"/><circle cx="162" cy="457" r="12"/><circle cx="756" cy="414" r="14"/><circle cx="812" cy="476" r="11"/></g>
+  <g fill="#c79a44"><circle cx="120" cy="405" r="4"/><circle cx="162" cy="457" r="4"/><circle cx="756" cy="414" r="4"/><circle cx="812" cy="476" r="4"/></g>
+  <rect x="42" y="595" width="510" height="66" rx="33" fill="#083d54" fill-opacity=".9"/>
+  <text x="76" y="623" fill="#ffffff" font-family="Arial, sans-serif" font-size="17" font-weight="700" letter-spacing="1.5">GARDEN PLACEHOLDER</text>
+  <text x="76" y="646" fill="#d9ebe7" font-family="Arial, sans-serif" font-size="14" letter-spacing="1">OFFICIAL PHOTO PENDING</text>
+</svg>

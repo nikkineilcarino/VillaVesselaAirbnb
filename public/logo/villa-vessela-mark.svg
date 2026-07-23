@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title description">
+  <title id="title">Villa Vessela emblem</title>
+  <desc id="description">Intertwined VV monogram framed by sampaguita flowers and a small wave.</desc>
+  <defs>
+    <g id="flower" fill="#ffffff" stroke="#d8c18f" stroke-width="0.8">
+      <ellipse cx="0" cy="-4" rx="2.5" ry="4"/>
+      <ellipse cx="0" cy="-4" rx="2.5" ry="4" transform="rotate(72)"/>
+      <ellipse cx="0" cy="-4" rx="2.5" ry="4" transform="rotate(144)"/>
+      <ellipse cx="0" cy="-4" rx="2.5" ry="4" transform="rotate(216)"/>
+      <ellipse cx="0" cy="-4" rx="2.5" ry="4" transform="rotate(288)"/>
+      <circle r="1.3" fill="#c79a44" stroke="none"/>
+    </g>
+  </defs>
+  <circle cx="64" cy="64" r="59" fill="#0e5673"/>
+  <circle cx="64" cy="64" r="55" fill="none" stroke="#c79a44" stroke-width="1.8"/>
+  <use href="#flower" transform="translate(25 29) rotate(-32)"/>
+  <use href="#flower" transform="translate(64 10)"/>
+  <use href="#flower" transform="translate(103 31) rotate(34)"/>
+  <use href="#flower" transform="translate(112 76) rotate(65)"/>
+  <use href="#flower" transform="translate(31 104) rotate(-48)"/>
+  <path d="M29 38 51 87 65 56" fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"/>
+  <path d="m51 38 22 49 25-49" fill="none" stroke="#c79a44" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"/>
+  <path d="M28 99c13-6 24-6 36 0s24 6 36 0" fill="none" stroke="#8bcbd5" stroke-linecap="round" stroke-width="3"/>
+</svg>

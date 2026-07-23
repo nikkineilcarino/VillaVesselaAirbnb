@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" role="img" aria-labelledby="title description">
+  <title id="title">Bedroom illustration placeholder</title>
+  <desc id="description">Stylized bright bedroom with a window and bed labelled as an official photo placeholder.</desc>
+  <rect width="900" height="700" fill="#eef5f3"/>
+  <rect x="0" y="490" width="900" height="210" fill="#d7c49b"/>
+  <rect x="102" y="78" width="272" height="246" rx="7" fill="#ffffff" stroke="#cddbd7" stroke-width="12"/>
+  <rect x="125" y="101" width="226" height="200" fill="#82c5d0"/>
+  <path d="M238 101v200M125 204h226" stroke="#ffffff" stroke-width="8"/>
+  <circle cx="295" cy="150" r="35" fill="#fff4bd"/>
+  <path d="M125 275c74-75 131-74 226-21v47H125Z" fill="#2b7a68"/>
+  <rect x="305" y="350" width="468" height="221" rx="24" fill="#ffffff" stroke="#cddbd7" stroke-width="9"/>
+  <rect x="340" y="292" width="160" height="128" rx="22" fill="#fbfaf5" stroke="#cddbd7" stroke-width="8"/>
+  <rect x="510" y="292" width="160" height="128" rx="22" fill="#fbfaf5" stroke="#cddbd7" stroke-width="8"/>
+  <path d="M310 467h458" stroke="#0e5673" stroke-width="38"/>
+  <rect x="58" y="597" width="510" height="66" rx="33" fill="#083d54" fill-opacity=".9"/>
+  <text x="92" y="625" fill="#ffffff" font-family="Arial, sans-serif" font-size="17" font-weight="700" letter-spacing="1.5">BEDROOM PLACEHOLDER</text>
+  <text x="92" y="648" fill="#d9ebe7" font-family="Arial, sans-serif" font-size="14" letter-spacing="1">OFFICIAL PHOTO PENDING</text>
+</svg>

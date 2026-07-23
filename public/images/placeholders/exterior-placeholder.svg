@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" role="img" aria-labelledby="title description">
+  <title id="title">Villa exterior illustration placeholder</title>
+  <desc id="description">Stylized villa exterior and tropical greenery labelled as an official photo placeholder.</desc>
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#bde1df"/><stop offset="1" stop-color="#e9d9af"/></linearGradient></defs>
+  <rect width="900" height="700" fill="url(#bg)"/>
+  <circle cx="735" cy="125" r="64" fill="#fff5cd"/>
+  <path d="M0 532c159-100 314-45 426-26s258-3 474-93v287H0Z" fill="#77a982"/>
+  <g transform="translate(190 176)">
+    <path d="M0 152 259 0l272 152" fill="#b88735"/>
+    <rect x="43" y="138" width="446" height="284" rx="8" fill="#fbfaf5"/>
+    <rect x="87" y="203" width="126" height="106" fill="#72b8c5"/>
+    <rect x="320" y="203" width="126" height="106" fill="#72b8c5"/>
+    <rect x="228" y="268" width="78" height="154" fill="#0e5673"/>
+    <path d="M67 344h400" stroke="#cddbd7" stroke-width="16"/>
+  </g>
+  <g fill="#2b7a68"><circle cx="89" cy="460" r="94"/><circle cx="799" cy="482" r="115"/><circle cx="701" cy="535" r="84"/></g>
+  <rect x="30" y="598" width="510" height="66" rx="33" fill="#083d54" fill-opacity=".9"/>
+  <text x="64" y="626" fill="#ffffff" font-family="Arial, sans-serif" font-size="17" font-weight="700" letter-spacing="1.5">EXTERIOR PLACEHOLDER</text>
+  <text x="64" y="649" fill="#d9ebe7" font-family="Arial, sans-serif" font-size="14" letter-spacing="1">OFFICIAL PHOTO PENDING</text>
+</svg>

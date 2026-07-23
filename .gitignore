@@ -1,0 +1,39 @@
+# Dependencies
+/node_modules/
+
+# Next.js outputs
+/.next/
+/out/
+/next-env.d.ts
+
+# Tests and coverage
+/coverage/
+/playwright-report/
+/test-results/
+/blob-report/
+
+# Local environment files (the documented example remains tracked)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Vercel
+/.vercel/
+
+# Supabase local runtime/link state (migrations, seed, and config remain tracked)
+/supabase/.temp/
+/supabase/.branches/
+
+# Logs and operating-system/editor artifacts
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# TypeScript build information
+*.tsbuildinfo

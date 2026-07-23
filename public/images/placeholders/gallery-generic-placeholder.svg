@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="700" viewBox="0 0 900 700" role="img" aria-labelledby="title description">
+  <title id="title">Generic gallery placeholder</title>
+  <desc id="description">Abstract tropical illustration used only until approved Villa Vessela photography is supplied.</desc>
+  <rect width="900" height="700" fill="#eef5f3"/>
+  <circle cx="720" cy="135" r="72" fill="#fff2bf"/>
+  <path d="M0 420C120 360 225 460 350 405C500 340 640 455 900 360V700H0Z" fill="#b7ded9"/>
+  <path d="M0 505C160 445 270 545 430 485C585 428 715 520 900 455V700H0Z" fill="#62aebe"/>
+  <path d="M0 590C160 535 305 620 470 560C635 505 755 585 900 535V700H0Z" fill="#0e5673"/>
+  <g fill="#2b7a68">
+    <path d="M105 420c25-95 86-151 162-178-28 70-22 129 28 180Z"/>
+    <path d="M785 410c-19-91-76-148-149-179 22 70 12 129-41 177Z"/>
+  </g>
+  <rect x="54" y="70" width="438" height="116" rx="22" fill="#083d54"/>
+  <text x="84" y="116" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700">GALLERY PLACEHOLDER</text>
+  <text x="84" y="154" fill="#d7ebe7" font-family="Arial, Helvetica, sans-serif" font-size="19">OFFICIAL PHOTOGRAPH PENDING</text>
+</svg>
