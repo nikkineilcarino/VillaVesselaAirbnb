@@ -2,7 +2,7 @@
 
 ## Status and scope
 
-This document defines the intended architecture and records the verified implementation through Phase 11. The application has a Next.js 16 public experience, an ordered deny-by-default Supabase schema, layered administrator authorization, privacy-safe analytics, an authenticated reporting dashboard, a default-disabled validated inquiry boundary, administrator inquiry status management, protected CSV exports, a public privacy notice, fail-closed search configuration, verified-fact structured data, WCAG-oriented interaction safeguards, static-asset performance controls, and a restrictive response-header baseline. Live database application/role/event/dashboard/inquiry/export testing, live approved/unapproved authentication, production retention/deletion operations, Git publication, and deployment remain pending and must not be described as working until runtime checks pass.
+This document defines the architecture and records the verified implementation through Phase 12. The Next.js 16 public experience is published from GitHub and deployed to Vercel with a verified HTTPS canonical origin, Node 22, restricted production configuration, privacy-safe metadata, WCAG-oriented interaction safeguards, and restrictive response headers. The repository also contains an ordered deny-by-default Supabase schema, layered administrator authorization, optional analytics, reporting, inquiries, and protected exports. Those data-backed features remain off in production because no approved Supabase project, administrator identities, retention/deletion process, or live role evidence was supplied; they must not be described as operational.
 
 ## Implemented foundation
 
@@ -227,7 +227,7 @@ flowchart TD
     Migrations[Reviewed SQL migrations] --> PG
 ```
 
-Production release requires a successful build, verified environment separation, a public HTTPS canonical origin, applied migrations, a manually approved administrator, approved privacy retention/deletion/request procedures, and post-deployment public-access/admin-denial/metadata/header/privacy checks.
+The initial public-information release requires a successful build, verified environment separation, a public HTTPS canonical origin, disabled unapproved data features, and post-deployment public-access/admin-denial/metadata/header/privacy checks. Those checks pass on `https://villa-vessela-airbnb.vercel.app`. Activating Supabase-backed analytics, inquiries, or administrator functionality additionally requires applied migrations, a manually approved administrator, live role probes, and approved privacy retention/deletion/request procedures.
 
 ## Major architectural reasons
 

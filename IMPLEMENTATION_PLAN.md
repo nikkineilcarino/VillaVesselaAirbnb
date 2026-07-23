@@ -111,9 +111,11 @@ Status values are **Not started**, **In progress**, **Blocked**, **Completed**, 
 
 ### Phase 12 — Final QA and deployment readiness
 
+- **Status:** Completed with Supabase-dependent acceptance criteria blocked.
 - **Tasks:** full regression, dependency and documentation review, build, final Vercel/Supabase runbook, production checklist and owner-verification list.
 - **Expected files:** final QA report and updates to all project/directory documents.
 - **QA:** lint, typecheck, unit tests, full Playwright suite, build, route matrix, access-control and privacy regression. Any credential-dependent check remains explicitly blocked until executed.
+- **Completion note:** The owner-attributed `main` branch is published at `nikkineilcarino/VillaVesselaAirbnb`. Vercel project `villa-vessela-airbnb` is deployed in the requested team and aliased to `https://villa-vessela-airbnb.vercel.app` from application commit `8275f9840d3bc306bddf2d7bfd697d69da776be7`. The audited Node line is pinned to 22.x. Only the canonical origin plus explicit false analytics/inquiry flags are configured; no Supabase credential, test credential, private contact, or public destination was added. Local lint, types, 67 unit tests, 47 browser checks with 2 explicit live skips, the separate 3-check inquiry run, audit, lockfile simulation, and build pass. The final deployment reports Ready and 39 production browser checks plus route/header/privacy/bundle/cookie scans pass. Supabase migrations, RLS role probes, administrator access, data insertion/readback, retention, and deletion remain blocked. Evidence is in `docs/qa/phase-12-release.md`.
 
 ## Directory README plan
 

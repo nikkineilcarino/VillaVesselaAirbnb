@@ -4,13 +4,13 @@
 
 This repository contains the independent website for **Beachfront Tondol Beach Villa Vessela**, a vacation-rental property in Tondol, Purok 2, Anda, Pangasinan, Philippines.
 
-The public site will help families and groups understand the property and continue to an approved booking or contact channel. A separate administrator area will provide privacy-safe, aggregate website analytics and optional inquiry management. Public visitors will never need an account.
+The public site helps families and groups understand the property and can continue to an approved booking or contact channel after the owner supplies one. A separate administrator area is implemented for privacy-safe aggregate analytics and optional inquiry management, but remains unavailable until an approved Supabase project is configured. Public visitors never need an account.
 
 The source of truth is the 42-page *Villa Vessela Website Project Package* dated July 2026. Unknown or conflicting business details must stay hidden, disabled, or explicitly unconfirmed until the owner approves them.
 
 ## Current status
 
-Phase 11 (SEO, accessibility, performance, security, and privacy hardening) is implemented. All nine public pages have unique titles/descriptions, canonical/Open Graph/Twitter metadata, one primary heading, and privacy-safe JSON-LD. Static sitemap, fail-closed robots, manifest, favicon/touch/web-app icons, and a visibly provisional social image are present. The public Privacy page documents actual analytics, inquiry, browser-storage, administrator, provider, and unresolved retention behavior. WCAG-oriented focus/reflow/reduced-motion checks, restrictive production headers, bounded static-asset caching, system-font delivery, route-scoped client JavaScript, secret/privacy scans, 67 unit tests, 47 credential-independent browser tests, the separate 3-test enabled-inquiry run, dependency audit, and production build pass. Two live administrator tests and all database-backed role/insertion/dashboard/inquiry/export checks remain blocked because Docker and an approved Supabase test project/identities are unavailable. Phase 12 GitHub publication and Vercel deployment have not started; the workspace is not yet a Git repository.
+Phase 12 public release is complete. The source is published on [GitHub](https://github.com/nikkineilcarino/VillaVesselaAirbnb), and the production site is live at [villa-vessela-airbnb.vercel.app](https://villa-vessela-airbnb.vercel.app). The final Node 22 Vercel deployment passed its provider build and 39 production Chromium checks covering all public routes, mobile/keyboard/dialog behavior, Axe, canonical/social/structured metadata, discovery assets, security headers, Privacy, and administrator denial. The local gate passes lint, strict types, 67 unit tests, 47 credential-independent browser tests with 2 live administrator checks explicitly skipped, the separate 3-test enabled-inquiry branch, dependency audit, lockfile simulation, and production build. Production scans found zero private caretaker matches, privileged browser markers, active unapproved external links, or analytics cookies. Analytics is an explicit no-op and Contact submission is unavailable because both production feature flags are false and no Supabase credential was configured. Database-backed role, insertion, dashboard, inquiry, export, retention, and deletion checks remain blocked rather than passed.
 
 ## Technology stack
 
@@ -100,7 +100,7 @@ The database layer supplies local Supabase configuration, seven versioned migrat
 
 ## Deployment
 
-Phase 12 uses the reproducible GitHub, Vercel, and Supabase release procedure in `docs/DEPLOYMENT.md`. It covers environment variables, migration order, administrator provisioning, domain/canonical URL setup, rollback, and post-deployment privacy, indexing, header, and access checks. Phase 11 production builds pass locally; the Phase 12 release evidence records the actual publication and deployment state.
+Production is deployed through the `villa-vessela-airbnb` project in the `nikkineilcarino-2938s-projects` Vercel team. The canonical production origin is `https://villa-vessela-airbnb.vercel.app`; Node is pinned to the audited `22.x` line. The reproducible GitHub, Vercel, and Supabase procedure in `docs/DEPLOYMENT.md` covers environment separation, migration order, administrator provisioning, canonical setup, rollback, and post-deployment checks. Exact release evidence is in `docs/qa/phase-12-release.md`.
 
 ## Important folders
 
@@ -120,12 +120,11 @@ Phase 12 uses the reproducible GitHub, Vercel, and Supabase release procedure in
 - Every item in the current primary navigation is available, and Privacy is available from the footer. Airbnb, social, messaging, map, phone, email, and other external destinations remain disabled because no complete approved value has been supplied.
 - Draft fee amounts are retained only for reconciliation and are not rendered. Every public fee prompt requires current host confirmation.
 - Every current property/location image is a labelled local illustration, not a photograph of Villa Vessela. Approved official photography is still required.
-- The workspace is not yet initialized as or connected to a Git repository.
 - Official property photographs, production destinations, Supabase credentials, and administrator test credentials have not been supplied. Docker's installed engine is not running, so migrations/policies/functions, live analytics insertion, populated dashboard rendering, and approved/unapproved authentication behavior have not been executed against a database.
 - The Contact page defaults to the disabled form because the owner has not approved launch activation. Enabled-mode UI/API failure paths pass locally, but no inquiry has been persisted to a live database.
-- Live database migration/RLS/dashboard/inquiry/export, authentication, analytics insertion, and deployment testing cannot occur until their required runtime/configuration is available.
+- Live database migration/RLS/dashboard/inquiry/export, authentication, and analytics insertion testing cannot occur until their required runtime/configuration is available. Public Vercel deployment testing has passed.
 - Analytics and inquiry rate limiting is bounded per-process and deliberately retains no raw IP. A distributed/serverless limiter or approved WAF rule remains required before launch-scale traffic.
-- Search indexing fails closed unless `NEXT_PUBLIC_SITE_URL` is a valid public HTTPS origin. Google `VacationRental` rich-result markup is intentionally omitted until precise coordinates, a stable property identifier, required official photo coverage, and eligibility are available.
+- Search indexing is enabled only on the configured Vercel HTTPS canonical origin and fails closed elsewhere. Google `VacationRental` rich-result markup is intentionally omitted until precise coordinates, a stable property identifier, required official photo coverage, and eligibility are available.
 - The Content Security Policy permits same-origin inline scripts/styles required by the current Next.js rendering, JSON-LD, responsive image, and chart implementation; production excludes `unsafe-eval` and permits no third-party script origin.
 - The supplied package contains conflicting or unconfirmed business facts. They are tracked in `CONTENT_TODO.md` and will not be silently resolved.
 

@@ -1,5 +1,23 @@
 # Changelog
 
+## 2026-07-23 — Phase 12 public release and deployment
+
+### Release
+
+- Initialized the repository with owner-attributed commits and published `main` to `nikkineilcarino/VillaVesselaAirbnb`.
+- Added a reproducible Vercel/Supabase deployment, activation, post-deploy, rollback, and support runbook.
+- Added a Vercel Next.js framework override and an upload allowlist that excludes local environment, build, test-report, database, and documentation artifacts while retaining required server modules.
+- Created Vercel project `villa-vessela-airbnb` in `nikkineilcarino-2938s-projects` and deployed the Node 22 build to `https://villa-vessela-airbnb.vercel.app`.
+- Configured only the final canonical origin and explicit false analytics/inquiry flags. No Supabase/test credential, private contact, or unapproved external destination was added.
+
+### Release QA
+
+- Made canonical, sitemap, robots, and clipboard browser checks origin-aware so the same assertions validate localhost and the production HTTPS alias.
+- Local lint, strict types, 67 unit tests, the 47-pass/2-live-skip browser suite, the separate 3-pass enabled-inquiry run, production build, lockfile simulation, and zero-vulnerability audit pass.
+- The final Vercel deployment is Ready and its 39-test production suite passes public/admin-denial routes, mobile/keyboard/dialog interactions, Axe, metadata/JSON-LD, system assets, Privacy, caching, and security headers.
+- Production scans find 9/9 public routes available, zero active unapproved external links, zero private-contact or privileged browser markers, and zero `vv_*` cookies. Analytics endpoints return disabled no-op 204 responses; Contact returns 404.
+- Supabase migration/RLS/administrator/insertion/dashboard/inquiry/export, retention, and deletion checks remain explicitly blocked.
+
 ## 2026-07-23 — Phase 11 SEO, accessibility, performance, security, and privacy
 
 ### Added

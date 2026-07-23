@@ -78,13 +78,15 @@ Phase 10 interim state: the inquiry form, endpoint, administrator list/status wo
 
 Phase 11 interim state: the Privacy page, metadata, social placeholder, sitemap, fail-closed robots, manifest/icons, conservative structured data, accessibility hardening, performance review, and security headers are implemented. Production indexing remains disabled until `NEXT_PUBLIC_SITE_URL` is a final public HTTPS origin. The structured data deliberately omits official property images, exact coordinates, map/contact destinations, prices, conditional capacity, and other unresolved facts. A retention/deletion schedule, privacy-request channel, provider review, and any legally required consent control remain owner/production decisions and are not silently invented.
 
+Phase 12 release state: the public site is deployed at `https://villa-vessela-airbnb.vercel.app`, which is now the configured canonical origin. GitHub and Vercel publication, indexing/header/accessibility/privacy smoke checks, and private-contact/browser-secret scans pass. Analytics and inquiries are explicitly disabled in production; no Supabase or test credential is configured. Official photos, public booking/contact/map destinations, rates, conditional inclusions, database activation, administrator identities, retention/deletion, and privacy-request operations remain unresolved and omitted.
+
 - [ ] Confirm whether the website inquiry form should be active at launch.
 - [ ] Confirm whether English-only content is desired or English/Filipino language switching is required.
 - [ ] Confirm the public analytics retention period and inquiry retention/deletion process before production.
 - [ ] Approve a public privacy-request contact channel, responsible person, response process, and deletion procedure.
 - [ ] Confirm whether production analytics requires an additional consent or preference control for the intended jurisdictions.
-- [ ] Provide the final public HTTPS origin for canonical URLs, robots, sitemap, and social metadata.
-- [ ] Confirm the production domain and canonical site URL.
+- [x] Provide the final public HTTPS origin for canonical URLs, robots, sitemap, and social metadata: `https://villa-vessela-airbnb.vercel.app`.
+- [x] Confirm the initial production domain and canonical site URL: `https://villa-vessela-airbnb.vercel.app`.
 - [ ] Provide or create the Supabase project and production credentials in a secure channel during the relevant phase.
 - [ ] Provide an approved administrator email and use the documented secure out-of-band Auth plus `admin_profiles` provisioning process; never commit credentials.
 - [ ] Provide dedicated non-production approved and unapproved accounts through ignored local/CI secret storage for live Phase 7 QA.

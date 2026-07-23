@@ -6,10 +6,15 @@
 - Release branch: `main`
 - Vercel team: `nikkineilcarino-2938s-projects`
 - Vercel project: `villa-vessela-airbnb`
+- Production alias: `https://villa-vessela-airbnb.vercel.app`
 - Application framework: Next.js App Router
+- Application release commit: `8275f9840d3bc306bddf2d7bfd697d69da776be7`
+- Production deployment: `dpl_2GNFhHcpounFYihPng2hDvSYE7Hi` (Ready)
 - Database/authentication provider when activated: Supabase
 
 The public information site is intentionally usable without Supabase. Administrator login, stored analytics, inquiries, dashboard data, and exports remain unavailable until an approved Supabase project is configured and the live authorization checks below pass.
+
+The initial production environment contains exactly `NEXT_PUBLIC_SITE_URL=https://villa-vessela-airbnb.vercel.app`, `ANALYTICS_ENABLED=false`, and `CONTACT_INQUIRY_ENABLED=false`. No Supabase or test credential is configured.
 
 ## Pre-release gate
 

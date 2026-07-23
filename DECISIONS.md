@@ -224,3 +224,12 @@
 - **Reason:** the public information routes remain statically deliverable and accessible while third-party script/resource origins, framing, sensitive browser capabilities, MIME sniffing, and production eval are denied.
 - **Consequences:** any future third-party script, font, frame, API, map embed, payment integration, or nonce adoption requires an explicit CSP/privacy/performance review. Static filenames use one-day freshness rather than immutable caching so approved media can be replaced safely.
 - **Date:** 2026-07-23
+
+## Decision 026 — Release the public information site with every unapproved data feature off
+
+- **Context:** The public website is ready for deployment, but no approved Supabase project, administrator identities, retention/deletion procedure, official photography, public contact, or booking/map destination has been supplied. Delaying all publication would not improve those missing business decisions, while silently configuring placeholders or credentials would create privacy and accuracy risk.
+- **Options considered:** block deployment entirely; invent/configure production values; enable analytics/inquiries without storage; release the verified public information site with fail-safe feature gates and explicit placeholders.
+- **Selected approach:** publish owner-attributed source to `nikkineilcarino/VillaVesselaAirbnb`, deploy the Next.js project to the requested Vercel team, pin Node to the audited 22.x line, set the exact HTTPS canonical origin, and configure `ANALYTICS_ENABLED=false` plus `CONTACT_INQUIRY_ENABLED=false`. Omit every Supabase value, test credential, private contact, and unapproved public destination.
+- **Reason:** visitors receive the complete privacy/accessibility/security-reviewed information experience while unavailable operational features remain non-collecting and non-revealing. The configuration is reproducible and each future activation has a documented independent gate.
+- **Consequences:** the public site is indexable on `https://villa-vessela-airbnb.vercel.app`; analytics POSTs are harmless 204 no-ops, contact submission returns 404, no `vv_*` analytics cookie is created, protected administrator routes redirect to login, and login remains non-revealing/unavailable without Supabase. Database, role, administrator, insertion, retention, and deletion acceptance criteria remain blocked, not passed. A future custom domain or feature activation requires environment changes, a rebuild, and the complete applicable release checks.
+- **Date:** 2026-07-23

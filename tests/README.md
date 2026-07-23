@@ -46,6 +46,8 @@ Add tests with the phase that introduces a behavior. Prefer semantic role/name l
 
 `PLAYWRIGHT_BASE_URL` is optional and selects a running target. `CONTACT_INQUIRY_ENABLED=true` enables the separate operational-form browser branch; it does not provide storage. `SUPABASE_TEST_ADMIN_EMAIL`, `SUPABASE_TEST_ADMIN_PASSWORD`, `SUPABASE_TEST_NON_ADMIN_EMAIL`, and `SUPABASE_TEST_NON_ADMIN_PASSWORD` enable live Phase 7/9/10 authorization, dashboard, inquiry, and export checks. Secrets must identify dedicated non-production accounts and remain in ignored local/CI storage.
 
+Canonical, robots, sitemap, and clipboard assertions derive their origin from `PLAYWRIGHT_BASE_URL`, so the same release checks cover local HTTP and the configured production HTTPS alias without hard-coded localhost expectations. Production runs must target the stable alias, not a temporary deployment URL.
+
 ## Testing commands
 
 - `npm run test` runs Vitest once.

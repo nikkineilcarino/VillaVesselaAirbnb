@@ -201,7 +201,7 @@ Use `[x]` only for a check supported by evidence. Use `[ ]` for pending checks a
 ## Security
 
 - [x] Service-role key access is isolated to a `server-only` module and privileged markers are absent from browser bundles
-- [ ] Secrets and private contacts absent from Git
+- [x] Secrets and private contacts absent from Git and deployed HTML/JavaScript
 - [x] Auth, analytics, and inquiry schemas, length limits, normalization/sanitization, and bounded rate limits are applied
 - [x] Auth cookie options are SameSite=Lax and Secure in production; live issued-cookie inspection remains blocked
 - [x] Administrator redirects are constrained to fixed internal targets
@@ -212,7 +212,7 @@ Use `[x]` only for a check supported by evidence. Use `[ ]` for pending checks a
 
 ## Privacy
 
-- [x] Private caretaker numbers remain absent from repository source, documentation, seed, and built output through Phase 11
+- [x] Private caretaker numbers remain absent from repository source, documentation, seed, built output, GitHub, and deployed output through Phase 12
 - [x] Unknown public owner contact details remain pending
 - [x] Public privacy page matches actual conditional collection, browser storage, administrator access, and unresolved retention behavior
 - [x] Public/dashboard analytics copy says anonymous/estimated and never “who clicked”
@@ -246,11 +246,11 @@ Use `[x]` only for a check supported by evidence. Use `[ ]` for pending checks a
 
 ## Deployment readiness
 
-- [ ] Vercel project and production environment variables documented
+- [x] Vercel project and the three intentionally minimal production environment variables documented
 - [ ] Supabase migrations applied in order
 - [ ] RLS and production admin membership verified
-- [ ] Canonical URL and approved external destinations configured
-- [ ] Official photography and public contact permissions resolved or omitted
-- [ ] Post-deploy public access, admin denial, link, inquiry, privacy, and error checks pass
-- [ ] Rollback and support limitations documented
-- [x] All QA evidence, changelog, decisions, and content TODO are current through Phase 11
+- [x] Canonical URL configured; unapproved external destinations remain omitted
+- [x] Official photography and unapproved public contacts remain explicitly omitted/placeheld
+- [x] Post-deploy public access, admin denial, inactive links/data features, privacy, accessibility, metadata, headers, and error checks pass
+- [x] Rollback and support limitations documented
+- [x] All QA evidence, changelog, decisions, content TODO, and deployment runbook are current through Phase 12
