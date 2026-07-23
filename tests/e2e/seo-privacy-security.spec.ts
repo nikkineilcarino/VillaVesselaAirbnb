@@ -1,6 +1,17 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
+const testOrigin = new URL(
+  process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000",
+).origin;
+const isPublicHttpsOrigin =
+  testOrigin.startsWith("https://") &&
+  !testOrigin.endsWith(".invalid");
+
+function absoluteTestUrl(path: string) {
+  return path === "/" ? testOrigin : new URL(path, `${testOrigin}/`).toString();
+}
+
 const publicRoutes = [
   { label: "Home", path: "/", title: "Villa Vessela — Beachfront stay in Tondol, Pangasinan" },
   { label: "Accommodation", path: "/accommodation", title: "Accommodation | Villa Vessela" },
@@ -30,10 +41,7 @@ test("every public route has aligned canonical, social, title, description, and 
     expect(description?.length, `${route.path} description`).toBeGreaterThan(60);
     descriptions.add(description ?? "");
 
-    const expectedUrl =
-      route.path === "/"
-        ? "http://localhost:3000"
-        : new URL(route.path, "http://localhost:3000").toString();
+    const expectedUrl = absoluteTestUrl(route.path);
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
       "href",
       expectedUrl,
@@ -79,15 +87,23 @@ test("robots, sitemap, manifest, social image, and web app icons are valid local
 }) => {
   const robots = await request.get("/robots.txt");
   expect(robots.ok()).toBe(true);
-  expect(await robots.text()).toContain("Disallow: /");
+  const robotsText = await robots.text();
+  if (isPublicHttpsOrigin) {
+    expect(robotsText).toMatch(/^Allow: \/$/m);
+    expect(robotsText).toMatch(/^Disallow: \/admin\/$/m);
+    expect(robotsText).toMatch(/^Disallow: \/api\/$/m);
+    expect(robotsText).toContain(`Host: ${testOrigin}`);
+    expect(robotsText).toContain(`Sitemap: ${testOrigin}/sitemap.xml`);
+    expect(robotsText).not.toMatch(/^Disallow: \/$/m);
+  } else {
+    expect(robotsText).toMatch(/^Disallow: \/$/m);
+  }
 
   const sitemap = await request.get("/sitemap.xml");
   expect(sitemap.ok()).toBe(true);
   const sitemapText = await sitemap.text();
   for (const route of publicRoutes) {
-    expect(sitemapText).toContain(
-      new URL(route.path, "http://localhost:3000").toString(),
-    );
+    expect(sitemapText).toContain(absoluteTestUrl(route.path));
   }
   expect(sitemapText).not.toMatch(/\/admin|\/api/);
 

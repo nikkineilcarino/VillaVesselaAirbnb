@@ -1,6 +1,10 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
+const testOrigin = new URL(
+  process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000",
+).origin;
+
 const phaseFiveRoutes = [
   {
     heading: "A closer look, ready for official photography",
@@ -100,7 +104,7 @@ test("reviews preserve supplied attribution and reserve Messenger content honest
 
 test("location keeps the map disabled and copies only the confirmed address", async ({ context, page }) => {
   await context.grantPermissions(["clipboard-read", "clipboard-write"], {
-    origin: "http://localhost:3000",
+    origin: testOrigin,
   });
   await page.goto("/location");
 
