@@ -8,7 +8,7 @@ This directory owns the composed sections of the public Villa Vessela homepage. 
 
 - `HeroSection.tsx`, `TrustIndicators.tsx`, and `PropertyHighlights.tsx` establish the property promise, supplied listing signals, and standard capacity facts.
 - `AboutPreview.tsx`, `AccommodationPreview.tsx`, and `AmenitiesPreview.tsx` summarize the setting, layout, and practical features while retaining source qualifications.
-- `GalleryPreview.tsx` presents a responsive placeholder collage; it must never imply that its illustrations are official property photographs.
+- `GalleryPreview.tsx` presents four responsive owner-supplied photographs drawn from the typed gallery data.
 - `ReviewsPreview.tsx` presents the supplied Airbnb summary/excerpts with attribution and a non-endorsement note.
 - `LocationPreview.tsx` presents confirmed address/direction text beside a non-navigational illustration and disabled map action.
 - `AttractionsPreview.tsx` uses condition-aware language for nearby activities.

@@ -38,7 +38,7 @@ export function GalleryGrid({ items, onOpen }: GalleryGridProps) {
             <span className="block p-5">
               <span className="block text-lg font-semibold text-foreground">{item.category}</span>
               <span className="mt-1 block text-sm leading-6 text-foreground/75">
-                Official photography pending
+                {item.caption}
               </span>
             </span>
           </button>

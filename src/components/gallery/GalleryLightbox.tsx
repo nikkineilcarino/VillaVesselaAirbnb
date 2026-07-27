@@ -118,7 +118,7 @@ export function GalleryLightbox({
             Previous
           </button>
           <p className="hidden max-w-xl text-center text-xs leading-5 text-white/75 sm:block">
-            Placeholder only — official Villa Vessela photography is still required.
+            {item.caption}
           </p>
           <button
             aria-label="Next image"

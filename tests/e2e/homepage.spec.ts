@@ -9,7 +9,7 @@ test("homepage presents every required preview section", async ({ page }) => {
     "A quiet tropical base for families and groups",
     "A complete villa for time together",
     "Everything you need for an easy coastal stay",
-    "A first look, awaiting official photographs",
+    "A first look at Villa Vessela",
     "4.76 out of 5",
     "Close to the shore, away from the city",
     "Explore more of Anda and Pangasinan",
@@ -54,23 +54,26 @@ test("unverified destinations remain inactive", async ({ page }) => {
   await expect(page.getByRole("button", { name: /Open in Google Maps/ })).toBeDisabled();
 });
 
-test("homepage placeholders are explicit and locally available", async ({ page, request }) => {
+test("homepage photography loads locally while the unverified map stays a placeholder", async ({ page, request }) => {
   for (const asset of [
-    "/images/placeholders/hero-beachfront.svg",
-    "/images/placeholders/exterior-placeholder.svg",
-    "/images/placeholders/bedroom-placeholder.svg",
-    "/images/placeholders/garden-placeholder.svg",
-    "/images/placeholders/beach-placeholder.svg",
-    "/images/placeholders/location-placeholder.svg",
+    "/images/villa-vessela/property/villa-front-page1-cover.jpg",
+    "/images/villa-vessela/property/villa-front-new.jpg",
+    "/images/villa-vessela/interior/bunk-bed-room.jpg",
+    "/images/villa-vessela/property/garden-path-to-beach-new.jpg",
+    "/images/villa-vessela/attraction/beachfront-kubos.jpg",
   ]) {
     const response = await request.get(asset);
     expect(response.ok(), `${asset} should load`).toBe(true);
-    expect(response.headers()["content-type"]).toContain("image/svg+xml");
+    expect(response.headers()["content-type"]).toContain("image/jpeg");
   }
 
+  const mapPlaceholder = await request.get("/images/placeholders/location-placeholder.svg");
+  expect(mapPlaceholder.ok()).toBe(true);
+  expect(mapPlaceholder.headers()["content-type"]).toContain("image/svg+xml");
+
   await page.goto("/");
-  expect(await page.getByAltText(/placeholder/i).count()).toBeGreaterThanOrEqual(6);
-  await expect(page.getByText(/These clearly labelled illustrations/)).toBeAttached();
+  await expect(page.getByAltText(/Front view of Villa Vessela/).first()).toBeVisible();
+  await expect(page.getByRole("heading", { name: "A first look at Villa Vessela" })).toBeVisible();
   await expect(page.getByText(/Map illustration only/)).toBeAttached();
 });
 

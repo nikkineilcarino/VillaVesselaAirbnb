@@ -17,16 +17,15 @@ export function AccommodationPreview() {
         <figure>
           <div className="relative aspect-[9/7] overflow-hidden rounded-[1.75rem] border border-border bg-surface-muted shadow-soft">
             <Image
-              alt="Illustrated placeholder for the Villa Vessela exterior; official property photograph pending"
+              alt="Front view of the coral-colored Villa Vessela building and flower garden"
               className="object-cover"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
-              src="/images/placeholders/exterior-placeholder.svg"
+              src="/images/villa-vessela/property/villa-front-new.jpg"
             />
           </div>
           <figcaption className="mt-3 text-sm leading-6 text-foreground/75">
-            Illustrated exterior placeholder. Replace with an approved Villa Vessela
-            photograph when available.
+            Villa Vessela exterior and its flower-filled front garden.
           </figcaption>
         </figure>
 

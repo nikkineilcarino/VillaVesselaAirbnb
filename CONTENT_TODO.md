@@ -52,10 +52,10 @@ Known amounts from the supplied package, still subject to owner review before fi
 
 ## Media, reviews, and brand
 
-Phase 5 interim state: six homepage illustrations plus one reusable generic gallery illustration are visibly labelled as placeholders. The fourteen requested gallery categories are represented without pretending that the artwork documents the property. The assets confer no approval and must be replaced individually through the permission, alt-text, responsive-image, and QA workflow in `public/images/README.md`. Three Messenger review positions are empty publication reservations, not fabricated feedback.
+Photo integration state: 37 owner-supplied, privacy-reviewed JPEG photographs now appear in the homepage, accommodation page, and gallery with accurate alternative text and qualified captions. The passenger-boat image is intentionally unpublished because it contains recognizable people and a vessel identifier. Blue Kubo, Green Kubo, and confirmed parking retain explicit placeholders; the map and social-share illustration also remain provisional. Three Messenger review positions are empty publication reservations, not fabricated feedback.
 
-- [ ] Obtain approved high-resolution exterior, villa, bedroom, living, dining, kitchen, bathroom, balcony, garden, kubo, beach, parking, and nearby-attraction photographs.
-- [ ] Confirm that each supplied photograph may be published and obtain accurate alt-text context.
+- [ ] Obtain approved high-resolution front-of-villa, Blue Kubo, Green Kubo, and confirmed-parking photographs; current exterior, bedroom, living-room, entrance, and some garden sources are below 500 pixels on their longest side.
+- [ ] Obtain publication permission for the passenger-boat photograph or a crop without recognizable people and the vessel identifier.
 - [ ] Obtain an approved social-sharing image or approve a clearly labelled placeholder.
 - [ ] Obtain two or three approved Facebook Messenger review excerpts or redacted screenshots.
 - [ ] Confirm whether guest names in reviews should be first name only, abbreviated, or hidden.
@@ -78,7 +78,7 @@ Phase 10 interim state: the inquiry form, endpoint, administrator list/status wo
 
 Phase 11 interim state: the Privacy page, metadata, social placeholder, sitemap, fail-closed robots, manifest/icons, conservative structured data, accessibility hardening, performance review, and security headers are implemented. Production indexing remains disabled until `NEXT_PUBLIC_SITE_URL` is a final public HTTPS origin. The structured data deliberately omits official property images, exact coordinates, map/contact destinations, prices, conditional capacity, and other unresolved facts. A retention/deletion schedule, privacy-request channel, provider review, and any legally required consent control remain owner/production decisions and are not silently invented.
 
-Phase 12 release state: the public site is deployed at `https://villa-vessela-airbnb.vercel.app`, which is now the configured canonical origin. GitHub and Vercel publication, indexing/header/accessibility/privacy smoke checks, and private-contact/browser-secret scans pass. Analytics and inquiries are explicitly disabled in production; no Supabase or test credential is configured. Official photos, public booking/contact/map destinations, rates, conditional inclusions, database activation, administrator identities, retention/deletion, and privacy-request operations remain unresolved and omitted.
+Phase 12 release state: the public site is deployed at `https://villa-vessela-airbnb.vercel.app`, which is now the configured canonical origin. GitHub and Vercel publication, indexing/header/accessibility/privacy smoke checks, and private-contact/browser-secret scans pass. Analytics and inquiries are explicitly disabled in production; no Supabase or test credential is configured. The remaining photo gaps, public booking/contact/map destinations, rates, conditional inclusions, database activation, administrator identities, retention/deletion, and privacy-request operations remain unresolved and omitted.
 
 - [ ] Confirm whether the website inquiry form should be active at launch.
 - [ ] Confirm whether English-only content is desired or English/Filipino language switching is required.

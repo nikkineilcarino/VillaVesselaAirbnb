@@ -94,15 +94,15 @@ export default function AccommodationPage() {
           <figure className="lg:sticky lg:top-28">
             <div className="relative aspect-[9/7] overflow-hidden rounded-[1.75rem] border border-border bg-surface shadow-soft">
               <Image
-                alt="Illustrated placeholder for the Villa Vessela exterior; official property photograph pending"
+                alt="Front view of Villa Vessela with flowers and a paved walkway"
                 className="object-cover"
                 fill
                 sizes="(max-width: 1024px) 100vw, 42vw"
-                src="/images/placeholders/exterior-placeholder.svg"
+                src="/images/villa-vessela/property/villa-front-page1-cover.jpg"
               />
             </div>
             <figcaption className="mt-3 text-sm leading-6 text-foreground/75">
-              Illustrated exterior placeholder. It does not depict the actual property.
+              The flower-lined front of Villa Vessela.
             </figcaption>
           </figure>
 

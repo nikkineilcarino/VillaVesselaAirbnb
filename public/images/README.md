@@ -4,9 +4,9 @@
 
 This directory contains public, replaceable website imagery. Files here are served directly and must be safe for unrestricted access.
 
-## Current placeholders
+## Current photography and placeholders
 
-`placeholders/` contains six subject-specific repository-native SVG illustrations for the hero, exterior, bedroom, garden, beach, and location/map positions, plus one generic gallery illustration. They are layout substitutes only. Visible labels and accessible copy identify them as placeholders; they do not depict Villa Vessela or provide navigation. The generic illustration may reserve multiple category positions only while each position remains explicitly provisional.
+`villa-vessela/` contains 37 owner-supplied, privacy-reviewed JPEG photographs grouped by attraction, bathroom, food, interior, lifestyle, and property. The source-collage reference sheets and the passenger-boat photograph are deliberately excluded from the public bundle. `placeholders/` retains repository-native SVG illustrations for unresolved positions; the public gallery currently uses only the generic illustration for Blue Kubo, Green Kubo, and confirmed parking, while the location route retains its non-navigational map illustration.
 
 ## Replacing a placeholder safely
 

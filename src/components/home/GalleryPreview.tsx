@@ -1,4 +1,4 @@
-import { ImageIcon } from "lucide-react";
+import { Images } from "lucide-react";
 import Image from "next/image";
 
 import { Container } from "@/components/ui/Container";
@@ -13,14 +13,14 @@ export function GalleryPreview() {
         <div className="flex flex-col gap-7 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading
             className="max-w-2xl"
-            description="These clearly labelled illustrations reserve the intended photo-led layout. They do not depict the actual property."
+            description="See the villa exterior, sleeping spaces, tropical garden, and nearby Tondol Beach through photographs supplied for Villa Vessela."
             eyebrow="Gallery preview"
             id="gallery-title"
-            title="A first look, awaiting official photographs"
+            title="A first look at Villa Vessela"
           />
           <p className="inline-flex max-w-sm items-center gap-3 rounded-full border border-border bg-surface-muted px-5 py-3 text-sm text-foreground/75">
-            <ImageIcon aria-hidden="true" className="shrink-0 text-secondary" size={19} />
-            Full gallery opens after approved Villa Vessela photos are supplied.
+            <Images aria-hidden="true" className="shrink-0 text-secondary" size={19} />
+            Explore 37 supplied photographs in the full gallery.
           </p>
         </div>
 

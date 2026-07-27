@@ -7,7 +7,7 @@ const testOrigin = new URL(
 
 const phaseFiveRoutes = [
   {
-    heading: "A closer look, ready for official photography",
+    heading: "A closer look at Villa Vessela",
     label: "Gallery",
     path: "/gallery",
   },
@@ -43,40 +43,50 @@ test("Phase 5 routes are public, titled, and active in navigation", async ({ pag
   }
 });
 
-test("gallery exposes every category and local placeholder asset", async ({ page, request }) => {
-  const response = await request.get("/images/placeholders/gallery-generic-placeholder.svg");
-  expect(response.ok()).toBe(true);
-  expect(response.headers()["content-type"]).toContain("image/svg+xml");
+test("gallery exposes every supplied photograph and the three honest open slots", async ({ page, request }) => {
+  const photo = await request.get("/images/villa-vessela/property/villa-vessela-photo-wall.jpg");
+  expect(photo.ok()).toBe(true);
+  expect(photo.headers()["content-type"]).toContain("image/jpeg");
 
-  await page.route("**/images/placeholders/exterior-placeholder.svg", (route) => route.abort());
+  const placeholder = await request.get("/images/placeholders/gallery-generic-placeholder.svg");
+  expect(placeholder.ok()).toBe(true);
+  expect(placeholder.headers()["content-type"]).toContain("image/svg+xml");
+
+  await page.route("**/_next/image?*", async (route) => {
+    if (decodeURIComponent(route.request().url()).includes("/images/villa-vessela/property/villa-front-page1-cover.jpg")) {
+      await route.abort();
+      return;
+    }
+    await route.continue();
+  });
   await page.goto("/gallery");
-  await expect(page.getByRole("button", { name: /^Open .+ image$/ })).toHaveCount(14);
-  await expect(page.getByText("Official photography pending", { exact: true })).toHaveCount(14);
-  await expect(page.getByText(/They do not document the appearance of the villa/)).toBeVisible();
+  await expect(page.getByRole("button", { name: /^Open .+ image$/ })).toHaveCount(40);
+  await expect(page.getByText(/Three photo slots remain open/)).toBeVisible();
+  await expect(page.getByText(/Blue Kubo, Green Kubo, and confirmed parking/)).toBeVisible();
   await expect(page.getByText("Image unavailable", { exact: true })).toHaveCount(1);
 });
 
 test("gallery lightbox traps focus, supports arrows, and restores its trigger", async ({ page }) => {
   await page.goto("/gallery");
 
-  const exteriorTrigger = page.getByRole("button", { name: "Open Exterior image" });
+  const exteriorTrigger = page.getByRole("button", { name: "Open Villa exterior image" }).first();
   await exteriorTrigger.click();
 
-  const dialog = page.getByRole("dialog", { name: "Exterior" });
+  const dialog = page.getByRole("dialog", { name: "Villa exterior" });
   const closeButton = dialog.getByRole("button", { name: "Close gallery" });
   await expect(dialog).toBeVisible();
   await expect(closeButton).toBeFocused();
   await expect(page.locator("body")).toHaveCSS("overflow", "hidden");
-  await expect(dialog.getByText("Image 1 of 14")).toBeVisible();
-  await expect(dialog.getByRole("img", { name: /Illustrated placeholder for the Villa Vessela exterior/ })).toHaveClass(
+  await expect(dialog.getByText("Image 1 of 40")).toBeVisible();
+  await expect(dialog.getByRole("img", { name: /Front view of Villa Vessela with flowers/ })).toHaveClass(
     /object-contain/,
   );
 
   await page.keyboard.press("ArrowRight");
-  await expect(page.getByRole("dialog", { name: "Villa" })).toBeVisible();
-  await expect(page.getByRole("dialog", { name: "Villa" }).getByText("Image 2 of 14")).toBeVisible();
+  await expect(page.getByRole("dialog", { name: "Villa exterior" }).getByText("Image 2 of 40")).toBeVisible();
+  await expect(page.getByRole("dialog", { name: "Villa exterior" }).getByRole("img", { name: /coral-colored/ })).toBeVisible();
   await page.keyboard.press("ArrowLeft");
-  await expect(page.getByRole("dialog", { name: "Exterior" })).toBeVisible();
+  await expect(page.getByRole("dialog", { name: "Villa exterior" }).getByText("Image 1 of 40")).toBeVisible();
 
   await page.keyboard.press("Shift+Tab");
   await expect(dialog.getByRole("button", { name: "Next image" })).toBeFocused();

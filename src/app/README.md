@@ -12,7 +12,7 @@ This directory owns the Next.js App Router tree, document shell, public/administ
 - `(public)/accommodation/page.tsx` presents capacity, spaces, facilities, and explicitly unconfirmed inclusions.
 - `(public)/amenities/page.tsx` groups supplied amenities, confirmation states, connectivity, and optional-service caveats.
 - `(public)/guest-guide/page.tsx` presents arrival, packing, self-catering, rules, fees, attractions, and FAQ content through anchored sections.
-- `(public)/gallery/page.tsx` presents fourteen provisional categories through an accessible lightbox experience.
+- `(public)/gallery/page.tsx` presents 37 supplied photographs and three explicit open photo slots through an accessible lightbox experience.
 - `(public)/reviews/page.tsx` presents supplied Airbnb ratings/excerpts and unfilled Messenger review positions.
 - `(public)/location/page.tsx` presents the confirmed address, approach directions, address-copy action, and disabled map state.
 - `(public)/contact/page.tsx` is dynamic so one server-only runtime flag can select the safe disabled inquiry preview or the operational form.

@@ -80,17 +80,16 @@ export function HeroSection() {
           <div className="absolute -inset-3 rounded-[2rem] border border-white/15" />
           <div className="relative aspect-[8/5] overflow-hidden rounded-[1.5rem] border border-white/20 bg-surface-muted shadow-2xl">
             <Image
-              alt="Illustrated placeholder of a tropical beachfront villa; official Villa Vessela photograph pending"
+              alt="Front view of Villa Vessela with flowers and a paved walkway"
               className="object-cover"
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 58vw"
-              src="/images/placeholders/hero-beachfront.svg"
+              src="/images/villa-vessela/property/villa-front-page1-cover.jpg"
             />
           </div>
           <figcaption className="absolute right-4 bottom-4 left-4 rounded-xl bg-primary-dark/90 px-4 py-3 text-xs leading-5 text-white/80 sm:right-auto sm:max-w-sm">
-            Illustrated placeholder — official Villa Vessela photography is still
-            required.
+            The flower-lined front of Villa Vessela in Tondol Beach.
           </figcaption>
         </figure>
       </Container>

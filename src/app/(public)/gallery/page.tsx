@@ -10,7 +10,7 @@ import { createPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata: Metadata = createPageMetadata({
   description:
-    "Browse Villa Vessela's planned gallery categories through clearly labelled placeholders while approved property photography is pending.",
+    "Browse supplied photographs of Villa Vessela, its rooms, garden, amenities, nearby beach, and local attractions.",
   path: "/gallery",
   title: "Gallery",
 });
@@ -29,22 +29,22 @@ export default function GalleryPage() {
         }
         currentPage="Gallery"
         currentPath="/gallery"
-        description="Explore the planned photo categories in an accessible lightbox. Every current image is a visible placeholder, not a photograph of the property."
+        description="Explore supplied photographs of the villa, indoor and outdoor spaces, nearby beach, local scenery, and stay examples in an accessible lightbox."
         eyebrow="Property gallery"
-        title="A closer look, ready for official photography"
+        title="A closer look at Villa Vessela"
       />
 
       <section aria-labelledby="gallery-grid" className="scroll-mt-24 py-20 sm:py-24">
         <Container size="wide">
           <PageSectionHeading
-            description="Open any category to test the complete gallery experience. Approved Villa Vessela photographs can replace these assets without changing the interaction."
-            eyebrow="Fourteen categories"
+            description="Open any photograph for a larger view. Captions identify nearby attractions and clearly separate optional or still-unconfirmed arrangements."
+            eyebrow="37 supplied photographs"
             id="gallery-grid"
-            title="Explore each part of the planned gallery"
+            title="Explore the property and nearby coast"
           />
-          <DisclosureNote className="mt-8" title="Every current image is provisional">
+          <DisclosureNote className="mt-8" title="Three photo slots remain open">
             <p>
-              The illustrations below reserve layout only. They do not document the appearance of the villa, room arrangement, kubo inclusion, parking, beach conditions, or nearby attractions.
+              Blue Kubo, Green Kubo, and confirmed parking still use clearly labelled placeholders. Their photographs and booking arrangements require owner confirmation. Food is illustrative rather than included, small pets require prior approval, and the beach cottage may be unavailable or separately charged.
             </p>
           </DisclosureNote>
           <div className="mt-10">
