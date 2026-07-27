@@ -10,11 +10,11 @@
 
 The verified public-information website is complete, published from `main`, and safe to leave online without further configuration.
 
-- Release commit: [`dc3641192093dc22c8bd838ea1137d607a050520`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/commit/dc3641192093dc22c8bd838ea1137d607a050520)
-- GitHub Quality run: [`30245237716`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/actions/runs/30245237716), passed
-- Vercel production deployment: `dpl_DHjL1jUWREcC33Cgb3rmgPwK4y7e`, Ready and assigned to the canonical alias
-- Local verification: production audit clean; lint, strict types, 67 unit tests, production build, 47 configured Chromium tests passed with 2 credential-dependent administrator checks intentionally skipped, and 31 focused fail-closed Chromium checks passed
-- Hosted verification: 39 production Chromium checks passed; 12 public/system routes returned HTTP 200 with CSP, HSTS, and frame denial present; exact link inspection found two Airbnb actions, one Facebook action, two approved caretaker telephone actions, and no unapproved actionable destination on Contact
+- Release commit: [`98d8d40b90e42d26dd9b3feb84d7abcda5211c07`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/commit/98d8d40b90e42d26dd9b3feb84d7abcda5211c07)
+- GitHub Quality run: [`30246291072`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/actions/runs/30246291072), passed
+- Vercel production deployment: `dpl_Gcuv6nUBh2DwHhzq4miaZiUY7FHM`, Ready and assigned to the canonical alias
+- Local verification: production audit clean; lint, strict types, 67 unit tests, production build, and 47 configured Chromium tests passed with 2 credential-dependent administrator checks intentionally skipped; 9 focused Messenger fail-closed Chromium checks passed
+- Hosted verification: 39 production Chromium checks passed; 12 public/system routes returned HTTP 200 with CSP, HSTS, and frame denial present; exact link inspection found two Airbnb actions, one Facebook action, one Messenger action, two approved caretaker telephone actions, and no unapproved actionable destination on Contact
 - Production performance revalidation: two mobile Lighthouse runs scored 99 and two desktop runs scored 100; accessibility, best practices, and SEO scored 100 in all four runs
 - GitHub maintenance snapshot: 0 open pull requests and 0 open non-PR issues
 
