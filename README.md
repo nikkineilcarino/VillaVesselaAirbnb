@@ -54,6 +54,10 @@ Open `http://localhost:3000` for the homepage. The implemented public routes are
 
 Do not add secrets or private caretaker contact details to committed files.
 
+## Future owner updates
+
+Missing photos, public destinations, and business facts have deliberate extension points rather than guessed values. See [`OWNER_UPDATE_GUIDE.md`](OWNER_UPDATE_GUIDE.md) for the reserved Blue Kubo, Green Kubo, parking, and high-resolution hero photo workflow; future Airbnb, Facebook, Messenger, Google Maps, WhatsApp, email, and telephone configuration; and the required publication checks.
+
 ## Environment variables
 
 The committed `.env.example` documents the current environment contract:
@@ -113,6 +117,7 @@ Production is deployed through the `villa-vessela-airbnb` project in the `nikkin
 - `supabase/` — ordered SQL migrations, local configuration, synthetic seed data, RLS/policy guidance, and blocked-live-test instructions
 - `tests/` — Vitest utility/database/auth/analytics/dashboard/inquiry/CSV/SEO coverage and Playwright public, administrator, analytics, inquiry-mode, metadata, privacy, security-header, interaction, responsive, and accessibility checks
 - `docs/qa/` — phase-specific, evidence-based QA reports
+- `OWNER_UPDATE_GUIDE.md` — owner-facing instructions for filling reserved photo, destination, contact, and business-information slots later
 
 ## Known limitations
 

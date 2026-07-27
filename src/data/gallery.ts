@@ -417,6 +417,9 @@ export const galleryItems = [
     status: "approved",
     width: 1536,
   },
+  // Reserved owner photo slots. Keep these placeholders until the exact image,
+  // publication permission, caption context, and booking terms are confirmed.
+  // Replacement steps are documented in OWNER_UPDATE_GUIDE.md.
   {
     alt: "Illustrated placeholder reserved for an approved photograph of the Blue Kubo",
     caption: "Blue Kubo photograph and standard-booking inclusion still require owner confirmation.",

@@ -52,7 +52,7 @@ Known amounts from the supplied package, still subject to owner review before fi
 
 ## Media, reviews, and brand
 
-Photo integration state: 37 owner-supplied, privacy-reviewed JPEG photographs now appear in the homepage, accommodation page, and gallery with accurate alternative text and qualified captions. The passenger-boat image is intentionally unpublished because it contains recognizable people and a vessel identifier. Blue Kubo, Green Kubo, and confirmed parking retain explicit placeholders; the map and social-share illustration also remain provisional. Three Messenger review positions are empty publication reservations, not fabricated feedback.
+Photo integration state: 37 owner-supplied, privacy-reviewed JPEG photographs now appear in the homepage, accommodation page, and gallery with accurate alternative text and qualified captions. The passenger-boat image is intentionally unpublished because it contains recognizable people and a vessel identifier. Blue Kubo, Green Kubo, and confirmed parking retain explicit future photo slots; the map illustration remains provisional, while the social card now uses approved photography. `OWNER_UPDATE_GUIDE.md` documents the later replacement workflow. Three Messenger review positions are empty publication reservations, not fabricated feedback.
 
 - [ ] Obtain approved high-resolution front-of-villa, Blue Kubo, Green Kubo, and confirmed-parking photographs; current exterior, bedroom, living-room, entrance, and some garden sources are below 500 pixels on their longest side.
 - [ ] Obtain publication permission for the passenger-boat photograph or a crop without recognizable people and the vessel identifier.

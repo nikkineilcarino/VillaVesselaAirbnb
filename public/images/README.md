@@ -8,6 +8,8 @@ This directory contains public, replaceable website imagery. Files here are serv
 
 `villa-vessela/` contains 37 owner-supplied, privacy-reviewed JPEG photographs grouped by attraction, bathroom, food, interior, lifestyle, and property. The source-collage reference sheets and the passenger-boat photograph are deliberately excluded from the public bundle. `placeholders/` retains repository-native SVG illustrations for unresolved positions; the public gallery currently uses only the generic illustration for Blue Kubo, Green Kubo, and confirmed parking, while the location route retains its non-navigational map illustration.
 
+Future owner-supplied image and configuration steps are centralized in `OWNER_UPDATE_GUIDE.md` at the repository root.
+
 ## Replacing a placeholder safely
 
 1. Obtain owner approval and publication permission for the exact photograph.

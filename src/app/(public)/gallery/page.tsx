@@ -42,9 +42,9 @@ export default function GalleryPage() {
             id="gallery-grid"
             title="Explore the property and nearby coast"
           />
-          <DisclosureNote className="mt-8" title="Three photo slots remain open">
+          <DisclosureNote className="mt-8" title="Three future photo slots are reserved">
             <p>
-              Blue Kubo, Green Kubo, and confirmed parking still use clearly labelled placeholders. Their photographs and booking arrangements require owner confirmation. Food is illustrative rather than included, small pets require prior approval, and the beach cottage may be unavailable or separately charged.
+              Blue Kubo, Green Kubo, and confirmed parking still use clearly labelled placeholders and can be added later without changing the gallery layout. Their booking arrangements require owner confirmation. Food is illustrative rather than included, small pets require prior approval, and the beach cottage may be unavailable or separately charged.
             </p>
           </DisclosureNote>
           <div className="mt-10">
