@@ -54,6 +54,10 @@ test("every public route has aligned canonical, social, title, description, and 
       "content",
       /\/opengraph-image/,
     );
+    await expect(page.locator('meta[property="og:image:alt"]')).toHaveAttribute(
+      "content",
+      /Villa Vessela floral photo wall/,
+    );
     await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute(
       "content",
       "summary_large_image",
@@ -120,6 +124,14 @@ test("robots, sitemap, manifest, social image, and web app icons are valid local
   expect(socialImage.ok()).toBe(true);
   expect(socialImage.headers()["content-type"]).toContain("image/png");
   expect((await socialImage.body()).byteLength).toBeGreaterThan(10_000);
+  await page.goto("/");
+  const socialDimensions = await page.evaluate(async (src) => {
+    const image = new Image();
+    image.src = src;
+    await image.decode();
+    return [image.naturalWidth, image.naturalHeight];
+  }, absoluteTestUrl("/opengraph-image"));
+  expect(socialDimensions).toEqual([1200, 630]);
 
   for (const icon of manifest.icons) {
     const response = await request.get(icon.src);

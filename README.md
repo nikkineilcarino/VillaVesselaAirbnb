@@ -119,7 +119,7 @@ Production is deployed through the `villa-vessela-airbnb` project in the `nikkin
 - The Privacy page is implemented, but no production retention/deletion schedule, privacy-request channel, or deletion operation has been approved or live-tested. Inquiry submission, status management, and CSV exports remain default-disabled/not live-verified and require the applied schema, approved runtime configuration, administrator identities, and retention approval.
 - Every item in the current primary navigation is available, and Privacy is available from the footer. Airbnb, social, messaging, map, phone, email, and other external destinations remain disabled because no complete approved value has been supplied.
 - Draft fee amounts are retained only for reconciliation and are not rendered. Every public fee prompt requires current host confirmation.
-- Thirty-seven supplied, privacy-reviewed photographs now cover the villa, rooms, facilities, garden, nearby beach/attractions, food examples, and pet guidance. Blue Kubo, Green Kubo, confirmed parking, the unverified map, and the social-share card retain explicit placeholders; a higher-resolution front-of-villa hero is still recommended.
+- Thirty-seven supplied, privacy-reviewed photographs now cover the villa, rooms, facilities, garden, nearby beach/attractions, food examples, and pet guidance. The social-share card uses the approved high-resolution photo-wall image. Blue Kubo, Green Kubo, confirmed parking, and the unverified map retain explicit placeholders; a higher-resolution front-of-villa hero is still recommended.
 - Production destinations, Supabase credentials, and administrator test credentials have not been supplied. Docker's installed engine is not running, so migrations/policies/functions, live analytics insertion, populated dashboard rendering, and approved/unapproved authentication behavior have not been executed against a database.
 - The Contact page defaults to the disabled form because the owner has not approved launch activation. Enabled-mode UI/API failure paths pass locally, but no inquiry has been persisted to a live database.
 - Live database migration/RLS/dashboard/inquiry/export, authentication, and analytics insertion testing cannot occur until their required runtime/configuration is available. Public Vercel deployment testing has passed.
@@ -130,7 +130,7 @@ Production is deployed through the `villa-vessela-airbnb` project in the `nikkin
 
 ## Content awaiting confirmation
 
-The immediate publishing blockers include approved Airbnb/Facebook/Messenger/Google Maps destinations, public owner contact details, Blue/Green Kubo and confirmed parking photos, a production-quality hero/social image, rates and extra fees, exact expanded capacity, kubo and beach-cottage inclusion, the lost-key fee, bathroom layout, washer availability, inquiry-form status, and language choice. See `CONTENT_TODO.md` for the authoritative list.
+The immediate publishing blockers include approved Airbnb/Facebook/Messenger/Google Maps destinations, public owner contact details, Blue/Green Kubo and confirmed parking photos, a higher-resolution front-of-villa hero, rates and extra fees, exact expanded capacity, kubo and beach-cottage inclusion, the lost-key fee, bathroom layout, washer availability, inquiry-form status, and language choice. See `CONTENT_TODO.md` for the authoritative list.
 
 ## Privacy baseline
 

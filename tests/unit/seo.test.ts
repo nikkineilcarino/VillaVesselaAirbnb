@@ -9,6 +9,7 @@ import sitemap from "@/app/sitemap";
 import {
   createPageMetadata,
   publicSeoPaths,
+  socialImageMetadata,
 } from "@/lib/seo/metadata";
 import {
   getSiteUrl,
@@ -70,6 +71,13 @@ describe("Phase 11 SEO and privacy-safe public metadata", () => {
       card: "summary_large_image",
       title: "Privacy | Villa Vessela",
     });
+    expect(socialImageMetadata).toMatchObject({
+      height: 630,
+      url: "/opengraph-image",
+      width: 1200,
+    });
+    expect(socialImageMetadata.alt).toContain("Villa Vessela floral photo wall");
+    expect(socialImageMetadata.alt).not.toMatch(/placeholder|pending/i);
   });
 
   it("publishes only verified property facts and no placeholder/contact/location inventions", () => {

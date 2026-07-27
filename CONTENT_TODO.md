@@ -56,7 +56,7 @@ Photo integration state: 37 owner-supplied, privacy-reviewed JPEG photographs no
 
 - [ ] Obtain approved high-resolution front-of-villa, Blue Kubo, Green Kubo, and confirmed-parking photographs; current exterior, bedroom, living-room, entrance, and some garden sources are below 500 pixels on their longest side.
 - [ ] Obtain publication permission for the passenger-boat photograph or a crop without recognizable people and the vessel identifier.
-- [ ] Obtain an approved social-sharing image or approve a clearly labelled placeholder.
+- [x] Publish a 1200 × 630 social-sharing card using the approved high-resolution Villa Vessela photo-wall image.
 - [ ] Obtain two or three approved Facebook Messenger review excerpts or redacted screenshots.
 - [ ] Confirm whether guest names in reviews should be first name only, abbreviated, or hidden.
 - [ ] Confirm permission for the supplied Airbnb excerpts and final attribution presentation.
@@ -76,7 +76,7 @@ Phase 9 interim state: the administrator dashboard, exact aggregate functions, d
 
 Phase 10 interim state: the inquiry form, endpoint, administrator list/status workflow, and protected exports are implemented. `CONTACT_INQUIRY_ENABLED` remains false by default because launch activation and retention/deletion are unapproved. Enabled-mode browser/API failure tests pass, but no inquiry/status/export has been exercised against a live database.
 
-Phase 11 interim state: the Privacy page, metadata, social placeholder, sitemap, fail-closed robots, manifest/icons, conservative structured data, accessibility hardening, performance review, and security headers are implemented. Production indexing remains disabled until `NEXT_PUBLIC_SITE_URL` is a final public HTTPS origin. The structured data deliberately omits official property images, exact coordinates, map/contact destinations, prices, conditional capacity, and other unresolved facts. A retention/deletion schedule, privacy-request channel, provider review, and any legally required consent control remain owner/production decisions and are not silently invented.
+Phase 11 state: the Privacy page, metadata, approved photo-based social card, sitemap, fail-closed robots, manifest/icons, conservative structured data, accessibility hardening, performance review, and security headers are implemented. Production indexing is enabled only for the final public HTTPS origin. The structured data deliberately omits property images, exact coordinates, map/contact destinations, prices, conditional capacity, and other unresolved facts. A retention/deletion schedule, privacy-request channel, provider review, and any legally required consent control remain owner/production decisions and are not silently invented.
 
 Phase 12 release state: the public site is deployed at `https://villa-vessela-airbnb.vercel.app`, which is now the configured canonical origin. GitHub and Vercel publication, indexing/header/accessibility/privacy smoke checks, and private-contact/browser-secret scans pass. Analytics and inquiries are explicitly disabled in production; no Supabase or test credential is configured. The remaining photo gaps, public booking/contact/map destinations, rates, conditional inclusions, database activation, administrator identities, retention/deletion, and privacy-request operations remain unresolved and omitted.
 

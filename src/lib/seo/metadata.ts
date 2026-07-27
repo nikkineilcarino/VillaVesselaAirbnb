@@ -6,7 +6,7 @@ export const siteMetadataDescription =
   "Stay at Villa Vessela, a peaceful family-friendly beachfront villa in Tondol, Anda, Pangasinan, with beach access, private parking, a tropical garden, and standard accommodation for up to 10 guests.";
 
 export const socialImageMetadata = {
-  alt: "Villa Vessela social-sharing placeholder in coastal colors; official property photography is pending",
+  alt: "Villa Vessela floral photo wall at Tondol Beach with the property name and coastal-stay message",
   height: 630,
   url: "/opengraph-image",
   width: 1200,

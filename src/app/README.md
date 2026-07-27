@@ -28,7 +28,7 @@ This directory owns the Next.js App Router tree, document shell, public/administ
 - `api/analytics/link-click/route.ts` additionally requires an exact configured type/destination pair before insertion.
 - `api/contact/route.ts` exposes a default-disabled, size/origin/schema/rate-bounded inquiry insert boundary.
 - `robots.ts`, `sitemap.ts`, and `manifest.ts` expose validated, bounded static discovery/install metadata.
-- `opengraph-image.tsx` renders a 1200 × 630 PNG that visibly identifies itself as a provisional social placeholder.
+- `opengraph-image.tsx` renders a 1200 × 630 social card from the approved high-resolution Villa Vessela photo-wall image with a legible branded overlay.
 - `globals.css` imports Tailwind CSS, defines semantic design tokens, provides minimal base rules, and respects reduced-motion preferences.
 - `loading.tsx`, `error.tsx`, and `not-found.tsx` provide accessible route-level states without exposing technical error details.
 
