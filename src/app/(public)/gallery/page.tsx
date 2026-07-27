@@ -44,7 +44,7 @@ export default function GalleryPage() {
           />
           <DisclosureNote className="mt-8" title="Three future photo slots are reserved">
             <p>
-              Blue Kubo, Green Kubo, and confirmed parking still use clearly labelled placeholders and can be added later without changing the gallery layout. Their booking arrangements require owner confirmation. Food is illustrative rather than included, small pets require prior approval, and the beach cottage may be unavailable or separately charged.
+              Blue Kubo, Green Kubo, and parking still use clearly labelled photo placeholders and can be added later without changing the gallery layout. The owner confirms one carport and space for three to four cars; Blue and Green Kubo guests share the kitchen kubo, while their inclusion in a standard villa booking still requires confirmation. Food is illustrative rather than included, small pets require prior approval, and the beach cottage may be unavailable or separately charged.
             </p>
           </DisclosureNote>
           <div className="mt-10">

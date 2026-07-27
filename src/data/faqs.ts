@@ -37,7 +37,7 @@ export const frequentlyAskedQuestions = [
   },
   {
     question: "Is parking free?",
-    answer: "Yes. The supplied property information confirms free secure parking inside the gated compound.",
+    answer: "Yes. The owner confirms one carport and space for three to four cars inside the gated compound.",
   },
   {
     question: "Are pets allowed?",
@@ -49,7 +49,7 @@ export const frequentlyAskedQuestions = [
   },
   {
     question: "Where should guests fry fish?",
-    answer: "The supplied guide directs fish and heavier frying to a separate kitchen kubo. Please confirm current guest access and arrangements with the host before arrival.",
+    answer: "The separate kitchen kubo is shared by guests staying in the Blue and Green kubos and is used for fish and heavier frying. Guests booking only the main villa should confirm whether access is included.",
   },
   {
     question: "Are cooking and shopping services available?",
@@ -87,7 +87,7 @@ export const frequentlyAskedQuestions = [
   },
   {
     question: "Are the Blue and Green Kubos included?",
-    answer: "Their inclusion in a standard booking has not been confirmed. Please confirm with the host.",
+    answer: "Guests staying in the Blue and Green kubos share the separate kitchen kubo. Their inclusion in a standard villa booking has not been confirmed, so please confirm with the host.",
   },
   {
     question: "Is the beach cottage included?",

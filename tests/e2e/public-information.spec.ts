@@ -43,7 +43,10 @@ test("accommodation keeps capacity, facilities, and inclusions qualified", async
   await expect(page.getByText(/Up to 13 guests may be considered only with prior host approval/).first()).toBeVisible();
   await expect(page.getByText(/One main bathroom is confirmed; additional external toilets/).first()).toBeVisible();
   await expect(page.getByRole("heading", { name: "Blue and Green Kubos" })).toBeVisible();
-  await expect(page.getByText(/Their inclusion in a standard booking has not been confirmed/)).toBeVisible();
+  await expect(page.getByText(/Their inclusion in a standard villa booking has not been confirmed/)).toBeVisible();
+  await expect(page.getByText(/One carport and space for three to four cars/).first()).toBeVisible();
+  await expect(page.getByText(/Guests staying in these kubos share the separate kitchen kubo/)).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Shared kitchen kubo" })).toBeVisible();
   await expect(page.getByText(/beach cottage may be available for an additional charge/)).toBeVisible();
 });
 
@@ -54,7 +57,9 @@ test("amenities distinguish supplied information from confirmation items", async
   await expect(page.getByText(/no provider, signal strength, speed, or uninterrupted service is guaranteed/)).toBeVisible();
   await expect(page.getByText(/current arrangement still needs owner confirmation/)).toBeVisible();
   await expect(page.getByText(/current guest access has not been confirmed/)).toBeVisible();
-  expect(await page.getByText("Confirm before stay", { exact: true }).count()).toBeGreaterThanOrEqual(3);
+  await expect(page.getByText(/Shared by guests staying in the Blue and Green kubos/)).toBeVisible();
+  await expect(page.getByText(/Complete household utilities for day-to-day stay needs/)).toBeVisible();
+  expect(await page.getByText("Confirm before stay", { exact: true }).count()).toBeGreaterThanOrEqual(2);
 });
 
 test("guest guide provides rules, fee safeguards, attractions, and accessible FAQs", async ({ page }) => {
@@ -71,6 +76,14 @@ test("guest guide provides rules, fee safeguards, attractions, and accessible FA
   const waterFaq = page.locator("details").filter({ hasText: "Is drinking water provided?" });
   await waterFaq.getByText("Is drinking water provided?", { exact: true }).click();
   await expect(waterFaq.getByText(/current arrangement should be confirmed with the host/)).toBeVisible();
+
+  const parkingFaq = page.locator("details").filter({ hasText: "Is parking free?" });
+  await parkingFaq.getByText("Is parking free?", { exact: true }).click();
+  await expect(parkingFaq.getByText(/one carport and space for three to four cars/)).toBeVisible();
+
+  const kuboFaq = page.locator("details").filter({ hasText: "Where should guests fry fish?" });
+  await kuboFaq.getByText("Where should guests fry fish?", { exact: true }).click();
+  await expect(kuboFaq.getByText(/shared by guests staying in the Blue and Green kubos/)).toBeVisible();
 });
 
 test("guest guide section navigation reaches its labelled content", async ({ page }) => {

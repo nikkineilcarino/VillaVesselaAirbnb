@@ -10,8 +10,9 @@ export const accommodationFeatures = [
   "Sea and garden views from private balconies",
   "Air conditioning upstairs and downstairs",
   "Separate lounge, dining area, and main kitchen",
-  "Free secure parking inside the compound",
-  "A separate frying kubo is mentioned; guest-use details await confirmation",
+  "Complete household utilities for day-to-day stay needs",
+  "One carport and space for three to four cars inside the compound",
+  "A kitchen kubo shared by guests staying in the Blue and Green kubos",
 ] as const;
 
 export const expandedCapacityNote =
@@ -40,8 +41,8 @@ export const accommodationGroups = [
     items: [
       "Approximately 700-square-metre gated compound",
       "Private patio or balconies with sea and garden views",
-      "Tropical garden and backyard space",
-      "Free secure parking inside the compound",
+      "Spacious front yard and tropical garden",
+      "One carport and space for three to four cars inside the compound",
     ],
   },
   {
@@ -58,13 +59,13 @@ export const accommodationGroups = [
 export const accommodationInclusionNotes = [
   {
     detail:
-      "Two structures behind the villa are referred to as the Blue Kubo and Green Kubo. Their inclusion in a standard booking has not been confirmed.",
+      "Two structures behind the villa are referred to as the Blue Kubo and Green Kubo. Guests staying in these kubos share the separate kitchen kubo. Their inclusion in a standard villa booking has not been confirmed.",
     title: "Blue and Green Kubos",
   },
   {
     detail:
-      "A separate kitchen kubo for fish and heavier frying is mentioned in the supplied information. Guests should confirm access and current use arrangements before arrival.",
-    title: "Frying kubo",
+      "The separate kitchen kubo is shared by guests staying in the Blue and Green kubos and is used for fish and heavier frying. Guests booking only the main villa should confirm whether access is included.",
+    title: "Shared kitchen kubo",
   },
   {
     detail:

@@ -109,7 +109,7 @@ export const galleryItems = [
   },
   {
     alt: "Villa garden driveway viewed from the veranda",
-    caption: "The planted driveway inside the compound; the parking arrangement should be confirmed before arrival.",
+    caption: "The planted driveway inside the compound; the owner confirms one carport and space for three to four cars.",
     category: "Property grounds",
     height: 244,
     id: "garden-driveway",
@@ -422,7 +422,7 @@ export const galleryItems = [
   // Replacement steps are documented in OWNER_UPDATE_GUIDE.md.
   {
     alt: "Illustrated placeholder reserved for an approved photograph of the Blue Kubo",
-    caption: "Blue Kubo photograph and standard-booking inclusion still require owner confirmation.",
+    caption: "Blue Kubo photograph pending. Its guests share the kitchen kubo with Green Kubo guests; standard villa-booking inclusion still requires confirmation.",
     category: "Blue Kubo",
     height: 700,
     id: "blue-kubo-placeholder",
@@ -432,7 +432,7 @@ export const galleryItems = [
   },
   {
     alt: "Illustrated placeholder reserved for an approved photograph of the Green Kubo",
-    caption: "Green Kubo photograph and standard-booking inclusion still require owner confirmation.",
+    caption: "Green Kubo photograph pending. Its guests share the kitchen kubo with Blue Kubo guests; standard villa-booking inclusion still requires confirmation.",
     category: "Green Kubo",
     height: 700,
     id: "green-kubo-placeholder",
@@ -442,7 +442,7 @@ export const galleryItems = [
   },
   {
     alt: "Illustrated placeholder reserved for a confirmed Villa Vessela parking photograph",
-    caption: "A dedicated parking photograph and the current parking arrangement still require confirmation.",
+    caption: "Parking photograph pending. The owner confirms one carport and space for three to four cars inside the compound.",
     category: "Parking",
     height: 700,
     id: "parking-placeholder",

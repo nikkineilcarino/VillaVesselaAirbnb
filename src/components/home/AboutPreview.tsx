@@ -30,10 +30,15 @@ export function AboutPreview() {
           />
           <div className="mt-7 space-y-5 text-base leading-8 text-foreground/72">
             <p>
-              The property faces the sandy beach and offers a peaceful setting away
-              from heavy traffic and city pollution. Guests can unwind across
-              air-conditioned indoor spaces, private balconies, and the surrounding
-              garden.
+              The villa overlooks the powdery white sand beach and offers a peaceful
+              setting away from heavy traffic and city pollution. Its spacious front
+              yard is framed by a tropical garden, with one carport and room for three
+              to four cars inside the compound.
+            </p>
+            <p>
+              The villa has complete household utilities for day-to-day stay needs.
+              Internet access remains mobile-network based rather than fixed Wi-Fi, and
+              signal and speed may vary.
             </p>
             <p>
               The compound may suit family stays, small group outings, reunions, and

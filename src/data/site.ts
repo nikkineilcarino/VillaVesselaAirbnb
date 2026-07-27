@@ -22,7 +22,7 @@ export const siteConfig = {
   checkIn: "After 1:00 PM",
   checkOut: "Before 11:00 AM",
   description:
-    "A free-standing beachfront holiday home inside a private tropical compound in Tondol, Anda, Pangasinan.",
+    "A serene beachfront retreat overlooking the powdery white sand of Tondol Beach, with a spacious front yard and tropical garden inside a private compound in Anda, Pangasinan.",
   hero: {
     description:
       "Relax in a private tropical compound just a one-minute walk from the sandy shores of Tondol Beach.",

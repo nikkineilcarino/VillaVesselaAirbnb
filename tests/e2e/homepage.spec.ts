@@ -37,6 +37,10 @@ test("homepage preserves key facts and uncertainty qualifiers", async ({ page })
   await expect(page.getByText(/mobile-network connectivity rather than conventional fixed Wi-Fi/)).toBeVisible();
   await expect(page.getByText(/additional external toilets and a shower have been reported/)).toBeVisible();
   await expect(page.getByText(/Rating and review information is based on the property's Airbnb listing/)).toBeVisible();
+  await expect(page.getByText(/serene beachfront retreat overlooking the powdery white sand/)).toBeVisible();
+  await expect(page.getByText(/spacious front yard is framed by a tropical garden/)).toBeVisible();
+  await expect(page.getByText(/complete household utilities for day-to-day stay needs/)).toBeVisible();
+  await expect(page.getByText(/Internet access remains mobile-network based rather than fixed Wi-Fi/)).toBeVisible();
 });
 
 test("only configured booking and map destinations are active", async ({ page }) => {

@@ -27,7 +27,7 @@ export const packingGroups = [
 export const selfCateringGuidance = [
   "The accommodation is primarily self-catering, so guests should bring food, condiments, and drinks.",
   "Use the main kitchen for meal preparation and leave it clean and tidy after use.",
-  "The supplied guide directs fish and heavier frying to a separate kitchen kubo, but current guest access should be confirmed before arrival.",
+  "The separate kitchen kubo is shared by guests staying in the Blue and Green kubos and is used for fish and heavier frying. Main-villa-only guests should confirm access before arrival.",
   "Cooking, shopping, babysitting, serving, and additional cleaning may be available for extra fees, subject to current availability and owner confirmation.",
 ] as const;
 

@@ -17,17 +17,17 @@ export const amenityPreviews = [
   },
   {
     description:
-      "Prepare meals in the main kitchen. Supplied material also mentions a separate frying kubo; guest-use details await confirmation.",
+      "Prepare meals in the main kitchen. A separate kitchen kubo is shared by guests staying in the Blue and Green kubos.",
     icon: "kitchen",
     title: "Self-catering kitchen",
   },
   {
-    description: "Enjoy balconies, patio space, a backyard, and the surrounding tropical garden.",
+    description: "Enjoy balconies, patio space, a spacious front yard, and the surrounding tropical garden.",
     icon: "garden",
     title: "Private outdoor spaces",
   },
   {
-    description: "Vehicles can park free of charge inside the property's gated compound.",
+    description: "One carport and space for three to four cars are available inside the gated compound.",
     icon: "parking",
     title: "Secure parking",
   },
@@ -64,6 +64,7 @@ export const amenityGroups = [
       { availability: "supplied", name: "Private patio or balconies" },
       { availability: "supplied", name: "Free beach entrance" },
       { availability: "supplied", name: "Free secure parking" },
+      { availability: "supplied", name: "One carport and space for three to four cars" },
     ],
   },
   {
@@ -72,6 +73,7 @@ export const amenityGroups = [
       { availability: "supplied", name: "Air conditioning upstairs and downstairs" },
       { availability: "supplied", name: "Television" },
       { availability: "supplied", name: "Hot-water shower in the main bathroom" },
+      { availability: "supplied", name: "Complete household utilities for day-to-day stay needs" },
       {
         availability: "confirm",
         detail: "The supplied guide says potable water is provided, but the current arrangement still needs owner confirmation.",
@@ -94,9 +96,9 @@ export const amenityGroups = [
       { availability: "supplied", name: "Three frying pans" },
       { availability: "supplied", name: "Plates, glasses, and cutlery" },
       {
-        availability: "confirm",
-        detail: "The supplied information mentions a separate kitchen kubo for frying; guest access and current arrangements need confirmation.",
-        name: "Separate frying kubo",
+        availability: "supplied",
+        detail: "Shared by guests staying in the Blue and Green kubos for fish and heavier frying; main-villa-only access should be confirmed.",
+        name: "Shared kitchen kubo",
       },
     ],
   },

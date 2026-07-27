@@ -47,12 +47,12 @@ Known amounts from the supplied package, still subject to owner review before fi
 - [ ] Confirm whether potable drinking water is always included and how it should be described.
 - [ ] Confirm the final terms for reunions, birthdays, celebrations, and other gatherings.
 - [ ] Confirm the current mobile-network guidance and whether any network names should be mentioned.
-- [ ] Confirm the precise status and guest use of the separate frying/kitchen kubo.
+- [x] Owner confirmed on 2026-07-27 that the separate kitchen kubo is shared by guests staying in the Blue and Green kubos. Access for a main-villa-only booking remains confirmation-required.
 - [ ] Confirm current tour availability and prices before displaying any figures.
 
 ## Media, reviews, and brand
 
-Photo integration state: 37 owner-supplied, privacy-reviewed JPEG photographs now appear in the homepage, accommodation page, and gallery with accurate alternative text and qualified captions. The passenger-boat image is intentionally unpublished because it contains recognizable people and a vessel identifier. Blue Kubo, Green Kubo, and confirmed parking retain explicit future photo slots; the map illustration remains provisional, while the social card now uses approved photography. `OWNER_UPDATE_GUIDE.md` documents the later replacement workflow. Three Messenger review positions are empty publication reservations, not fabricated feedback.
+Photo integration state: 37 owner-supplied, privacy-reviewed JPEG photographs now appear in the homepage, accommodation page, and gallery with accurate alternative text and qualified captions. The passenger-boat image is intentionally unpublished because it contains recognizable people and a vessel identifier. Blue Kubo, Green Kubo, and parking retain explicit future photo slots; the parking arrangement is confirmed even though its dedicated photograph is pending. Interactive maps use the verified pin, and the social card uses approved photography. `OWNER_UPDATE_GUIDE.md` documents the later replacement workflow. Three Messenger review positions are empty publication reservations, not fabricated feedback.
 
 - [ ] Obtain approved high-resolution front-of-villa, Blue Kubo, Green Kubo, and confirmed-parking photographs; current exterior, bedroom, living-room, entrance, and some garden sources are below 500 pixels on their longest side.
 - [ ] Obtain publication permission for the passenger-boat photograph or a crop without recognizable people and the vessel identifier.

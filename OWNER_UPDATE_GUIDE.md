@@ -20,7 +20,7 @@ The public gallery deliberately retains three replaceable placeholder records at
 | --- | --- | --- |
 | Blue Kubo | `blue-kubo.jpg` | What it shows and whether it is included in a standard booking |
 | Green Kubo | `green-kubo.jpg` | What it shows and whether it is included in a standard booking |
-| Parking | `parking-area.jpg` | Whether it is the guest parking area and the current parking arrangement |
+| Parking | `parking-area.jpg` | Confirmation that the photo shows the owner-confirmed carport/three-to-four-car parking area |
 
 A higher-resolution front-of-villa photograph can later replace the current small hero source. A descriptive name such as `villa-front-high-resolution.jpg` is preferred.
 
