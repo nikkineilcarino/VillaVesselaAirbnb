@@ -296,3 +296,12 @@
 - **Reason:** both providers display the same evidence-backed property pin without a guessed geocode, exposed private key, or automatic third-party request. The visitor can switch, zoom, open navigation, or read the rest of the page without granting device geolocation.
 - **Consequences:** loading or opening a map shares ordinary connection data with Google or Waze, which the Privacy page now states. The official Google business-listing name remains unconfirmed; Google navigation deliberately targets the verified coordinates. A future pin change requires all four values to be updated together, followed by visual pin, zoom, mobile, accessibility, privacy, CSP, build, and production checks.
 - **Date:** 2026-07-27
+
+## Decision 034 — Activate the owner-supplied WhatsApp destination without committing its number
+
+- **Context:** The owner supplied a complete country-code WhatsApp contact in the website conversation and requested its use after booking, social, map, and caretaker destinations were activated. The configuration boundary already normalizes valid international digits to a canonical `wa.me` URL.
+- **Options considered:** publish the digits in source content; infer WhatsApp availability from an existing caretaker telephone; leave the supplied channel inactive; configure only the exact newly supplied value through Vercel.
+- **Selected approach:** set `NEXT_PUBLIC_WHATSAPP_NUMBER` only in protected local/provider configuration, render the Contact action only after validation, label the active state as owner-approved, and retain exact destination allowlisting under the existing `whatsapp` analytics type.
+- **Reason:** this activates precisely the channel the owner supplied while keeping the public-but-personal number out of permanent Git history and without associating it with an unconfirmed person or another telephone slot.
+- **Consequences:** the resulting `wa.me` destination is intentionally visible to every visitor and to WhatsApp after a click. Replacement or revocation requires changing/removing the Vercel variable and redeploying. The public email and owner-telephone slots remain inactive; analytics, inquiries, and Supabase remain disabled.
+- **Date:** 2026-07-27

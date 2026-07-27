@@ -20,6 +20,8 @@ After explicit owner approval on 2026-07-27, production may also contain `NEXT_P
 
 The same approval cycle added four public Google Maps/Waze navigation and embed variables for one verified property pin. Their values remain environment-configured so a correction can replace all providers together. The hosted embeds require no project-owned API key or billing credential.
 
+The owner also supplied one complete country-code WhatsApp contact on 2026-07-27. `NEXT_PUBLIC_WHATSAPP_NUMBER` is intentionally browser-visible after deployment but its value is omitted from Git and this runbook. Replacement or revocation requires an environment update and redeploy.
+
 ## Pre-release gate
 
 Run from a clean checkout:

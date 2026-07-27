@@ -95,7 +95,9 @@ export const contactChannels: readonly ContactChannel[] = [
     id: "whatsapp",
     key: "whatsapp",
     label: "WhatsApp",
-    note: "Approved country-code destination awaiting confirmation",
+    note: siteConfig.booking.whatsappUrl
+      ? "Owner-approved WhatsApp contact"
+      : "Approved country-code destination awaiting confirmation",
   },
   ...telephoneChannels,
   {

@@ -48,6 +48,9 @@ export default defineConfig({
       ...(process.env.NEXT_PUBLIC_WAZE_EMBED_URL
         ? { NEXT_PUBLIC_WAZE_EMBED_URL: process.env.NEXT_PUBLIC_WAZE_EMBED_URL }
         : {}),
+      ...(process.env.NEXT_PUBLIC_WHATSAPP_NUMBER
+        ? { NEXT_PUBLIC_WHATSAPP_NUMBER: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER }
+        : {}),
       NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL ?? baseURL,
     },
     reuseExistingServer: !process.env.CI,

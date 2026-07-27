@@ -4,14 +4,14 @@ This is the authoritative register for missing, conflicting, or unconfirmed busi
 
 ## Identity, destinations, and public contact
 
-Current state: the owner-approved Airbnb listing, Facebook page, Messenger conversation, verified Google Maps/Waze pin, and two caretaker telephone contacts are active through validated public configuration. WhatsApp, owner-phone, and email destinations remain inactive. The Contact page exposes no unapproved private value or guessed external URL.
+Current state: the owner-approved Airbnb listing, Facebook page, Messenger conversation, WhatsApp contact, verified Google Maps/Waze pin, and two caretaker telephone contacts are active through validated public configuration. Owner-phone and email destinations remain inactive. The Contact page exposes no unapproved private value or guessed external URL.
 
 - [ ] Confirm the exact official business name and spelling used on Google Maps. Working name: **Beachfront Tondol Beach Villa Vessela**.
 - [x] Obtain, approve, and verify the Airbnb listing URL; production uses the stable canonical room path without the supplied tracking query.
 - [x] Obtain, approve, and verify the complete Facebook page URL.
 - [x] Obtain, approve, and verify the complete Messenger conversation URL.
 - [x] Verify the public Waze property pin and use its exact coordinates for matching Google Maps and Waze navigation/embed URLs on 2026-07-27. The official Google Maps business-listing name remains a separate unchecked item.
-- [ ] Confirm the complete WhatsApp number with country code and permission to publish it.
+- [x] Owner supplied and approved a complete country-code WhatsApp contact for public use on 2026-07-27. The value remains environment-configured and absent from Git.
 - [ ] Confirm the public owner email address and permission to publish it.
 - [ ] Confirm whether an owner telephone number should be public and obtain the approved number.
 - [x] Owner approved Nida and Evelyn's caretaker telephone contacts for public display on 2026-07-27. Values remain environment-configured and absent from Git; WhatsApp availability was not inferred.
@@ -78,7 +78,7 @@ Phase 10 interim state: the inquiry form, endpoint, administrator list/status wo
 
 Phase 11 state: the Privacy page, metadata, approved photo-based social card, sitemap, fail-closed robots, manifest/icons, conservative structured data, accessibility hardening, performance review, and security headers are implemented. Production indexing is enabled only for the final public HTTPS origin. The structured data deliberately omits property images, exact coordinates, map/contact destinations, prices, conditional capacity, and other unresolved facts. A retention/deletion schedule, privacy-request channel, provider review, and any legally required consent control remain owner/production decisions and are not silently invented.
 
-Phase 12 release state: the public site is deployed at `https://villa-vessela-airbnb.vercel.app`, which is now the configured canonical origin. GitHub and Vercel publication, indexing/header/accessibility/privacy smoke checks, and private-contact/browser-secret scans pass. The Airbnb listing, Facebook page, Messenger conversation, and two caretaker telephone contacts are approved public destinations. Analytics and inquiries are explicitly disabled in production; no Supabase or test credential is configured. The remaining photo gaps, WhatsApp/map/owner-contact destinations, rates, conditional inclusions, database activation, administrator identities, retention/deletion, and privacy-request operations remain unresolved and omitted.
+Phase 12 release state: the public site is deployed at `https://villa-vessela-airbnb.vercel.app`, which is now the configured canonical origin. GitHub and Vercel publication, indexing/header/accessibility/privacy smoke checks, and private-contact/browser-secret scans pass. The Airbnb listing, Facebook page, Messenger conversation, WhatsApp contact, Google Maps/Waze pin, and two caretaker telephone contacts are approved public destinations. Analytics and inquiries are explicitly disabled in production; no Supabase or test credential is configured. The remaining photo gaps, owner contact destinations, rates, conditional inclusions, database activation, administrator identities, retention/deletion, and privacy-request operations remain unresolved and omitted.
 
 - [ ] Confirm whether the website inquiry form should be active at launch.
 - [ ] Confirm whether English-only content is desired or English/Filipino language switching is required.

@@ -11,6 +11,7 @@ import {
   configuredMessengerUrl,
   configuredWazeEmbedUrl,
   configuredWazeUrl,
+  configuredWhatsAppUrl,
 } from "./configured-destinations";
 
 const testOrigin = new URL(
@@ -211,7 +212,8 @@ test("contact channels expose only approved destinations while inquiries remain 
     configuredCaretakerPhones.length +
     Number(Boolean(configuredAirbnbUrl)) +
     Number(Boolean(configuredFacebookUrl)) +
-    Number(Boolean(configuredMessengerUrl));
+    Number(Boolean(configuredMessengerUrl)) +
+    Number(Boolean(configuredWhatsAppUrl));
   const pendingChannelCount = totalChannelCount - activeChannelCount;
   await expect(page.getByRole("button", { name: /destination awaiting confirmation/ })).toHaveCount(
     pendingChannelCount,
@@ -245,6 +247,12 @@ test("contact channels expose only approved destinations while inquiries remain 
     await expect(page.getByText("Open Messenger", { exact: true })).toBeVisible();
   }
 
+  if (configuredWhatsAppUrl) {
+    await expect(page.locator(`a[href="${configuredWhatsAppUrl}"]`)).toHaveCount(1);
+    await expect(page.getByText("Open WhatsApp", { exact: true })).toBeVisible();
+    await expect(page.getByText("Owner-approved WhatsApp contact", { exact: true })).toBeVisible();
+  }
+
   const form = page.getByRole("form");
   expect(await form.getAttribute("action")).toBeNull();
   await expect(form.locator("fieldset")).toHaveAttribute("disabled", "");
@@ -274,6 +282,7 @@ test("Phase 5 routes expose only configured external destinations", async ({ pag
       allowedDestinations.push(
         configuredFacebookUrl,
         configuredMessengerUrl,
+        configuredWhatsAppUrl,
         ...configuredCaretakerPhones,
       );
     }

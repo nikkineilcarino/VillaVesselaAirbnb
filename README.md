@@ -56,7 +56,7 @@ Do not add secrets or approved public contact values to committed files; configu
 
 ## Future owner updates
 
-Missing photos, public destinations, and business facts have deliberate extension points rather than guessed values. See [`OWNER_UPDATE_GUIDE.md`](OWNER_UPDATE_GUIDE.md) for the reserved Blue Kubo, Green Kubo, parking, and high-resolution hero photo workflow; future WhatsApp, email, and telephone configuration; map-pin replacement; and the required publication checks.
+Missing photos, public destinations, and business facts have deliberate extension points rather than guessed values. See [`OWNER_UPDATE_GUIDE.md`](OWNER_UPDATE_GUIDE.md) for the reserved Blue Kubo, Green Kubo, parking, and high-resolution hero photo workflow; future email and telephone configuration; WhatsApp/map replacement; and the required publication checks.
 
 ## Environment variables
 
@@ -79,7 +79,7 @@ The committed `.env.example` documents the current environment contract:
 | `NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL` | Public | Configured in production | Verified Maps embed URL | Loaded only after visitor choice |
 | `NEXT_PUBLIC_WAZE_URL` | Public | Configured in production | Verified Waze deep link | Must resolve to the same approved pin |
 | `NEXT_PUBLIC_WAZE_EMBED_URL` | Public | Configured in production | Waze Live Map iframe URL | Loaded only after visitor choice |
-| `NEXT_PUBLIC_WHATSAPP_NUMBER` | Public | Optional until confirmed | International digits, such as `63...` | Requires owner approval |
+| `NEXT_PUBLIC_WHATSAPP_NUMBER` | Public | Configured in production | Approved international country-code digits | Keep the value out of Git history |
 | `NEXT_PUBLIC_CONTACT_EMAIL` | Public | Optional until confirmed | `name@example.com` | Becomes visible to visitors |
 | `NEXT_PUBLIC_CONTACT_PHONE` | Public | Optional until confirmed | International telephone number | Must not use caretaker numbers by default |
 | `NEXT_PUBLIC_CARETAKER_NIDA_PHONE` | Public | Optional; explicitly approved | International telephone number | Named caretaker contact; keep the value out of Git history |
@@ -132,7 +132,7 @@ Production is deployed through the `villa-vessela-airbnb` project in the `nikkin
 ## Known limitations
 
 - The Privacy page is implemented, but no production retention/deletion schedule, privacy-request channel, or deletion operation has been approved or live-tested. Inquiry submission, status management, and CSV exports remain default-disabled/not live-verified and require the applied schema, approved runtime configuration, administrator identities, and retention approval.
-- Every item in the current primary navigation is available, and Privacy is available from the footer. The approved Airbnb listing, Facebook page, Messenger conversation, Google Maps and Waze pin, and two caretaker telephone contacts can be active from validated environment configuration; WhatsApp, owner-phone, email, and other external destinations remain disabled because no complete approved value has been supplied.
+- Every item in the current primary navigation is available, and Privacy is available from the footer. The approved Airbnb listing, Facebook page, Messenger conversation, WhatsApp contact, Google Maps/Waze pin, and two caretaker telephone contacts can be active from validated environment configuration; owner-phone, email, and other external destinations remain disabled because no complete approved value has been supplied.
 - Draft fee amounts are retained only for reconciliation and are not rendered. Every public fee prompt requires current host confirmation.
 - Thirty-seven supplied, privacy-reviewed photographs now cover the villa, rooms, facilities, garden, nearby beach/attractions, food examples, and pet guidance. The social-share card uses the approved high-resolution photo-wall image. Blue Kubo, Green Kubo, and confirmed parking retain explicit placeholders; a higher-resolution front-of-villa hero is still recommended.
 - The Airbnb, Facebook, Messenger, and caretaker telephone production destinations are supplied. Supabase credentials and administrator test credentials have not been supplied. Docker's installed engine is not running, so migrations/policies/functions, live analytics insertion, populated dashboard rendering, and approved/unapproved authentication behavior have not been executed against a database.

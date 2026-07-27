@@ -16,6 +16,11 @@ export function normalizeConfiguredPhone(value: string | undefined) {
   return digits && /^[1-9]\d{7,14}$/.test(digits) ? `tel:+${digits}` : null;
 }
 
+export function normalizeConfiguredWhatsApp(value: string | undefined) {
+  const digits = value?.replace(/\D/g, "");
+  return digits && /^[1-9]\d{7,14}$/.test(digits) ? `https://wa.me/${digits}` : null;
+}
+
 export const configuredAirbnbUrl = normalizeConfiguredHttpsUrl(
   process.env.NEXT_PUBLIC_AIRBNB_URL,
 );
@@ -49,6 +54,10 @@ export const configuredInteractiveMaps = Boolean(
     configuredGoogleMapsEmbedUrl &&
     configuredWazeUrl &&
     configuredWazeEmbedUrl,
+);
+
+export const configuredWhatsAppUrl = normalizeConfiguredWhatsApp(
+  process.env.NEXT_PUBLIC_WHATSAPP_NUMBER,
 );
 
 export const configuredCaretakerPhones = [
