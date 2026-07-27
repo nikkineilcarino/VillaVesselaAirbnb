@@ -2,6 +2,8 @@
 
 This guide records the safe extension points left for information and photographs that are not available yet. Missing values stay disabled, omitted, or visibly reserved; they must never be guessed.
 
+See `FINAL_HANDOFF.md` for the verified release snapshot and the boundary between simple content updates and optional backend activation.
+
 ## Easiest update workflow
 
 1. Put new photographs or a ZIP package in a local folder such as `Downloads`.

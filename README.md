@@ -122,6 +122,7 @@ Production is deployed through the `villa-vessela-airbnb` project in the `nikkin
 - `tests/` — Vitest utility/database/auth/analytics/dashboard/inquiry/CSV/SEO coverage and Playwright public, administrator, analytics, inquiry-mode, metadata, privacy, security-header, interaction, responsive, and accessibility checks
 - `docs/qa/` — phase-specific, evidence-based QA reports
 - `.github/` — read-only continuous-integration workflow and grouped weekly dependency maintenance policy
+- `FINAL_HANDOFF.md` — current release evidence, safe defaults, future owner inputs, and backend activation boundary
 - `OWNER_UPDATE_GUIDE.md` — owner-facing instructions for filling reserved photo, destination, contact, and business-information slots later
 
 ## Known limitations
