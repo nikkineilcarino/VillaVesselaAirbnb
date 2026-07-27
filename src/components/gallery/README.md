@@ -17,7 +17,7 @@ Opening the lightbox moves focus to Close. Tab and Shift+Tab stay within the dia
 
 ## Interactions and configuration
 
-The route passes typed `src/data/gallery.ts` records into `GalleryExperience`; no component reads environment variables or fetches remote data. `GalleryImage` receives only public local paths and marks the first grid candidate as priority while later grid images remain lazy.
+The route passes typed `src/data/gallery.ts` records into `GalleryExperience`; no component reads environment variables or fetches remote data. `GalleryImage` receives only public local paths and marks the first grid candidate as priority while later grid images remain lazy. Grid thumbnails use a lower approved quality and precise responsive sizes; the contained lightbox retains the default higher quality.
 
 ## Safe extension
 

@@ -27,7 +27,8 @@ export function GalleryGrid({ items, onOpen }: GalleryGridProps) {
                 alt={item.alt}
                 className="transition-transform duration-500 group-hover:scale-[1.02]"
                 priority={index === 0}
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                quality={60}
+                sizes="(max-width: 640px) calc(100vw - 2.5rem), (max-width: 1024px) calc(50vw - 2.5rem), calc(33vw - 2.5rem)"
                 src={item.src}
               />
               <span className="absolute right-4 bottom-4 inline-flex items-center gap-2 rounded-full bg-primary-dark/90 px-3 py-2 text-xs font-semibold text-white">

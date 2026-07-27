@@ -61,6 +61,9 @@ test("gallery exposes every supplied photograph and the three honest open slots"
   });
   await page.goto("/gallery");
   await expect(page.getByRole("button", { name: /^Open .+ image$/ })).toHaveCount(40);
+  await expect(
+    page.getByRole("button", { name: "Open Villa exterior image" }).first().getByRole("img"),
+  ).toHaveAttribute("srcset", /q=60/);
   await expect(page.getByText(/Three future photo slots are reserved/)).toBeVisible();
   await expect(page.getByText(/Blue Kubo, Green Kubo, and confirmed parking/)).toBeVisible();
   await expect(page.getByAltText(/Illustrated placeholder reserved/)).toHaveCount(3);

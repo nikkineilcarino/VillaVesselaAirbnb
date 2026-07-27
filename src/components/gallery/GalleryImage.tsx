@@ -11,6 +11,7 @@ export type GalleryImageProps = {
   className?: string;
   fit?: "contain" | "cover";
   priority?: boolean;
+  quality?: number;
   sizes: string;
   src: string;
 };
@@ -20,6 +21,7 @@ export function GalleryImage({
   className,
   fit = "cover",
   priority = false,
+  quality,
   sizes,
   src,
 }: GalleryImageProps) {
@@ -57,6 +59,7 @@ export function GalleryImage({
         onError={() => setState("error")}
         onLoad={() => setState("loaded")}
         priority={priority}
+        quality={quality}
         sizes={sizes}
         src={src}
       />
