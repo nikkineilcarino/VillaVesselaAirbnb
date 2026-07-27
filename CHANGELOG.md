@@ -6,6 +6,7 @@
 - Recorded the one underlying development-only denial-of-service advisory accurately; the production dependency audit remains at zero findings.
 - Added a read-only, secretless GitHub Actions workflow for locked installation, production audit, lint, strict types, 67 unit tests, production build, and credential-independent Chromium tests.
 - Pinned GitHub-owned actions to immutable release commit SHAs, disabled checkout credential persistence, and limited the workflow token to repository-content reads.
+- Added weekly grouped Dependabot checks for npm and pinned GitHub Actions, limiting routine automation to patch/minor releases while leaving security updates eligible at every SemVer level.
 
 ## 2026-07-23 — Phase 12 public release and deployment
 

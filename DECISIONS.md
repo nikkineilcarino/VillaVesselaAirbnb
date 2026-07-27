@@ -251,3 +251,12 @@
 - **Reason:** future changes receive the same reproducible application gate without exposing Supabase keys, administrator accounts, private contacts, or deployment authority to pull-request code.
 - **Consequences:** two live administrator tests and all live database/RLS/insertion/retention checks remain skipped or blocked, not passed. CI failure prevents no merge by itself until the repository owner enables branch protection and marks the workflow as a required check.
 - **Date:** 2026-07-27
+
+## Decision 029 — Group compatible dependency maintenance and review majors deliberately
+
+- **Context:** Exact versions and immutable action SHAs make releases reproducible, but they also require an explicit process to discover upstream maintenance. Ungrouped update automation can create excessive pull-request noise, while blindly accepting major releases can cross framework and plugin compatibility boundaries.
+- **Options considered:** keep update discovery manual; automate every available update; automate security updates only; schedule grouped patch/minor maintenance with manual majors.
+- **Selected approach:** run weekly Dependabot checks for npm and GitHub Actions in the Asia/Manila timezone. Group routine npm production and development patch/minor updates separately, group action patch/minor updates, cap open version-update pull requests, and leave major version updates for deliberate review.
+- **Reason:** compatible updates become visible and exercise the complete CI gate without allowing automation to silently cross major API or peer-dependency boundaries. Dependabot's SemVer update-type filter applies only to version updates, so security updates remain eligible even when a patched resolution requires a new major.
+- **Consequences:** no Dependabot pull request is trusted or merged automatically. Each must preserve exact lockfile integrity and pass audit, lint, types, unit tests, build, and credential-independent browser tests; incompatible groups must be split, closed, or deferred with the reason recorded.
+- **Date:** 2026-07-27
