@@ -4,13 +4,13 @@ This is the authoritative register for missing, conflicting, or unconfirmed busi
 
 ## Identity, destinations, and public contact
 
-Current state: the owner-approved Airbnb listing, Facebook page, Messenger conversation, and two caretaker telephone contacts are active through validated public configuration. WhatsApp, map, owner-phone, and email destinations remain inactive. The Contact page exposes no unapproved private value or guessed external URL.
+Current state: the owner-approved Airbnb listing, Facebook page, Messenger conversation, verified Google Maps/Waze pin, and two caretaker telephone contacts are active through validated public configuration. WhatsApp, owner-phone, and email destinations remain inactive. The Contact page exposes no unapproved private value or guessed external URL.
 
 - [ ] Confirm the exact official business name and spelling used on Google Maps. Working name: **Beachfront Tondol Beach Villa Vessela**.
 - [x] Obtain, approve, and verify the Airbnb listing URL; production uses the stable canonical room path without the supplied tracking query.
 - [x] Obtain, approve, and verify the complete Facebook page URL.
 - [x] Obtain, approve, and verify the complete Messenger conversation URL.
-- [ ] Obtain and verify the Google Maps listing URL and embed URL; do not guess coordinates.
+- [x] Verify the public Waze property pin and use its exact coordinates for matching Google Maps and Waze navigation/embed URLs on 2026-07-27. The official Google Maps business-listing name remains a separate unchecked item.
 - [ ] Confirm the complete WhatsApp number with country code and permission to publish it.
 - [ ] Confirm the public owner email address and permission to publish it.
 - [ ] Confirm whether an owner telephone number should be public and obtain the approved number.

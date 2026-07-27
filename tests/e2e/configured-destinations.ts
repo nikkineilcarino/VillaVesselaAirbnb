@@ -28,6 +28,29 @@ export const configuredMessengerUrl = normalizeConfiguredHttpsUrl(
   process.env.NEXT_PUBLIC_MESSENGER_URL,
 );
 
+export const configuredGoogleMapsUrl = normalizeConfiguredHttpsUrl(
+  process.env.NEXT_PUBLIC_GOOGLE_MAPS_URL,
+);
+
+export const configuredGoogleMapsEmbedUrl = normalizeConfiguredHttpsUrl(
+  process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL,
+);
+
+export const configuredWazeUrl = normalizeConfiguredHttpsUrl(
+  process.env.NEXT_PUBLIC_WAZE_URL,
+);
+
+export const configuredWazeEmbedUrl = normalizeConfiguredHttpsUrl(
+  process.env.NEXT_PUBLIC_WAZE_EMBED_URL,
+);
+
+export const configuredInteractiveMaps = Boolean(
+  configuredGoogleMapsUrl &&
+    configuredGoogleMapsEmbedUrl &&
+    configuredWazeUrl &&
+    configuredWazeEmbedUrl,
+);
+
 export const configuredCaretakerPhones = [
   normalizeConfiguredPhone(process.env.NEXT_PUBLIC_CARETAKER_NIDA_PHONE),
   normalizeConfiguredPhone(process.env.NEXT_PUBLIC_CARETAKER_EVELYN_PHONE),

@@ -287,3 +287,12 @@
 - **Reason:** contact-channel approval establishes a way to communicate but supplies no publishable guest feedback, screenshot, WhatsApp number, or broader social permission.
 - **Consequences:** Messenger is active only on Contact and remains independently removable through environment configuration. Messenger review content, WhatsApp, maps, owner email/telephone, analytics, and inquiries remain inactive until separately supplied and approved.
 - **Date:** 2026-07-27
+
+## Decision 033 — Publish one verified pin through opt-in Google Maps and Waze embeds
+
+- **Context:** The owner requested zoomable Google Maps and Waze location views. The public Waze property listing resolves “Beachfront Tondol Beach Villa Vessela” at the confirmed Purok 2, Tondol address and exposes one precise pin. No owner-controlled Google Maps API key or billing project was supplied.
+- **Options considered:** guess from the text address; require a new billable Maps JavaScript project; load both third-party maps automatically on every visit; use the verified pin with provider-hosted embeds loaded only after visitor choice.
+- **Selected approach:** configure coordinate-based Google Maps navigation/embed URLs and matching Waze deep-link/Live Map URLs through four public environment variables. Validate exact provider hosts and paths, allow only those two frame origins in CSP, render no iframe until the visitor chooses a provider, and provide bounded accessible zoom controls that update the provider zoom parameter.
+- **Reason:** both providers display the same evidence-backed property pin without a guessed geocode, exposed private key, or automatic third-party request. The visitor can switch, zoom, open navigation, or read the rest of the page without granting device geolocation.
+- **Consequences:** loading or opening a map shares ordinary connection data with Google or Waze, which the Privacy page now states. The official Google business-listing name remains unconfirmed; Google navigation deliberately targets the verified coordinates. A future pin change requires all four values to be updated together, followed by visual pin, zoom, mobile, accessibility, privacy, CSP, build, and production checks.
+- **Date:** 2026-07-27

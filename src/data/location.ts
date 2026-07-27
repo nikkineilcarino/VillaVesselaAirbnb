@@ -6,5 +6,7 @@ export const locationPreview = {
     "From Anda town, continue approximately eight kilometres toward Tondol. When facing the beach, turn right and continue for approximately 150 metres.",
   mapEmbedUrl: publicDestinations.googleMapsEmbed,
   mapUrl: publicDestinations.googleMaps,
+  wazeEmbedUrl: publicDestinations.wazeEmbed,
+  wazeUrl: publicDestinations.waze,
   workingListingName: "Beachfront Tondol Beach Villa Vessela",
 } as const;

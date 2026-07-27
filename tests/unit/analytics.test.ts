@@ -90,8 +90,13 @@ describe("Phase 8 analytics privacy and validation", () => {
       contactEmail: "Host@Example.invalid",
       contactPhone: "+63 (900) 000-0000",
       facebookUrl: "https://www.facebook.com/approved-page",
-      googleMapsUrl: "https://maps.example/place?id=123",
+      googleMapsEmbedUrl:
+        "https://www.google.com/maps?q=place_id%3Aapproved&z=17&output=embed",
+      googleMapsUrl:
+        "https://www.google.com/maps/search/?api=1&query=Approved&query_place_id=approved",
       messengerUrl: "https://www.messenger.com/t/1234567890",
+      wazeEmbedUrl: "https://embed.waze.com/iframe?zoom=17&lat=16.1&lon=120.1&pin=1",
+      wazeUrl: "https://www.waze.com/ul?ll=16.1%2C120.1&navigate=yes&zoom=17",
       whatsappNumber: "+63 900 000 0000",
     });
 
@@ -101,7 +106,18 @@ describe("Phase 8 analytics privacy and validation", () => {
     expect(config.email).toBe("mailto:host@example.invalid");
     expect(config.phone).toBe("tel:+639000000000");
     expect(config.whatsapp).toBe("https://wa.me/639000000000");
-    expect(config.googleMaps).toBe("https://maps.example/place?id=123");
+    expect(config.googleMaps).toBe(
+      "https://www.google.com/maps/search/?api=1&query=Approved&query_place_id=approved",
+    );
+    expect(config.googleMapsEmbed).toBe(
+      "https://www.google.com/maps?q=place_id%3Aapproved&z=17&output=embed",
+    );
+    expect(config.waze).toBe(
+      "https://www.waze.com/ul?ll=16.1%2C120.1&navigate=yes&zoom=17",
+    );
+    expect(config.wazeEmbed).toBe(
+      "https://embed.waze.com/iframe?zoom=17&lat=16.1&lon=120.1&pin=1",
+    );
     expect(config.facebook).toBe("https://www.facebook.com/approved-page");
     expect(config.messenger).toBe("https://www.messenger.com/t/1234567890");
     expect(isApprovedExternalDestination("phone", "tel:+639000000001", config)).toBe(true);
@@ -121,6 +137,20 @@ describe("Phase 8 analytics privacy and validation", () => {
         config,
       ),
     ).toBe(true);
+  });
+
+  it("rejects arbitrary or mismatched map and iframe hosts", () => {
+    const config = createPublicDestinationConfig({
+      googleMapsEmbedUrl: "https://attacker.example/maps?output=embed",
+      googleMapsUrl: "https://attacker.example/maps/place/villa",
+      wazeEmbedUrl: "https://www.waze.com/iframe?lat=16&lon=120",
+      wazeUrl: "https://embed.waze.com/iframe?lat=16&lon=120",
+    });
+
+    expect(config.googleMaps).toBeNull();
+    expect(config.googleMapsEmbed).toBeNull();
+    expect(config.waze).toBeNull();
+    expect(config.wazeEmbed).toBeNull();
   });
 
   it("accepts a minimized page view and rejects extra/admin fields", () => {

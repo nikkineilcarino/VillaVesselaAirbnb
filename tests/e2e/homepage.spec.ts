@@ -1,6 +1,11 @@
 import { expect, test } from "@playwright/test";
 
-import { configuredAirbnbUrl } from "./configured-destinations";
+import {
+  configuredAirbnbUrl,
+  configuredGoogleMapsUrl,
+  configuredInteractiveMaps,
+  configuredWazeUrl,
+} from "./configured-destinations";
 
 test("homepage presents every required preview section", async ({ page }) => {
   await page.goto("/");
@@ -34,7 +39,7 @@ test("homepage preserves key facts and uncertainty qualifiers", async ({ page })
   await expect(page.getByText(/Rating and review information is based on the property's Airbnb listing/)).toBeVisible();
 });
 
-test("only configured booking destinations are active", async ({ page }) => {
+test("only configured booking and map destinations are active", async ({ page }) => {
   await page.goto("/");
   await expect(
     page.getByRole("heading", {
@@ -50,22 +55,38 @@ test("only configured booking destinations are active", async ({ page }) => {
     links.map((link) => link.getAttribute("href") ?? ""),
   );
 
+  const allowedDestinations = [
+    configuredAirbnbUrl,
+    configuredGoogleMapsUrl,
+    configuredWazeUrl,
+  ].filter((destination): destination is string => Boolean(destination));
+  expect(
+    destinations.every((destination) => allowedDestinations.includes(destination)),
+  ).toBe(true);
+
   if (configuredAirbnbUrl) {
-    expect(destinations.length).toBeGreaterThanOrEqual(3);
-    expect(destinations.every((destination) => destination === configuredAirbnbUrl)).toBe(true);
+    expect(destinations.filter((destination) => destination === configuredAirbnbUrl).length).toBeGreaterThanOrEqual(3);
     expect(await page.getByRole("link", { name: "Book on Airbnb" }).count()).toBeGreaterThanOrEqual(3);
   } else {
-    expect(destinations).toEqual([]);
     const bookingButtons = page.getByRole("button", { name: /Book on Airbnb/ });
     expect(await bookingButtons.count()).toBeGreaterThanOrEqual(3);
     for (let index = 0; index < (await bookingButtons.count()); index += 1) {
       await expect(bookingButtons.nth(index)).toBeDisabled();
     }
   }
-  await expect(page.getByRole("button", { name: /Open in Google Maps/ })).toBeDisabled();
+
+  if (configuredInteractiveMaps) {
+    await expect(page.getByRole("button", { name: "Load Google Maps" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Load Waze" })).toBeVisible();
+    await expect(page.locator("iframe")).toHaveCount(0);
+  } else {
+    await expect(
+      page.getByRole("button", { name: /Open interactive maps: map configuration unavailable/ }),
+    ).toBeDisabled();
+  }
 });
 
-test("homepage photography loads locally while the unverified map stays a placeholder", async ({ page, request }) => {
+test("homepage photography loads locally and map state is truthful", async ({ page, request }) => {
   for (const asset of [
     "/images/villa-vessela/property/villa-front-page1-cover.jpg",
     "/images/villa-vessela/property/villa-front-new.jpg",
@@ -78,14 +99,18 @@ test("homepage photography loads locally while the unverified map stays a placeh
     expect(response.headers()["content-type"]).toContain("image/jpeg");
   }
 
-  const mapPlaceholder = await request.get("/images/placeholders/location-placeholder.svg");
-  expect(mapPlaceholder.ok()).toBe(true);
-  expect(mapPlaceholder.headers()["content-type"]).toContain("image/svg+xml");
-
   await page.goto("/");
   await expect(page.getByAltText(/Front view of Villa Vessela/).first()).toBeVisible();
   await expect(page.getByRole("heading", { name: "A first look at Villa Vessela" })).toBeVisible();
-  await expect(page.getByText(/Map illustration only/)).toBeAttached();
+  if (configuredInteractiveMaps) {
+    await expect(page.getByRole("heading", { name: "Interactive property map" })).toBeVisible();
+    await expect(page.getByText(/Choose a map to view the verified pin/)).toBeVisible();
+  } else {
+    const mapPlaceholder = await request.get("/images/placeholders/location-placeholder.svg");
+    expect(mapPlaceholder.ok()).toBe(true);
+    expect(mapPlaceholder.headers()["content-type"]).toContain("image/svg+xml");
+    await expect(page.getByText(/Map illustration only/)).toBeAttached();
+  }
 });
 
 test("location and about anchors navigate within the homepage", async ({ page }) => {

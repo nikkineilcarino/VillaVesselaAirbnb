@@ -12,7 +12,7 @@ This directory is the single editable source for public navigation and verified 
 - `amenities.ts` defines preview cards, grouped amenity records, supplied/confirm statuses, optional-service names, and mobile-network guidance.
 - `gallery.ts` defines 37 approved local photographs, accurate alternative text and captions, plus explicit placeholder records for Blue Kubo, Green Kubo, and confirmed parking.
 - `reviews.ts` defines the supplied Airbnb rating summary, category scores, three attributed excerpts, and three content-free Messenger publication reservations.
-- `location.ts` defines the confirmed address/directions and inactive map configuration.
+- `location.ts` defines the confirmed address/directions and validated Google Maps/Waze configuration.
 - `contact.ts` defines fail-closed public contact channels with accurate action labels for configured booking, social, messaging, telephone, and email destinations; inquiry activation is owned by the server configuration boundary rather than public data.
 - `attractions.ts` defines homepage previews and the full condition-qualified attraction/activity/food collection without prices or guarantees.
 - `guestGuide.ts` defines arrival times, packing groups, self-catering, shopping, water, and internet guidance.

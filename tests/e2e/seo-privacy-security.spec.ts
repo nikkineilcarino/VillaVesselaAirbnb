@@ -217,6 +217,10 @@ test("global security headers and static asset caching are present without break
   expect(csp).toContain("default-src 'self'");
   expect(csp).toContain("object-src 'none'");
   expect(csp).toContain("frame-ancestors 'none'");
+  expect(csp).toContain(
+    "frame-src 'self' https://www.google.com https://embed.waze.com",
+  );
+  expect(csp).not.toContain("frame-src *");
   expect(headers["permissions-policy"]).toContain("camera=()");
   expect(headers["referrer-policy"]).toBe("strict-origin-when-cross-origin");
   expect(headers["x-content-type-options"]).toBe("nosniff");

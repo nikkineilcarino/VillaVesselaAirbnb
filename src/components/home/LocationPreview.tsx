@@ -1,7 +1,7 @@
 import { Compass, MapPin } from "lucide-react";
 import Image from "next/image";
 
-import { TrackedExternalLink } from "@/components/analytics/TrackedExternalLink";
+import { InteractiveMaps } from "@/components/location/InteractiveMaps";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { locationPreview } from "@/data/location";
@@ -9,6 +9,13 @@ import { locationPreview } from "@/data/location";
 import { SectionHeading } from "./SectionHeading";
 
 export function LocationPreview() {
+  const mapsConfigured = Boolean(
+    locationPreview.mapEmbedUrl &&
+      locationPreview.mapUrl &&
+      locationPreview.wazeEmbedUrl &&
+      locationPreview.wazeUrl,
+  );
+
   return (
     <section
       aria-labelledby="location-title"
@@ -45,47 +52,47 @@ export function LocationPreview() {
             </div>
           </div>
 
-          {locationPreview.mapUrl ? (
-            <TrackedExternalLink
-              className="mt-7 inline-flex min-h-11 items-center justify-center rounded-full border border-border bg-surface px-6 py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-surface-muted"
-              href={locationPreview.mapUrl}
-              linkType="google_maps"
-            >
-              Open in Google Maps
-            </TrackedExternalLink>
-          ) : (
-            <Button
-              aria-label="Open in Google Maps: verified map link awaiting confirmation"
-              className="mt-7"
-              disabled
-              title="Verified Google Maps link awaiting confirmation"
-              variant="secondary"
-            >
-              Open in Google Maps
-            </Button>
-          )}
-          <p className="mt-3 text-xs leading-5 text-foreground/75">
-            {locationPreview.mapUrl
-              ? "Use only this configured, approved map destination for navigation."
-              : "The map and listing URL remain disabled until the exact location is verified."}
+          <p className="mt-6 text-xs leading-5 text-foreground/75">
+            The map pin is verified against the public property listing. Confirm final
+            arrival details through an approved booking or caretaker channel.
           </p>
         </div>
 
-        <figure>
-          <div className="relative aspect-[9/7] overflow-hidden rounded-[1.75rem] border border-border bg-surface-muted shadow-soft">
-            <Image
-              alt="Illustrated coastline map placeholder for Villa Vessela; verified Google Maps link pending"
-              className="object-cover"
-              fill
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              src="/images/placeholders/location-placeholder.svg"
-            />
+        {mapsConfigured ? (
+          <InteractiveMaps
+            googleMapsEmbedUrl={locationPreview.mapEmbedUrl}
+            googleMapsUrl={locationPreview.mapUrl}
+            wazeEmbedUrl={locationPreview.wazeEmbedUrl}
+            wazeUrl={locationPreview.wazeUrl}
+          />
+        ) : (
+          <div>
+            <figure>
+              <div className="relative aspect-[9/7] overflow-hidden rounded-[1.75rem] border border-border bg-surface-muted shadow-soft">
+                <Image
+                  alt="Illustrated coastline map placeholder for Villa Vessela; interactive map configuration pending"
+                  className="object-cover"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  src="/images/placeholders/location-placeholder.svg"
+                />
+              </div>
+              <figcaption className="mt-3 text-sm leading-6 text-foreground/75">
+                Map illustration only — not a navigational map. Interactive maps are
+                temporarily unavailable.
+              </figcaption>
+            </figure>
+            <Button
+              aria-label="Open interactive maps: map configuration unavailable"
+              className="mt-6"
+              disabled
+              title="Map configuration unavailable"
+              variant="secondary"
+            >
+              Interactive maps unavailable
+            </Button>
           </div>
-          <figcaption className="mt-3 text-sm leading-6 text-foreground/75">
-            Map illustration only — not a navigational map. Verify the exact listing
-            before travelling.
-          </figcaption>
-        </figure>
+        )}
       </Container>
     </section>
   );

@@ -5,7 +5,12 @@ import {
   configuredAirbnbUrl,
   configuredCaretakerPhones,
   configuredFacebookUrl,
+  configuredGoogleMapsEmbedUrl,
+  configuredGoogleMapsUrl,
+  configuredInteractiveMaps,
   configuredMessengerUrl,
+  configuredWazeEmbedUrl,
+  configuredWazeUrl,
 } from "./configured-destinations";
 
 const testOrigin = new URL(
@@ -130,7 +135,7 @@ test("reviews preserve supplied attribution and reserve Messenger content honest
   }
 });
 
-test("location keeps the map disabled and copies only the confirmed address", async ({ context, page }) => {
+test("location exposes opt-in zoomable maps and copies only the confirmed address", async ({ context, page }) => {
   await context.grantPermissions(["clipboard-read", "clipboard-write"], {
     origin: testOrigin,
   });
@@ -138,9 +143,57 @@ test("location keeps the map disabled and copies only the confirmed address", as
 
   const address = "Tondol, Purok 2, Anda, Pangasinan, Philippines";
   await expect(page.getByText(address, { exact: true })).toBeVisible();
-  await expect(page.getByRole("button", { name: /Open in Google Maps/ })).toBeDisabled();
   await expect(page.locator("iframe")).toHaveCount(0);
-  await expect(page.getByText(/not a navigational map and not a verified pin/)).toBeVisible();
+
+  if (configuredInteractiveMaps) {
+    await expect(page.getByRole("button", { name: "Load Google Maps" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Load Waze" })).toBeVisible();
+    await expect(page.getByRole("link", { name: /Open Google Maps/ })).toHaveAttribute(
+      "href",
+      configuredGoogleMapsUrl!,
+    );
+    await expect(page.getByRole("link", { name: /Navigate with Waze/ })).toHaveAttribute(
+      "href",
+      configuredWazeUrl!,
+    );
+
+    await page.getByRole("button", { name: "Load Google Maps" }).click();
+    await expect(page.locator('iframe[title="Villa Vessela location in Google Maps"]')).toHaveAttribute(
+      "src",
+      configuredGoogleMapsEmbedUrl!,
+    );
+    await expect(page.getByRole("button", { name: "Viewing Google Maps" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    await page.getByRole("button", { name: "Zoom out in Google Maps" }).click();
+    await expect(page.locator('iframe[title="Villa Vessela location in Google Maps"]')).toHaveAttribute(
+      "src",
+      /[?&]z=16(?:&|$)/,
+    );
+
+    await page.getByRole("button", { name: "Load Waze" }).click();
+    await expect(page.locator('iframe[title="Villa Vessela location in Waze"]')).toHaveAttribute(
+      "src",
+      configuredWazeEmbedUrl!,
+    );
+    await page.getByRole("button", { name: "Zoom out in Waze" }).click();
+    await expect(page.locator('iframe[title="Villa Vessela location in Waze"]')).toHaveAttribute(
+      "src",
+      /[?&]zoom=16(?:&|$)/,
+    );
+    await page.getByRole("button", { name: "Zoom in on Waze" }).click();
+    await expect(page.locator('iframe[title="Villa Vessela location in Waze"]')).toHaveAttribute(
+      "src",
+      /[?&]zoom=17(?:&|$)/,
+    );
+    await expect(page.locator("iframe")).toHaveCount(1);
+  } else {
+    await expect(
+      page.getByRole("button", { name: /Open interactive maps: map configuration unavailable/ }),
+    ).toBeDisabled();
+    await expect(page.getByText(/Interactive maps are temporarily unavailable/)).toBeVisible();
+  }
 
   await page.getByRole("button", { name: "Copy address" }).click();
   await expect(page.getByRole("button", { name: "Address copied" })).toBeVisible();
@@ -214,6 +267,9 @@ test("Phase 5 routes expose only configured external destinations", async ({ pag
     );
 
     const allowedDestinations = [configuredAirbnbUrl];
+    if (route.path === "/location") {
+      allowedDestinations.push(configuredGoogleMapsUrl, configuredWazeUrl);
+    }
     if (route.path === "/contact") {
       allowedDestinations.push(
         configuredFacebookUrl,

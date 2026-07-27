@@ -209,6 +209,12 @@ export default function PrivacyPage() {
               this website, and the destination’s own privacy practices apply. The site
               does not collect payment.
             </p>
+            <p className="mt-4 text-base leading-7 text-foreground/80">
+              Google Maps and Waze embeds remain unloaded until a visitor chooses a map
+              provider. Loading either map shares normal connection information, such as
+              the visitor’s IP address and browser details, with that provider. Villa
+              Vessela does not request the visitor’s device location.
+            </p>
           </article>
         </Container>
       </section>
@@ -260,7 +266,7 @@ export default function PrivacyPage() {
             Privacy notice updates
           </h2>
           <p className="text-sm leading-6 text-foreground/70">
-            Last updated <time dateTime="2026-07-23">23 July 2026</time>. Update this
+            Last updated <time dateTime="2026-07-27">27 July 2026</time>. Update this
             notice whenever collection, storage, providers, retention, contact channels,
             or guest choices change.
           </p>

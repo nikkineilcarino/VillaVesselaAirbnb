@@ -10,6 +10,8 @@ export type PublicDestinationEnvironment = {
   googleMapsEmbedUrl?: null | string;
   googleMapsUrl?: null | string;
   messengerUrl?: null | string;
+  wazeEmbedUrl?: null | string;
+  wazeUrl?: null | string;
   whatsappNumber?: null | string;
 };
 
@@ -23,6 +25,8 @@ export type PublicDestinationConfig = {
   googleMapsEmbed: null | string;
   messenger: null | string;
   phone: null | string;
+  waze: null | string;
+  wazeEmbed: null | string;
   whatsapp: null | string;
 };
 
@@ -44,6 +48,42 @@ function normalizeHttpsUrl(value: null | string | undefined) {
   } catch {
     return null;
   }
+}
+
+function normalizeMapUrl(
+  value: null | string | undefined,
+  provider: "google" | "waze",
+  embed: boolean,
+) {
+  const normalized = normalizeHttpsUrl(value);
+
+  if (!normalized) {
+    return null;
+  }
+
+  const url = new URL(normalized);
+
+  if (provider === "google") {
+    if (url.hostname !== "www.google.com" || !url.pathname.startsWith("/maps")) {
+      return null;
+    }
+
+    const isEmbed =
+      url.pathname.startsWith("/maps/embed") || url.searchParams.get("output") === "embed";
+
+    return isEmbed === embed ? normalized : null;
+  }
+
+  if (embed) {
+    return url.hostname === "embed.waze.com" && url.pathname === "/iframe"
+      ? normalized
+      : null;
+  }
+
+  return ["waze.com", "www.waze.com"].includes(url.hostname) &&
+    (url.pathname === "/ul" || url.pathname.startsWith("/live-map/"))
+    ? normalized
+    : null;
 }
 
 function normalizeEmail(value: null | string | undefined) {
@@ -94,10 +134,12 @@ export function createPublicDestinationConfig(
       : null,
     email: normalizeEmail(environment.contactEmail),
     facebook: normalizeHttpsUrl(environment.facebookUrl),
-    googleMaps: normalizeHttpsUrl(environment.googleMapsUrl),
-    googleMapsEmbed: normalizeHttpsUrl(environment.googleMapsEmbedUrl),
+    googleMaps: normalizeMapUrl(environment.googleMapsUrl, "google", false),
+    googleMapsEmbed: normalizeMapUrl(environment.googleMapsEmbedUrl, "google", true),
     messenger: normalizeHttpsUrl(environment.messengerUrl),
     phone: phoneDigits ? `tel:+${phoneDigits}` : null,
+    waze: normalizeMapUrl(environment.wazeUrl, "waze", false),
+    wazeEmbed: normalizeMapUrl(environment.wazeEmbedUrl, "waze", true),
     whatsapp: whatsappDigits ? `https://wa.me/${whatsappDigits}` : null,
   };
 }
@@ -112,6 +154,8 @@ export const publicDestinations = createPublicDestinationConfig({
   googleMapsEmbedUrl: process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL,
   googleMapsUrl: process.env.NEXT_PUBLIC_GOOGLE_MAPS_URL,
   messengerUrl: process.env.NEXT_PUBLIC_MESSENGER_URL,
+  wazeEmbedUrl: process.env.NEXT_PUBLIC_WAZE_EMBED_URL,
+  wazeUrl: process.env.NEXT_PUBLIC_WAZE_URL,
   whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER,
 });
 

@@ -9,6 +9,7 @@ const contentSecurityPolicy = [
   "font-src 'self' data:",
   "form-action 'self'",
   "frame-ancestors 'none'",
+  "frame-src 'self' https://www.google.com https://embed.waze.com",
   "img-src 'self' data: blob:",
   "manifest-src 'self'",
   "object-src 'none'",

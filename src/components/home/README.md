@@ -10,7 +10,7 @@ This directory owns the composed sections of the public Villa Vessela homepage. 
 - `AboutPreview.tsx`, `AccommodationPreview.tsx`, and `AmenitiesPreview.tsx` summarize the setting, layout, and practical features while retaining source qualifications.
 - `GalleryPreview.tsx` presents four responsive owner-supplied photographs drawn from the typed gallery data.
 - `ReviewsPreview.tsx` presents the supplied Airbnb summary/excerpts with attribution and a non-endorsement note.
-- `LocationPreview.tsx` presents confirmed address/direction text beside a non-navigational illustration and disabled map action.
+- `LocationPreview.tsx` presents confirmed address/direction text beside the opt-in Google Maps/Waze viewer, with a truthful unavailable fallback.
 - `AttractionsPreview.tsx` uses condition-aware language for nearby activities.
 - `BookingCTA.tsx` closes the page with the validated Airbnb destination when configured and a fail-closed control otherwise.
 - `SectionHeading.tsx` centralizes accessible heading styling for light and dark sections.
@@ -23,7 +23,7 @@ Read facts from a focused typed data module, preserve every uncertainty qualifie
 
 - Do not hardcode contact details, prices, destination URLs, expanded capacity, service guarantees, or unconfirmed inclusions.
 - Do not turn disabled booking, review, or map controls into links until the full owner-approved destination is configured and tested.
-- Do not remove placeholder labels, captions, or accurate alternative text until an approved image replaces the illustration.
+- Do not remove placeholder labels, captions, or accurate alternative text from any remaining unresolved photo slot until an approved image replaces it.
 - Do not imply Airbnb endorsement or present supplied rating/review information as live data.
 
 ## Testing and review

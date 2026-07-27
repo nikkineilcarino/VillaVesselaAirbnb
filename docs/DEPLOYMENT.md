@@ -66,7 +66,9 @@ Configure only reviewed values. Missing optional values intentionally keep their
 | `NEXT_PUBLIC_SUPABASE_URL` | Omit initially | Approved Supabase project |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Omit initially | Approved project with RLS verified for anonymous and authenticated roles |
 | `SUPABASE_SERVICE_ROLE_KEY` | Omit initially | Server-only secret; add only when validated analytics/inquiry inserts are approved |
-| Approved booking/contact/map destinations | Omit until supplied | Exact owner-approved public values and browser verification |
+| `NEXT_PUBLIC_GOOGLE_MAPS_URL` / `NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL` | Verified property pin | Coordinate-based Google Maps navigation and click-to-load embed; no project API key required |
+| `NEXT_PUBLIC_WAZE_URL` / `NEXT_PUBLIC_WAZE_EMBED_URL` | Verified property pin | Matching Waze deep link and click-to-load Live Map embed |
+| Other approved booking/contact destinations | Omit until supplied | Exact owner-approved public values and browser verification |
 | `SUPABASE_TEST_*` values | Never configure in production | Dedicated non-production test process or protected CI only |
 
 Example non-interactive configuration after the project is linked:
@@ -122,9 +124,9 @@ Verify on the production alias:
 3. There is no public registration route; missing Supabase configuration produces a non-revealing unavailable login state.
 4. Canonical, Open Graph, Twitter, sitemap, and robots URLs use the exact HTTPS production origin.
 5. Robots allows public pages and disallows `/admin/` and `/api/`; administrator pages remain `noindex` and private/no-store.
-6. CSP, HSTS, clickjacking, MIME, referrer, permissions, cross-origin, and static-asset cache headers are present.
+6. CSP, HSTS, clickjacking, MIME, referrer, permissions, cross-origin, and static-asset cache headers are present; CSP permits frames only from the exact Google Maps and Waze embed origins.
 7. Privacy, keyboard focus, mobile navigation, gallery lightbox, reduced motion, and Axe smoke checks pass.
-8. External destinations remain inactive unless exact approved values were configured.
+8. External destinations remain inactive unless exact approved values were configured; Google Maps and Waze remain unloaded until selected and resolve to the same property pin with working zoom controls.
 9. Analytics and inquiry endpoints remain unavailable while their production flags are false.
 10. Browser bundles and rendered output contain no server secret, private caretaker contact, test credential, internal identifier, or raw inquiry record.
 

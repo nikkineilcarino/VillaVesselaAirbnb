@@ -2,8 +2,8 @@ import { Compass, MapPin } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 
-import { TrackedExternalLink } from "@/components/analytics/TrackedExternalLink";
 import { CopyAddressButton } from "@/components/location/CopyAddressButton";
+import { InteractiveMaps } from "@/components/location/InteractiveMaps";
 import { DisclosureNote } from "@/components/public/DisclosureNote";
 import { PageHero } from "@/components/public/PageHero";
 import { PageSectionHeading } from "@/components/public/PageSectionHeading";
@@ -14,18 +14,25 @@ import { createPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata: Metadata = createPageMetadata({
   description:
-    "Review Villa Vessela's confirmed Tondol address, supplied approach directions, and an owner-approved map destination when configured.",
+    "View Villa Vessela's verified Tondol location in interactive Google Maps and Waze views, with supplied approach directions.",
   path: "/location",
   title: "Location",
 });
 
 export default function LocationPage() {
+  const mapsConfigured = Boolean(
+    locationPreview.mapEmbedUrl &&
+      locationPreview.mapUrl &&
+      locationPreview.wazeEmbedUrl &&
+      locationPreview.wazeUrl,
+  );
+
   return (
     <main id="main-content">
       <PageHero
         currentPage="Location"
         currentPath="/location"
-        description="Use the confirmed text address and supplied approach directions for planning. A map action becomes active only when its complete destination is owner-approved and configured."
+        description="Use the confirmed address and supplied approach directions, or inspect the same verified property pin in Google Maps and Waze before travelling."
         eyebrow="Tondol, Anda"
         title="Close to the beach in a quieter coastal setting"
       />
@@ -63,46 +70,48 @@ export default function LocationPage() {
           </div>
 
           <div>
-            <figure>
-              <div className="relative aspect-[9/7] overflow-hidden rounded-[1.75rem] border border-border bg-surface-muted shadow-soft">
-                <Image
-                  alt="Illustrated coastline map placeholder for Villa Vessela; verified Google Maps destination pending"
-                  className="object-cover"
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  src="/images/placeholders/location-placeholder.svg"
-                />
-              </div>
-              <figcaption className="mt-3 text-sm leading-6 text-foreground/75">
-                Map illustration only — not a navigational map and not a verified pin.
-              </figcaption>
-            </figure>
-
-            {locationPreview.mapUrl ? (
-              <TrackedExternalLink
-                className="mt-6 inline-flex min-h-12 items-center justify-center rounded-full bg-primary px-7 py-3 text-base font-semibold text-white transition-colors hover:bg-primary-dark"
-                href={locationPreview.mapUrl}
-                linkType="google_maps"
-              >
-                Open in Google Maps
-              </TrackedExternalLink>
+            {mapsConfigured ? (
+              <InteractiveMaps
+                googleMapsEmbedUrl={locationPreview.mapEmbedUrl}
+                googleMapsUrl={locationPreview.mapUrl}
+                wazeEmbedUrl={locationPreview.wazeEmbedUrl}
+                wazeUrl={locationPreview.wazeUrl}
+              />
             ) : (
-              <Button
-                aria-label="Open in Google Maps: verified map link awaiting confirmation"
-                className="mt-6"
-                disabled
-                size="large"
-                title="Verified Google Maps link awaiting confirmation"
-              >
-                Open in Google Maps
-              </Button>
+              <>
+                <figure>
+                  <div className="relative aspect-[9/7] overflow-hidden rounded-[1.75rem] border border-border bg-surface-muted shadow-soft">
+                    <Image
+                      alt="Illustrated coastline map placeholder for Villa Vessela; interactive map configuration pending"
+                      className="object-cover"
+                      fill
+                      priority
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      src="/images/placeholders/location-placeholder.svg"
+                    />
+                  </div>
+                  <figcaption className="mt-3 text-sm leading-6 text-foreground/75">
+                    Map illustration only — not a navigational map. Interactive maps are
+                    temporarily unavailable.
+                  </figcaption>
+                </figure>
+                <Button
+                  aria-label="Open interactive maps: map configuration unavailable"
+                  className="mt-6"
+                  disabled
+                  size="large"
+                  title="Map configuration unavailable"
+                >
+                  Interactive maps unavailable
+                </Button>
+              </>
             )}
-            <DisclosureNote className="mt-5" title="Do not navigate from the illustration">
+
+            <DisclosureNote className="mt-5" title="Confirm final arrival details">
               <p>
-                {locationPreview.mapUrl
-                  ? `The working listing name is “${locationPreview.workingListingName}”. Use the configured map action—not this illustration—for navigation.`
-                  : `The working listing name is “${locationPreview.workingListingName}”, but the exact map URL, embed URL, and pin must be confirmed before activation.`}
+                The verified map listing is “{locationPreview.workingListingName}”. Confirm
+                final arrival details through the approved booking or caretaker channels,
+                especially if travelling after dark or during poor weather.
               </p>
             </DisclosureNote>
           </div>

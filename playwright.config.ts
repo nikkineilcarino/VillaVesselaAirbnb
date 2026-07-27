@@ -36,6 +36,18 @@ export default defineConfig({
       ...(process.env.NEXT_PUBLIC_MESSENGER_URL
         ? { NEXT_PUBLIC_MESSENGER_URL: process.env.NEXT_PUBLIC_MESSENGER_URL }
         : {}),
+      ...(process.env.NEXT_PUBLIC_GOOGLE_MAPS_URL
+        ? { NEXT_PUBLIC_GOOGLE_MAPS_URL: process.env.NEXT_PUBLIC_GOOGLE_MAPS_URL }
+        : {}),
+      ...(process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL
+        ? { NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL: process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL }
+        : {}),
+      ...(process.env.NEXT_PUBLIC_WAZE_URL
+        ? { NEXT_PUBLIC_WAZE_URL: process.env.NEXT_PUBLIC_WAZE_URL }
+        : {}),
+      ...(process.env.NEXT_PUBLIC_WAZE_EMBED_URL
+        ? { NEXT_PUBLIC_WAZE_EMBED_URL: process.env.NEXT_PUBLIC_WAZE_EMBED_URL }
+        : {}),
       NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL ?? baseURL,
     },
     reuseExistingServer: !process.env.CI,
