@@ -10,9 +10,9 @@
 
 The verified public-information website is complete, published from `main`, and safe to leave online without further configuration.
 
-- Release commit: [`01507a277de5cc1dcec2156071647b8a1fe0f842`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/commit/01507a277de5cc1dcec2156071647b8a1fe0f842)
-- GitHub Quality run: [`30241321921`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/actions/runs/30241321921), passed
-- Vercel production deployment: `dpl_6jfcvUFFYY2PETPfQmKDVdaVyyZr`, Ready and assigned to the canonical alias
+- Release commit: [`a65e85c14803c7fdc57f81aeaff09802087137e3`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/commit/a65e85c14803c7fdc57f81aeaff09802087137e3)
+- GitHub Quality run: [`30244162664`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/actions/runs/30244162664), passed
+- Vercel production deployment: `dpl_GwrZWVLt73pUQScxPGQu849dVc4N`, Ready and assigned to the canonical alias
 - Local verification: production audit clean; lint, strict types, 67 unit tests, production build, and 47 credential-independent Chromium tests passed; 2 credential-dependent administrator checks remained intentionally skipped
 - Hosted verification: 39 production Chromium checks passed; 12 public/system routes returned HTTP 200 with CSP, HSTS, and frame denial present
 - Production performance revalidation: two mobile Lighthouse runs scored 99 and two desktop runs scored 100; accessibility, best practices, and SEO scored 100 in all four runs

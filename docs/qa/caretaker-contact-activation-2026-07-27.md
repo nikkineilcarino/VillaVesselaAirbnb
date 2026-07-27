@@ -32,4 +32,13 @@ It does not infer WhatsApp availability and does not activate the pending owner 
 - Contact browser coverage: two exact `tel:` destinations, five disabled unapproved channels, disabled inquiry collection, no other unapproved external destination, mobile fit, and Axe checks passed.
 - Default/fail-closed focused Chromium suite: 9 passed with both caretaker variables absent and the original inactive telephone state retained.
 
-Production environment configuration, deployment, redacted live-value checks, and hosted browser results will be appended after the implementation commit is published.
+## Production release
+
+- Implementation commit: `a65e85c14803c7fdc57f81aeaff09802087137e3`.
+- GitHub Quality run `30244162664`: completed successfully with the secretless/fail-closed configuration.
+- Vercel Production configuration: exactly two encrypted caretaker telephone variables added; Vercel confirmed that both `NEXT_PUBLIC_` values are intentionally visitor-visible.
+- Vercel deployment `dpl_GwrZWVLt73pUQScxPGQu849dVc4N`: Ready and promoted to the canonical alias.
+- Redacted live contact check: HTTP 200; 2/2 exact source values matched; 2 telephone links; 2 named caretaker labels; 0 active WhatsApp links; inquiry mode remained disabled.
+- Hosted Playwright Chromium: 39/39 production checks passed, including contact destination, mobile, keyboard, metadata, security-header, and Axe coverage.
+- Route/header check: 12/12 public/system routes returned HTTP 200; CSP, HSTS, and frame denial remained present.
+- Repository scan after deployment: actual contact values remain absent from Git history and workspace files.
