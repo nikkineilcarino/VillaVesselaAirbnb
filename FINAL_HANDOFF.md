@@ -10,11 +10,11 @@
 
 The verified public-information website is complete, published from `main`, and safe to leave online without further configuration.
 
-- Release commit: [`a65e85c14803c7fdc57f81aeaff09802087137e3`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/commit/a65e85c14803c7fdc57f81aeaff09802087137e3)
-- GitHub Quality run: [`30244162664`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/actions/runs/30244162664), passed
-- Vercel production deployment: `dpl_GwrZWVLt73pUQScxPGQu849dVc4N`, Ready and assigned to the canonical alias
-- Local verification: production audit clean; lint, strict types, 67 unit tests, production build, and 47 credential-independent Chromium tests passed; 2 credential-dependent administrator checks remained intentionally skipped
-- Hosted verification: 39 production Chromium checks passed; 12 public/system routes returned HTTP 200 with CSP, HSTS, and frame denial present
+- Release commit: [`dc3641192093dc22c8bd838ea1137d607a050520`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/commit/dc3641192093dc22c8bd838ea1137d607a050520)
+- GitHub Quality run: [`30245237716`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/actions/runs/30245237716), passed
+- Vercel production deployment: `dpl_DHjL1jUWREcC33Cgb3rmgPwK4y7e`, Ready and assigned to the canonical alias
+- Local verification: production audit clean; lint, strict types, 67 unit tests, production build, 47 configured Chromium tests passed with 2 credential-dependent administrator checks intentionally skipped, and 31 focused fail-closed Chromium checks passed
+- Hosted verification: 39 production Chromium checks passed; 12 public/system routes returned HTTP 200 with CSP, HSTS, and frame denial present; exact link inspection found two Airbnb actions, one Facebook action, two approved caretaker telephone actions, and no unapproved actionable destination on Contact
 - Production performance revalidation: two mobile Lighthouse runs scored 99 and two desktop runs scored 100; accessibility, best practices, and SEO scored 100 in all four runs
 - GitHub maintenance snapshot: 0 open pull requests and 0 open non-PR issues
 

@@ -20,9 +20,16 @@ This approval does not activate Messenger, WhatsApp, Google Maps, owner telephon
 - Facebook becomes an active, correctly labelled Contact option.
 - Contact actions distinguish booking, social, and telephone behavior instead of reusing a telephone-only label.
 
-## Verification required for release
+## Verification
 
-- ESLint, strict TypeScript, 67 unit tests, production build, and the credential-independent Chromium suite.
-- Configured-mode checks for exact Airbnb/Facebook destinations, Contact labels, mobile focus order, accessibility, Privacy, and absence of unapproved external links.
-- Fail-closed checks with both new variables blank.
-- Vercel environment confirmation, Ready deployment, canonical-alias promotion, hosted browser checks, and route/security-header checks.
+- ESLint, strict TypeScript, and 67 unit tests passed.
+- The configured production build passed with the approved Airbnb/Facebook destinations and synthetic caretaker values.
+- Configured Chromium: 47 passed; 2 credential-dependent live administrator checks skipped as designed.
+- Focused fail-closed Chromium with all approved public destination variables blank: 31 passed.
+- GitHub implementation commit: `dc3641192093dc22c8bd838ea1137d607a050520`.
+- GitHub Quality run `30245237716`: completed successfully.
+- Vercel production deployment `dpl_DHjL1jUWREcC33Cgb3rmgPwK4y7e`: Ready and promoted to `https://villa-vessela-airbnb.vercel.app`.
+- Hosted Chromium: 39/39 production checks passed.
+- Route/header check: 12/12 public/system routes returned HTTP 200; CSP, HSTS, and frame denial were present.
+- Contact action check: two Airbnb actions, one Facebook action, and two source-matched caretaker telephone actions; zero unapproved actionable external destinations.
+- WhatsApp and email remained inactive, and website inquiries remained disabled.
