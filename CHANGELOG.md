@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-07-27 — Final production performance revalidation
+
+- Revalidated the canonical production homepage with two mobile and two desktop Lighthouse 12.8.2 runs after the dependency releases.
+- Recorded repeatable 99 mobile and 100 desktop performance scores, with 100 accessibility, best-practices, and SEO scores in all four lab runs; no runtime change was required.
+
 ## 2026-07-27 — Dependency maintenance and continuous integration
 
 - Patched the compatible modern `brace-expansion` branch to 5.0.8 while retaining the legacy ESLint branch until its parents publish an API-compatible fix.

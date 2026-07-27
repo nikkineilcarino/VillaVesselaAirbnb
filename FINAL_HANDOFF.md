@@ -15,6 +15,7 @@ The verified public-information website is complete, published from `main`, and 
 - Vercel production deployment: `dpl_6jfcvUFFYY2PETPfQmKDVdaVyyZr`, Ready and assigned to the canonical alias
 - Local verification: production audit clean; lint, strict types, 67 unit tests, production build, and 47 credential-independent Chromium tests passed; 2 credential-dependent administrator checks remained intentionally skipped
 - Hosted verification: 39 production Chromium checks passed; 12 public/system routes returned HTTP 200 with CSP, HSTS, and frame denial present
+- Production performance revalidation: two mobile Lighthouse runs scored 99 and two desktop runs scored 100; accessibility, best practices, and SEO scored 100 in all four runs
 - GitHub maintenance snapshot: 0 open pull requests and 0 open non-PR issues
 
 Thirty-seven approved photographs are published. The passenger-boat photograph remains excluded because it contains recognizable people and a vessel identifier. Private caretaker contact values are not published or repeated in the repository.
