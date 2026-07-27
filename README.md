@@ -21,7 +21,7 @@ Phase 12 public release is complete. The source is published on [GitHub](https:/
 - Zod for server-side validation
 - Recharts for the protected analytics dashboard
 - Lucide React 1.27.0 for supporting interface icons
-- Playwright 1.61.1, Axe Playwright 4.12.1, and Vitest 4.1.10
+- Playwright 1.62.0, Axe Playwright 4.12.1, and Vitest 4.1.10
 - ESLint 9.39.5, TypeScript checks, and production-build validation
 - Vercel for application hosting
 
