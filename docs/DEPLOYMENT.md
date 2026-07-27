@@ -8,8 +8,8 @@
 - Vercel project: `villa-vessela-airbnb`
 - Production alias: `https://villa-vessela-airbnb.vercel.app`
 - Application framework: Next.js App Router
-- Application release commit: `8275f9840d3bc306bddf2d7bfd697d69da776be7`
-- Production deployment: `dpl_2GNFhHcpounFYihPng2hDvSYE7Hi` (Ready)
+- Application release commit: `0be4519722583aa136112af18cbdd171c4f3e261`
+- Production deployment: `dpl_EZua3dGkMF73dmdTKWfbsFeZJSCL` (Ready)
 - Database/authentication provider when activated: Supabase
 
 The public information site is intentionally usable without Supabase. Administrator login, stored analytics, inquiries, dashboard data, and exports remain unavailable until an approved Supabase project is configured and the live authorization checks below pass.
@@ -17,6 +17,8 @@ The public information site is intentionally usable without Supabase. Administra
 The initial production environment contains exactly `NEXT_PUBLIC_SITE_URL=https://villa-vessela-airbnb.vercel.app`, `ANALYTICS_ENABLED=false`, and `CONTACT_INQUIRY_ENABLED=false`. No Supabase or test credential is configured.
 
 After explicit owner approval on 2026-07-27, production may also contain `NEXT_PUBLIC_CARETAKER_NIDA_PHONE` and `NEXT_PUBLIC_CARETAKER_EVELYN_PHONE`. Their values are intentionally omitted from Git and deployment documentation. This approval covers public telephone links only and does not establish WhatsApp availability.
+
+The same approval cycle added four public Google Maps/Waze navigation and embed variables for one verified property pin. Their values remain environment-configured so a correction can replace all providers together. The hosted embeds require no project-owned API key or billing credential.
 
 ## Pre-release gate
 
