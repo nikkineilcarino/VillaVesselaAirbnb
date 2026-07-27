@@ -85,7 +85,9 @@ export const contactChannels: readonly ContactChannel[] = [
     id: "messenger",
     key: "messenger",
     label: "Messenger",
-    note: "Complete Messenger destination awaiting confirmation",
+    note: siteConfig.booking.messengerUrl
+      ? "Owner-approved Messenger conversation"
+      : "Complete Messenger destination awaiting confirmation",
   },
   {
     actionLabel: "Open WhatsApp",

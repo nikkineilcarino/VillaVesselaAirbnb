@@ -33,6 +33,9 @@ export default defineConfig({
       ...(process.env.NEXT_PUBLIC_FACEBOOK_URL
         ? { NEXT_PUBLIC_FACEBOOK_URL: process.env.NEXT_PUBLIC_FACEBOOK_URL }
         : {}),
+      ...(process.env.NEXT_PUBLIC_MESSENGER_URL
+        ? { NEXT_PUBLIC_MESSENGER_URL: process.env.NEXT_PUBLIC_MESSENGER_URL }
+        : {}),
       NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL ?? baseURL,
     },
     reuseExistingServer: !process.env.CI,

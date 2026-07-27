@@ -278,3 +278,12 @@
 - **Reason:** one validated configuration boundary activates every intended booking button consistently, avoids a transient tracking identifier, and keeps unrelated channels independently disabled.
 - **Consequences:** Airbnb links are available throughout the public site and Facebook is available on Contact. Both are intentionally public. Revocation or replacement requires changing the applicable Vercel value and redeploying; Messenger and WhatsApp are not inferred from Facebook or caretaker telephone approval.
 - **Date:** 2026-07-27
+
+## Decision 032 — Activate Messenger without treating contact approval as review approval
+
+- **Context:** The owner supplied a complete Messenger conversation URL after the Facebook page was activated. The Reviews page separately reserves empty positions for future approved Messenger feedback.
+- **Options considered:** keep the conversation inactive; activate it as both contact and review evidence; infer WhatsApp availability; activate only the exact Contact destination.
+- **Selected approach:** configure `NEXT_PUBLIC_MESSENGER_URL`, label the active Contact card as an owner-approved conversation, allowlist only the exact URL under the `messenger` type, and leave all review placeholders unchanged.
+- **Reason:** contact-channel approval establishes a way to communicate but supplies no publishable guest feedback, screenshot, WhatsApp number, or broader social permission.
+- **Consequences:** Messenger is active only on Contact and remains independently removable through environment configuration. Messenger review content, WhatsApp, maps, owner email/telephone, analytics, and inquiries remain inactive until separately supplied and approved.
+- **Date:** 2026-07-27

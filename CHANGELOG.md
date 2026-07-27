@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-07-27 — Approved Messenger destination
+
+- Activated the owner-supplied Messenger conversation through the existing validated public destination boundary.
+- Updated the Contact card and configured/fail-closed browser assertions without treating the conversation link as review content.
+- Kept WhatsApp, map, email, owner telephone, analytics, and inquiry submission inactive.
+
 ## 2026-07-27 — Approved Airbnb and Facebook destinations
 
 - Activated the owner-supplied Airbnb listing and Facebook page through validated public Vercel configuration.

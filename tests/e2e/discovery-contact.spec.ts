@@ -5,6 +5,7 @@ import {
   configuredAirbnbUrl,
   configuredCaretakerPhones,
   configuredFacebookUrl,
+  configuredMessengerUrl,
 } from "./configured-destinations";
 
 const testOrigin = new URL(
@@ -154,7 +155,10 @@ test("contact channels expose only approved destinations while inquiries remain 
 
   const totalChannelCount = 5 + Math.max(1, configuredCaretakerPhones.length);
   const activeChannelCount =
-    configuredCaretakerPhones.length + Number(Boolean(configuredAirbnbUrl)) + Number(Boolean(configuredFacebookUrl));
+    configuredCaretakerPhones.length +
+    Number(Boolean(configuredAirbnbUrl)) +
+    Number(Boolean(configuredFacebookUrl)) +
+    Number(Boolean(configuredMessengerUrl));
   const pendingChannelCount = totalChannelCount - activeChannelCount;
   await expect(page.getByRole("button", { name: /destination awaiting confirmation/ })).toHaveCount(
     pendingChannelCount,
@@ -183,6 +187,11 @@ test("contact channels expose only approved destinations while inquiries remain 
     await expect(page.getByText("Visit Facebook page", { exact: true })).toBeVisible();
   }
 
+  if (configuredMessengerUrl) {
+    await expect(page.locator(`a[href="${configuredMessengerUrl}"]`)).toHaveCount(1);
+    await expect(page.getByText("Open Messenger", { exact: true })).toBeVisible();
+  }
+
   const form = page.getByRole("form");
   expect(await form.getAttribute("action")).toBeNull();
   await expect(form.locator("fieldset")).toHaveAttribute("disabled", "");
@@ -206,7 +215,11 @@ test("Phase 5 routes expose only configured external destinations", async ({ pag
 
     const allowedDestinations = [configuredAirbnbUrl];
     if (route.path === "/contact") {
-      allowedDestinations.push(configuredFacebookUrl, ...configuredCaretakerPhones);
+      allowedDestinations.push(
+        configuredFacebookUrl,
+        configuredMessengerUrl,
+        ...configuredCaretakerPhones,
+      );
     }
 
     const activeAllowedDestinations = allowedDestinations.filter(

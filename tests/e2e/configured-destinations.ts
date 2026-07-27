@@ -24,6 +24,10 @@ export const configuredFacebookUrl = normalizeConfiguredHttpsUrl(
   process.env.NEXT_PUBLIC_FACEBOOK_URL,
 );
 
+export const configuredMessengerUrl = normalizeConfiguredHttpsUrl(
+  process.env.NEXT_PUBLIC_MESSENGER_URL,
+);
+
 export const configuredCaretakerPhones = [
   normalizeConfiguredPhone(process.env.NEXT_PUBLIC_CARETAKER_NIDA_PHONE),
   normalizeConfiguredPhone(process.env.NEXT_PUBLIC_CARETAKER_EVELYN_PHONE),
