@@ -14,18 +14,18 @@ Phase 12 public release is complete. The source is published on [GitHub](https:/
 
 ## Technology stack
 
-- Next.js App Router 16.2.11 and React 19.2.8
+- Next.js App Router 16.2.12 and React 19.2.8
 - TypeScript 6.0.3 in strict mode
 - Tailwind CSS 4.3.3 with project-owned semantic design tokens
 - Supabase PostgreSQL, Authentication, and Row Level Security
 - Zod for server-side validation
 - Recharts for the protected analytics dashboard
-- Lucide React 1.25.0 for supporting interface icons
+- Lucide React 1.27.0 for supporting interface icons
 - Playwright 1.61.1, Axe Playwright 4.12.1, and Vitest 4.1.10
 - ESLint 9.39.5, TypeScript checks, and production-build validation
 - Vercel for application hosting
 
-Lucide React, Axe Playwright, typed Supabase browser/server clients, the local Supabase CLI, Zod, Recharts 3.10.0, and matching React Is 19.2.8 are installed for their implemented phases. Exact installed versions are locked in `package-lock.json`. PostCSS, Sharp, and the compatible 5.x `brace-expansion` branch use documented security overrides until their parent packages update their transitive dependencies; see `DECISIONS.md`.
+Lucide React, Axe Playwright, typed Supabase browser/server clients, the local Supabase CLI, Zod, Recharts 3.10.1, and matching React Is 19.2.8 are installed for their implemented phases. Exact installed versions are locked in `package-lock.json`. PostCSS, Sharp, and the compatible 5.x `brace-expansion` branch use documented security overrides until their parent packages update their transitive dependencies; see `DECISIONS.md`.
 
 ## Planned features
 
