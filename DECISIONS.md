@@ -260,3 +260,12 @@
 - **Reason:** compatible updates become visible and exercise the complete CI gate without allowing automation to silently cross major API or peer-dependency boundaries. Dependabot's SemVer update-type filter applies only to version updates, so security updates remain eligible even when a patched resolution requires a new major.
 - **Consequences:** no Dependabot pull request is trusted or merged automatically. Each must preserve exact lockfile integrity and pass audit, lint, types, unit tests, build, and credential-independent browser tests; incompatible groups must be split, closed, or deferred with the reason recorded.
 - **Date:** 2026-07-27
+
+## Decision 030 — Publish approved caretaker telephones through environment-only configuration
+
+- **Context:** The source package contains two named caretaker telephone numbers but classifies them as internal and hidden by default. On 2026-07-27, the owner explicitly approved their public use after the privacy boundary was restated. The package does not establish that either number is available on WhatsApp.
+- **Options considered:** keep both contacts hidden; commit the values into source data; map one number to the owner-phone slot and guess that the other is WhatsApp; add two separately named, validated public telephone environment slots.
+- **Selected approach:** add `NEXT_PUBLIC_CARETAKER_NIDA_PHONE` and `NEXT_PUBLIC_CARETAKER_EVELYN_PHONE`, normalize each to a `tel:` destination, display each under its source-package name only when valid, and allowlist both under the existing aggregate `phone` analytics type. Keep their actual values out of Git, logs, QA reports, and documentation.
+- **Reason:** the implementation follows the explicit approval without inventing channel availability, preserves named contact context, retains fail-closed rendering, and avoids storing public-but-personal values permanently in repository history.
+- **Consequences:** configured values are intentionally browser-visible and callable by any visitor. Approval covers telephone display only; it does not approve WhatsApp, an owner telephone, email, social account, or other caretaker detail. Revocation requires removing the applicable Vercel environment variable and redeploying. Contact/privacy, allowlist, accessibility, source/build-value, and production checks are required for every change.
+- **Date:** 2026-07-27

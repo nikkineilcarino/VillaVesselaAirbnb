@@ -62,7 +62,7 @@ Run lint, strict typecheck, focused tests, Playwright route/accessibility/metada
 
 ## Security and privacy
 
-Errors shown to visitors must be non-revealing. Public pages must not expose caretaker contacts, incomplete destinations, database identifiers, visitor IDs, or configuration secrets. Admin authorization is enforced by the proxy/session boundary, protected server layout, repeated export authorization, and database RLS-aware reads/updates. Inquiry exports contain voluntary personal data and must remain private.
+Errors shown to visitors must be non-revealing. Public pages may expose only explicitly approved, validated contacts; they must not expose incomplete destinations, database identifiers, visitor IDs, or configuration secrets. Admin authorization is enforced by the proxy/session boundary, protected server layout, repeated export authorization, and database RLS-aware reads/updates. Inquiry exports contain voluntary personal data and must remain private.
 
 ## Files requiring careful review
 

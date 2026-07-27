@@ -52,8 +52,10 @@ The website already has disabled configuration slots for future public destinati
 | WhatsApp | `NEXT_PUBLIC_WHATSAPP_NUMBER` |
 | Public email | `NEXT_PUBLIC_CONTACT_EMAIL` |
 | Public telephone | `NEXT_PUBLIC_CONTACT_PHONE` |
+| Nida caretaker telephone | `NEXT_PUBLIC_CARETAKER_NIDA_PHONE` |
+| Evelyn caretaker telephone | `NEXT_PUBLIC_CARETAKER_EVELYN_PHONE` |
 
-These are intentionally public values. Never use private caretaker details, passwords, API keys, or incomplete links. HTTPS destinations, email syntax, and international phone digits are validated automatically; blank or malformed values remain inactive.
+These are intentionally public values. The owner explicitly approved the two named caretaker telephone contacts on 2026-07-27; that approval does not establish WhatsApp availability or approve other private details. Keep the actual numbers out of committed files. Never use passwords, API keys, or incomplete links. HTTPS destinations, email syntax, and international phone digits are validated automatically; blank or malformed values remain inactive.
 
 ## Business facts to confirm later
 

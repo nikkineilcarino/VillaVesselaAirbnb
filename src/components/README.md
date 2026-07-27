@@ -33,7 +33,7 @@ Keep components semantic, keyboard accessible, and focused on one responsibility
 ## Restrictions
 
 - Do not fetch privileged data from generic presentation components.
-- Do not embed unconfirmed property facts, contact details, or destination URLs.
+- Do not embed unconfirmed property facts, unapproved contact details, or destination URLs.
 - Do not mark a whole component tree as client-side for one small interaction.
 - Do not add decorative motion without reduced-motion behavior.
 
@@ -47,7 +47,7 @@ Use unit tests for behavior and variant logic, Playwright for browser interactio
 
 ## Security and privacy
 
-Components must not render secrets, internal database IDs, raw analytics identifiers, or private caretaker details. External-link components introduced later must accept only configured destinations and must not block navigation when tracking fails.
+Components must not render secrets, internal database IDs, raw analytics identifiers, or unapproved caretaker details. External-link components must accept only configured destinations and must not block navigation when tracking fails.
 
 ## Files requiring careful review
 

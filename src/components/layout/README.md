@@ -36,7 +36,7 @@ Run Playwright at desktop and mobile sizes, including dialog focus order, Escape
 
 ## Security and privacy
 
-The footer and menu must never expose private caretaker details or unverified owner contacts. Disabled URLs remain non-links so analytics and navigation cannot receive arbitrary destinations.
+The footer and menu must never expose unapproved caretaker details or unverified owner contacts. Disabled URLs remain non-links so analytics and navigation cannot receive arbitrary destinations.
 
 ## Files requiring careful review
 

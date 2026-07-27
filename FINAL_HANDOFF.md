@@ -24,7 +24,7 @@ Thirty-seven approved photographs are published. The passenger-boat photograph r
 
 These are deliberate release boundaries, not broken features:
 
-- Airbnb, Facebook, Messenger, Google Maps, WhatsApp, public email, and public telephone destinations remain inactive until exact owner-approved values are supplied.
+- Two named caretaker telephone contacts are explicitly approved and can be active through validated Vercel environment values. Airbnb, Facebook, Messenger, Google Maps, WhatsApp, public email, and owner-telephone destinations remain inactive until exact owner-approved values are supplied.
 - Blue Kubo, Green Kubo, and confirmed parking retain visible photo slots. A higher-resolution front-of-villa hero remains recommended.
 - Analytics storage and contact inquiries are disabled in production.
 - No Supabase or test credential is configured. Administrator routes deny unauthenticated access and the public login reveals no configuration details.
@@ -40,7 +40,7 @@ These are deliberate release boundaries, not broken features:
 | Parking photo | Original image, confirmation that it is the guest area, current arrangement | Reserved gallery record in `src/data/gallery.ts` |
 | Improved hero | Preferably an original image at least 1600 px wide | Existing hero image configuration |
 | Booking/social/map links | Complete HTTPS destination and explicit approval to publish | Validated `NEXT_PUBLIC_*` Vercel variables |
-| Public phone/email | Complete value and explicit approval to publish | Validated public-contact variables |
+| Owner phone/email | Complete value and explicit approval to publish | Validated public-contact variables |
 | Rates, fees, and property facts | A decision for the matching unchecked item | `CONTENT_TODO.md` and typed `src/data/` modules |
 | Messenger reviews | Approved excerpt or redacted screenshot plus attribution permission | Three empty review reservations |
 | Custom domain | Final HTTPS origin and DNS access | Canonical environment setting and deployment runbook |

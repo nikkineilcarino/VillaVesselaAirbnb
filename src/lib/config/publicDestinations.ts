@@ -2,6 +2,8 @@ import type { ExternalLinkType } from "@/types/analytics";
 
 export type PublicDestinationEnvironment = {
   airbnbUrl?: null | string;
+  caretakerEvelynPhone?: null | string;
+  caretakerNidaPhone?: null | string;
   contactEmail?: null | string;
   contactPhone?: null | string;
   facebookUrl?: null | string;
@@ -13,6 +15,8 @@ export type PublicDestinationEnvironment = {
 
 export type PublicDestinationConfig = {
   airbnb: null | string;
+  caretakerEvelynPhone: null | string;
+  caretakerNidaPhone: null | string;
   email: null | string;
   facebook: null | string;
   googleMaps: null | string;
@@ -71,11 +75,23 @@ function normalizeInternationalDigits(value: null | string | undefined) {
 export function createPublicDestinationConfig(
   environment: PublicDestinationEnvironment,
 ): PublicDestinationConfig {
+  const caretakerEvelynPhoneDigits = normalizeInternationalDigits(
+    environment.caretakerEvelynPhone,
+  );
+  const caretakerNidaPhoneDigits = normalizeInternationalDigits(
+    environment.caretakerNidaPhone,
+  );
   const phoneDigits = normalizeInternationalDigits(environment.contactPhone);
   const whatsappDigits = normalizeInternationalDigits(environment.whatsappNumber);
 
   return {
     airbnb: normalizeHttpsUrl(environment.airbnbUrl),
+    caretakerEvelynPhone: caretakerEvelynPhoneDigits
+      ? `tel:+${caretakerEvelynPhoneDigits}`
+      : null,
+    caretakerNidaPhone: caretakerNidaPhoneDigits
+      ? `tel:+${caretakerNidaPhoneDigits}`
+      : null,
     email: normalizeEmail(environment.contactEmail),
     facebook: normalizeHttpsUrl(environment.facebookUrl),
     googleMaps: normalizeHttpsUrl(environment.googleMapsUrl),
@@ -88,6 +104,8 @@ export function createPublicDestinationConfig(
 
 export const publicDestinations = createPublicDestinationConfig({
   airbnbUrl: process.env.NEXT_PUBLIC_AIRBNB_URL,
+  caretakerEvelynPhone: process.env.NEXT_PUBLIC_CARETAKER_EVELYN_PHONE,
+  caretakerNidaPhone: process.env.NEXT_PUBLIC_CARETAKER_NIDA_PHONE,
   contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL,
   contactPhone: process.env.NEXT_PUBLIC_CONTACT_PHONE,
   facebookUrl: process.env.NEXT_PUBLIC_FACEBOOK_URL,
@@ -97,13 +115,30 @@ export const publicDestinations = createPublicDestinationConfig({
   whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER,
 });
 
-export function getApprovedExternalDestination(linkType: ExternalLinkType) {
-  if (linkType === "google_maps") return publicDestinations.googleMaps;
-  if (linkType === "other") return null;
+export function getApprovedExternalDestinations(
+  linkType: ExternalLinkType,
+  config: PublicDestinationConfig = publicDestinations,
+) {
+  if (linkType === "google_maps") return config.googleMaps ? [config.googleMaps] : [];
+  if (linkType === "other") return [];
+  if (linkType === "phone") {
+    return [config.phone, config.caretakerNidaPhone, config.caretakerEvelynPhone].filter(
+      (destination): destination is string => Boolean(destination),
+    );
+  }
 
-  return publicDestinations[linkType];
+  const destination = config[linkType];
+  return destination ? [destination] : [];
 }
 
-export function isApprovedExternalDestination(linkType: ExternalLinkType, destination: string) {
-  return getApprovedExternalDestination(linkType) === destination;
+export function getApprovedExternalDestination(linkType: ExternalLinkType) {
+  return getApprovedExternalDestinations(linkType)[0] ?? null;
+}
+
+export function isApprovedExternalDestination(
+  linkType: ExternalLinkType,
+  destination: string,
+  config: PublicDestinationConfig = publicDestinations,
+) {
+  return getApprovedExternalDestinations(linkType, config).includes(destination);
 }

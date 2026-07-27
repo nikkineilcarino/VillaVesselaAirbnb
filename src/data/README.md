@@ -31,13 +31,13 @@ Represent unknown values explicitly with `null`, a disabled state, or an `upcomi
 ## Restrictions
 
 - Do not invent URLs, prices, capacities, inclusions, reviews, or contact permissions.
-- Do not copy caretaker phone numbers into public data.
+- Do not copy approved caretaker phone values into public data or Git history; reference only validated public environment configuration.
 - Do not duplicate canonical facts across data files.
 - Do not put secrets or server-only credentials here; this directory can enter browser bundles.
 
 ## Environment variables
 
-Data modules do not read environment variables directly. `src/lib/config/publicDestinations.ts` normalizes the eight public destination variables and supplies typed `null` fallback states.
+Data modules do not read environment variables directly. `src/lib/config/publicDestinations.ts` normalizes the public destination variables, including the two separately approved caretaker telephone slots, and supplies typed `null` fallback states.
 
 ## Testing
 

@@ -16,6 +16,8 @@ The public information site is intentionally usable without Supabase. Administra
 
 The initial production environment contains exactly `NEXT_PUBLIC_SITE_URL=https://villa-vessela-airbnb.vercel.app`, `ANALYTICS_ENABLED=false`, and `CONTACT_INQUIRY_ENABLED=false`. No Supabase or test credential is configured.
 
+After explicit owner approval on 2026-07-27, production may also contain `NEXT_PUBLIC_CARETAKER_NIDA_PHONE` and `NEXT_PUBLIC_CARETAKER_EVELYN_PHONE`. Their values are intentionally omitted from Git and deployment documentation. This approval covers public telephone links only and does not establish WhatsApp availability.
+
 ## Pre-release gate
 
 Run from a clean checkout:

@@ -14,7 +14,7 @@ Phase 5 interim state: all six planned contact channels and both map destination
 - [ ] Confirm the complete WhatsApp number with country code and permission to publish it.
 - [ ] Confirm the public owner email address and permission to publish it.
 - [ ] Confirm whether an owner telephone number should be public and obtain the approved number.
-- [ ] Confirm whether caretaker contact numbers may be public, shared only after booking, or never public. Default: `showCaretakerContactsPublicly: false`.
+- [x] Owner approved Nida and Evelyn's caretaker telephone contacts for public display on 2026-07-27. Values remain environment-configured and absent from Git; WhatsApp availability was not inferred.
 
 ## Rates, fees, capacity, and inclusions
 
@@ -99,7 +99,7 @@ Phase 12 release state: the public site is deployed at `https://villa-vessela-ai
 - Do not claim consistently strong water pressure.
 - Do not claim the kubos or beach cottage are included until confirmed.
 - Do not activate incomplete external contact or booking links.
-- Do not display caretaker numbers by default.
+- Display caretaker telephone contacts only when their separately approved public environment values validate; do not infer WhatsApp or publish other private details.
 - Do not fabricate Facebook reviews or present old tour prices as current.
 - Do not use unrelated stock photographs as though they depict Villa Vessela.
 - Do not state or imply that Airbnb endorses the independent website.

@@ -5,6 +5,16 @@ const testOrigin = new URL(
   process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000",
 ).origin;
 
+function normalizeConfiguredPhone(value: string | undefined) {
+  const digits = value?.replace(/\D/g, "");
+  return digits && /^[1-9]\d{7,14}$/.test(digits) ? `tel:+${digits}` : null;
+}
+
+const configuredCaretakerPhones = [
+  normalizeConfiguredPhone(process.env.NEXT_PUBLIC_CARETAKER_NIDA_PHONE),
+  normalizeConfiguredPhone(process.env.NEXT_PUBLIC_CARETAKER_EVELYN_PHONE),
+].filter((destination): destination is string => Boolean(destination));
+
 const phaseFiveRoutes = [
   {
     heading: "A closer look at Villa Vessela",
@@ -22,7 +32,7 @@ const phaseFiveRoutes = [
     path: "/location",
   },
   {
-    heading: "Choose a verified channel when one becomes available",
+    heading: "Choose a verified contact channel",
     label: "Contact",
     path: "/contact",
   },
@@ -134,12 +144,27 @@ test("location keeps the map disabled and copies only the confirmed address", as
   expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(address);
 });
 
-test("contact channels and inquiry shell remain safely disabled", async ({ page }) => {
+test("contact channels expose only approved caretaker telephones while inquiries remain disabled", async ({
+  page,
+}) => {
   await page.goto("/contact");
 
-  await expect(page.getByRole("button", { name: /destination awaiting confirmation/ })).toHaveCount(6);
+  const pendingChannelCount = configuredCaretakerPhones.length ? 5 : 6;
+  await expect(page.getByRole("button", { name: /destination awaiting confirmation/ })).toHaveCount(
+    pendingChannelCount,
+  );
   for (const button of await page.getByRole("button", { name: /destination awaiting confirmation/ }).all()) {
     await expect(button).toBeDisabled();
+  }
+
+  const caretakerLinks = page.locator('a[href^="tel:"]');
+  if (configuredCaretakerPhones.length) {
+    await expect(caretakerLinks).toHaveCount(configuredCaretakerPhones.length);
+    expect((await caretakerLinks.evaluateAll((links) => links.map((link) => link.getAttribute("href")))).sort()).toEqual(
+      [...configuredCaretakerPhones].sort(),
+    );
+  } else {
+    await expect(caretakerLinks).toHaveCount(0);
   }
 
   const form = page.getByRole("form");
@@ -158,7 +183,16 @@ test("contact channels and inquiry shell remain safely disabled", async ({ page 
 test("Phase 5 routes expose no unverified external destination", async ({ page }) => {
   for (const route of phaseFiveRoutes) {
     await page.goto(route.path);
-    await expect(page.locator('a[href^="http"], a[href^="tel:"], a[href^="mailto:"]')).toHaveCount(0);
+    const externalLinks = page.locator('a[href^="http"], a[href^="tel:"], a[href^="mailto:"]');
+    const destinations = await externalLinks.evaluateAll((links) =>
+      links.map((link) => link.getAttribute("href") ?? ""),
+    );
+
+    if (route.path === "/contact") {
+      expect(destinations.sort()).toEqual([...configuredCaretakerPhones].sort());
+    } else {
+      expect(destinations).toEqual([]);
+    }
     await expect(page.getByRole("button", { name: /Book on Airbnb/ })).toBeDisabled();
   }
 });

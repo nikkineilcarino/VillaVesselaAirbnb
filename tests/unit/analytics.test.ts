@@ -20,7 +20,10 @@ import {
   isSameOriginAnalyticsRequest,
   readBoundedAnalyticsJson,
 } from "@/lib/analytics/request";
-import { createPublicDestinationConfig } from "@/lib/config/publicDestinations";
+import {
+  createPublicDestinationConfig,
+  isApprovedExternalDestination,
+} from "@/lib/config/publicDestinations";
 import {
   parseLinkClickPayloadWithApproval,
   parsePageViewPayload,
@@ -82,6 +85,8 @@ describe("Phase 8 analytics privacy and validation", () => {
   it("normalizes only safe configured public destinations", () => {
     const config = createPublicDestinationConfig({
       airbnbUrl: " https://www.airbnb.example/listing/123 ",
+      caretakerEvelynPhone: "+63 900 000 0002",
+      caretakerNidaPhone: "+63 900 000 0001",
       contactEmail: "Host@Example.invalid",
       contactPhone: "+63 (900) 000-0000",
       facebookUrl: "http://facebook.example/page",
@@ -91,12 +96,17 @@ describe("Phase 8 analytics privacy and validation", () => {
     });
 
     expect(config.airbnb).toBe("https://www.airbnb.example/listing/123");
+    expect(config.caretakerEvelynPhone).toBe("tel:+639000000002");
+    expect(config.caretakerNidaPhone).toBe("tel:+639000000001");
     expect(config.email).toBe("mailto:host@example.invalid");
     expect(config.phone).toBe("tel:+639000000000");
     expect(config.whatsapp).toBe("https://wa.me/639000000000");
     expect(config.googleMaps).toBe("https://maps.example/place?id=123");
     expect(config.facebook).toBeNull();
     expect(config.messenger).toBeNull();
+    expect(isApprovedExternalDestination("phone", "tel:+639000000001", config)).toBe(true);
+    expect(isApprovedExternalDestination("phone", "tel:+639000000002", config)).toBe(true);
+    expect(isApprovedExternalDestination("phone", "tel:+639000000003", config)).toBe(false);
   });
 
   it("accepts a minimized page view and rejects extra/admin fields", () => {

@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-07-27 — Approved caretaker telephone contacts
+
+- Added two separately validated, named caretaker telephone slots after explicit owner approval, without committing either value to Git.
+- Kept WhatsApp, owner telephone/email, booking, social, and map destinations inactive until their own complete values and permissions are supplied.
+- Extended telephone click allowlisting and contact-page regression coverage for multiple approved phone destinations.
+
 ## 2026-07-27 — Final production performance revalidation
 
 - Revalidated the canonical production homepage with two mobile and two desktop Lighthouse 12.8.2 runs after the dependency releases.
