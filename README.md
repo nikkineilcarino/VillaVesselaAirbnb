@@ -98,6 +98,8 @@ The committed `.env.example` documents the current environment contract:
 
 Command results must be recorded in the relevant file under `docs/qa/`. A command that cannot run is marked blocked, never passed.
 
+The read-only [GitHub Actions quality workflow](.github/workflows/quality.yml) repeats the locked install, production dependency audit, lint, strict type check, 67 unit tests, production build, and credential-independent Chromium suite on every push and pull request to `main`. It receives no Supabase, administrator, production, or private-contact secret; the two live administrator tests therefore remain explicitly skipped rather than passed.
+
 ## Database and administrator setup
 
 The database layer supplies local Supabase configuration, seven versioned migrations, synthetic seed, typed schema/client factories, and detailed setup in `supabase/README.md`. Migration `007` adds the authenticated, `SECURITY INVOKER` dashboard functions and must be applied before `/admin/dashboard` can load data. Start Docker Desktop, run `npm run db:start`, then `npm run db:reset` and `npm run db:lint`. No administrator identity is seeded. Create an Auth user only through an approved administrative path, then provision its matching `admin_profiles` row through trusted SQL/service access as documented in `src/lib/auth/README.md` and `supabase/README.md`. Authentication alone never grants administration, signup remains disabled, and no password or project credential belongs in source.
@@ -117,6 +119,7 @@ Production is deployed through the `villa-vessela-airbnb` project in the `nikkin
 - `supabase/` — ordered SQL migrations, local configuration, synthetic seed data, RLS/policy guidance, and blocked-live-test instructions
 - `tests/` — Vitest utility/database/auth/analytics/dashboard/inquiry/CSV/SEO coverage and Playwright public, administrator, analytics, inquiry-mode, metadata, privacy, security-header, interaction, responsive, and accessibility checks
 - `docs/qa/` — phase-specific, evidence-based QA reports
+- `.github/workflows/` — read-only continuous-integration quality gate for pushes and pull requests
 - `OWNER_UPDATE_GUIDE.md` — owner-facing instructions for filling reserved photo, destination, contact, and business-information slots later
 
 ## Known limitations

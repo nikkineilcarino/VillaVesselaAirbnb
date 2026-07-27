@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-07-27 — Dependency maintenance and continuous integration
+
+- Patched the compatible modern `brace-expansion` branch to 5.0.8 while retaining the legacy ESLint branch until its parents publish an API-compatible fix.
+- Recorded the one underlying development-only denial-of-service advisory accurately; the production dependency audit remains at zero findings.
+- Added a read-only, secretless GitHub Actions workflow for locked installation, production audit, lint, strict types, 67 unit tests, production build, and credential-independent Chromium tests.
+- Pinned GitHub-owned actions to immutable release commit SHAs, disabled checkout credential persistence, and limited the workflow token to repository-content reads.
+
 ## 2026-07-23 — Phase 12 public release and deployment
 
 ### Release

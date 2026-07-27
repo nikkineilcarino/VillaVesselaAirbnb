@@ -242,3 +242,12 @@
 - **Reason:** `brace-expansion` 5.0.8 is API-compatible with the modern `minimatch` 10 branch. It changes the CommonJS export from a callable function to a named `expand` export, however, while installed `minimatch` 3 calls the dependency itself as a function; forcing the patched version onto that legacy branch breaks ESLint. The remaining affected code is installed only for development and receives no visitor-controlled patterns in the repository's fixed `eslint .` workflow.
 - **Consequences:** the full development audit intentionally remains nonzero and must not be described as passing. Reassess when ESLint/Next lint plugins publish a peer-compatible dependency path to patched `brace-expansion`, and rerun tree validation, lint, types, tests, build, and both audit scopes before accepting it.
 - **Date:** 2026-07-27
+
+## Decision 028 — Run a secretless, read-only continuous-integration gate
+
+- **Context:** Local and release checks are comprehensive, but the repository had no automated verification on future pushes or pull requests. Database-backed acceptance tests still require approved non-production infrastructure and dedicated identities that have not been supplied.
+- **Options considered:** keep verification manual; give CI production/test credentials; run only fast static checks; automate every credential-independent gate with no secrets.
+- **Selected approach:** run one GitHub-hosted Node 22 job for locked installation, production dependency audit, lint, strict types, unit tests, production build, and Chromium checks on pushes and pull requests to `main`. Pin GitHub-owned actions to immutable release commits, disable persisted checkout credentials, and grant only `contents: read`.
+- **Reason:** future changes receive the same reproducible application gate without exposing Supabase keys, administrator accounts, private contacts, or deployment authority to pull-request code.
+- **Consequences:** two live administrator tests and all live database/RLS/insertion/retention checks remain skipped or blocked, not passed. CI failure prevents no merge by itself until the repository owner enables branch protection and marks the workflow as a required check.
+- **Date:** 2026-07-27
