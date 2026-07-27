@@ -269,3 +269,12 @@
 - **Reason:** the implementation follows the explicit approval without inventing channel availability, preserves named contact context, retains fail-closed rendering, and avoids storing public-but-personal values permanently in repository history.
 - **Consequences:** configured values are intentionally browser-visible and callable by any visitor. Approval covers telephone display only; it does not approve WhatsApp, an owner telephone, email, social account, or other caretaker detail. Revocation requires removing the applicable Vercel environment variable and redeploying. Contact/privacy, allowlist, accessibility, source/build-value, and production checks are required for every change.
 - **Date:** 2026-07-27
+
+## Decision 031 — Publish stable approved booking and social destinations
+
+- **Context:** The owner supplied an Airbnb room URL containing a transient impression-tracking query and an official Facebook page URL. The site already has validated environment slots and exact destination allowlisting for both channels.
+- **Options considered:** commit both URLs into presentation components; publish the Airbnb query exactly as copied; keep both channels inactive; configure the approved destinations while canonicalizing Airbnb to the stable room path.
+- **Selected approach:** supply `NEXT_PUBLIC_AIRBNB_URL` and `NEXT_PUBLIC_FACEBOOK_URL` through Vercel, use the stable Airbnb room path without `source_impression_id`, and preserve the complete approved Facebook page path. Update active Contact labels and test both configured and fail-closed states.
+- **Reason:** one validated configuration boundary activates every intended booking button consistently, avoids a transient tracking identifier, and keeps unrelated channels independently disabled.
+- **Consequences:** Airbnb links are available throughout the public site and Facebook is available on Contact. Both are intentionally public. Revocation or replacement requires changing the applicable Vercel value and redeploying; Messenger and WhatsApp are not inferred from Facebook or caretaker telephone approval.
+- **Date:** 2026-07-27

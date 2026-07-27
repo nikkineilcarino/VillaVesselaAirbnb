@@ -1,6 +1,8 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
+import { configuredAirbnbUrl } from "./configured-destinations";
+
 const publicInformationRoutes = [
   {
     heading: "Room to gather, rest, and enjoy the coast",
@@ -83,11 +85,24 @@ test("guest guide section navigation reaches its labelled content", async ({ pag
   await expect(page.getByRole("heading", { name: "Useful answers before you book" })).toBeInViewport();
 });
 
-test("Phase 4 pages contain no active unverified external destination", async ({ page }) => {
+test("Phase 4 pages contain only the configured booking destination", async ({ page }) => {
   for (const route of publicInformationRoutes) {
     await page.goto(route.path);
-    await expect(page.locator('a[href^="http"], a[href^="tel:"], a[href^="mailto:"]')).toHaveCount(0);
-    await expect(page.getByRole("button", { name: /Book on Airbnb/ })).toBeDisabled();
+    const destinations = await page
+      .locator('a[href^="http"], a[href^="tel:"], a[href^="mailto:"]')
+      .evaluateAll((links) => links.map((link) => link.getAttribute("href") ?? ""));
+
+    if (configuredAirbnbUrl) {
+      expect(destinations.length).toBeGreaterThan(0);
+      expect(destinations.every((destination) => destination === configuredAirbnbUrl)).toBe(true);
+      await expect(page.getByRole("link", { name: "Book on Airbnb" })).toHaveAttribute(
+        "href",
+        configuredAirbnbUrl,
+      );
+    } else {
+      expect(destinations).toEqual([]);
+      await expect(page.getByRole("button", { name: /Book on Airbnb/ })).toBeDisabled();
+    }
   }
 });
 

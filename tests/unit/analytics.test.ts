@@ -89,7 +89,7 @@ describe("Phase 8 analytics privacy and validation", () => {
       caretakerNidaPhone: "+63 900 000 0001",
       contactEmail: "Host@Example.invalid",
       contactPhone: "+63 (900) 000-0000",
-      facebookUrl: "http://facebook.example/page",
+      facebookUrl: "https://www.facebook.com/approved-page",
       googleMapsUrl: "https://maps.example/place?id=123",
       messengerUrl: "https://user:password@example.invalid/message",
       whatsappNumber: "+63 900 000 0000",
@@ -102,11 +102,18 @@ describe("Phase 8 analytics privacy and validation", () => {
     expect(config.phone).toBe("tel:+639000000000");
     expect(config.whatsapp).toBe("https://wa.me/639000000000");
     expect(config.googleMaps).toBe("https://maps.example/place?id=123");
-    expect(config.facebook).toBeNull();
+    expect(config.facebook).toBe("https://www.facebook.com/approved-page");
     expect(config.messenger).toBeNull();
     expect(isApprovedExternalDestination("phone", "tel:+639000000001", config)).toBe(true);
     expect(isApprovedExternalDestination("phone", "tel:+639000000002", config)).toBe(true);
     expect(isApprovedExternalDestination("phone", "tel:+639000000003", config)).toBe(false);
+    expect(
+      isApprovedExternalDestination(
+        "facebook",
+        "https://www.facebook.com/approved-page",
+        config,
+      ),
+    ).toBe(true);
   });
 
   it("accepts a minimized page view and rejects extra/admin fields", () => {

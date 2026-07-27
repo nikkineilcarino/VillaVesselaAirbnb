@@ -24,7 +24,7 @@ Thirty-seven approved photographs are published. The passenger-boat photograph r
 
 These are deliberate release boundaries, not broken features:
 
-- Two named caretaker telephone contacts are explicitly approved and can be active through validated Vercel environment values. Airbnb, Facebook, Messenger, Google Maps, WhatsApp, public email, and owner-telephone destinations remain inactive until exact owner-approved values are supplied.
+- The Airbnb listing, Facebook page, and two named caretaker telephone contacts are explicitly approved and can be active through validated Vercel environment values. Messenger, Google Maps, WhatsApp, public email, and owner-telephone destinations remain inactive until exact owner-approved values are supplied.
 - Blue Kubo, Green Kubo, and confirmed parking retain visible photo slots. A higher-resolution front-of-villa hero remains recommended.
 - Analytics storage and contact inquiries are disabled in production.
 - No Supabase or test credential is configured. Administrator routes deny unauthenticated access and the public login reveals no configuration details.

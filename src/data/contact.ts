@@ -1,6 +1,7 @@
 import { siteConfig } from "./site";
 
 export type ContactChannel = {
+  actionLabel: string;
   destination: null | string;
   displayValue?: string;
   id: "airbnb" | "email" | "facebook" | "messenger" | "phone" | "whatsapp";
@@ -21,6 +22,7 @@ function formatTelephoneDestination(destination: string) {
 
 const configuredCaretakerPhoneChannels = ([
   {
+    actionLabel: "Call this contact",
     destination: siteConfig.caretakers.nidaPhone,
     displayValue: siteConfig.caretakers.nidaPhone
       ? formatTelephoneDestination(siteConfig.caretakers.nidaPhone)
@@ -31,6 +33,7 @@ const configuredCaretakerPhoneChannels = ([
     note: "Owner-approved public caretaker telephone",
   },
   {
+    actionLabel: "Call this contact",
     destination: siteConfig.caretakers.evelynPhone,
     displayValue: siteConfig.caretakers.evelynPhone
       ? formatTelephoneDestination(siteConfig.caretakers.evelynPhone)
@@ -46,6 +49,7 @@ const telephoneChannels: readonly ContactChannel[] = configuredCaretakerPhoneCha
   ? configuredCaretakerPhoneChannels
   : [
       {
+        actionLabel: "Call this contact",
         destination: siteConfig.booking.contactPhone,
         id: "phone",
         key: "owner-phone",
@@ -56,20 +60,27 @@ const telephoneChannels: readonly ContactChannel[] = configuredCaretakerPhoneCha
 
 export const contactChannels: readonly ContactChannel[] = [
   {
+    actionLabel: "View listing on Airbnb",
     destination: siteConfig.booking.airbnbUrl,
     id: "airbnb",
     key: "airbnb",
     label: "Airbnb",
-    note: "Complete listing URL awaiting verification",
+    note: siteConfig.booking.airbnbUrl
+      ? "Owner-approved Airbnb listing"
+      : "Complete listing URL awaiting verification",
   },
   {
+    actionLabel: "Visit Facebook page",
     destination: siteConfig.booking.facebookUrl,
     id: "facebook",
     key: "facebook",
     label: "Facebook",
-    note: "Official page URL awaiting confirmation",
+    note: siteConfig.booking.facebookUrl
+      ? "Owner-approved Facebook page"
+      : "Official page URL awaiting confirmation",
   },
   {
+    actionLabel: "Open Messenger",
     destination: siteConfig.booking.messengerUrl,
     id: "messenger",
     key: "messenger",
@@ -77,6 +88,7 @@ export const contactChannels: readonly ContactChannel[] = [
     note: "Complete Messenger destination awaiting confirmation",
   },
   {
+    actionLabel: "Open WhatsApp",
     destination: siteConfig.booking.whatsappUrl,
     id: "whatsapp",
     key: "whatsapp",
@@ -85,6 +97,7 @@ export const contactChannels: readonly ContactChannel[] = [
   },
   ...telephoneChannels,
   {
+    actionLabel: "Send an email",
     destination: siteConfig.booking.contactEmail,
     id: "email",
     key: "email",

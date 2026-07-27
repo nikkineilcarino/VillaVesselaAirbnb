@@ -4,11 +4,11 @@ This is the authoritative register for missing, conflicting, or unconfirmed busi
 
 ## Identity, destinations, and public contact
 
-Phase 5 interim state: all six planned contact channels and both map destinations are typed as `null` and render as inactive controls. The Contact page exposes no private number, public email, or guessed external URL.
+Current state: the owner-approved Airbnb listing, Facebook page, and two caretaker telephone contacts are active through validated public configuration. Messenger, WhatsApp, map, owner-phone, and email destinations remain inactive. The Contact page exposes no unapproved private value or guessed external URL.
 
 - [ ] Confirm the exact official business name and spelling used on Google Maps. Working name: **Beachfront Tondol Beach Villa Vessela**.
-- [ ] Obtain and verify the complete Airbnb listing URL.
-- [ ] Obtain and verify the complete Facebook page URL.
+- [x] Obtain, approve, and verify the Airbnb listing URL; production uses the stable canonical room path without the supplied tracking query.
+- [x] Obtain, approve, and verify the complete Facebook page URL.
 - [ ] Obtain and verify the complete Messenger URL.
 - [ ] Obtain and verify the Google Maps listing URL and embed URL; do not guess coordinates.
 - [ ] Confirm the complete WhatsApp number with country code and permission to publish it.
@@ -70,7 +70,7 @@ Phase 6 interim state: the database schema and RLS policy design are committed, 
 
 Phase 7 interim state: the administrator login/protection shell is implemented without registration or credentials. Live approved-admin access, unapproved-user denial, refresh/logout, and issued-cookie verification require a configured non-production Supabase project plus dedicated test identities; none has been supplied.
 
-Phase 8 interim state: anonymous analytics collection/validation is implemented and feature-flagged, but no event has been persisted to a live Supabase project. All configured public destinations remain blank. A privacy-compatible distributed rate limiter/WAF policy and retention period must be approved before production-scale collection.
+Phase 8 interim state: anonymous analytics collection/validation is implemented and feature-flagged, but no event has been persisted to a live Supabase project. Approved public destinations can be configured independently while analytics remains disabled. A privacy-compatible distributed rate limiter/WAF policy and retention period must be approved before production-scale collection.
 
 Phase 9 interim state: the administrator dashboard, exact aggregate functions, date filters, cards, charts, activity tables, and truthful states are implemented. Migration `007`, populated/empty/demo database states, and responsive chart interactions have not been exercised against Supabase because Docker is unavailable and no approved non-production project/administrator credentials were supplied.
 
@@ -78,7 +78,7 @@ Phase 10 interim state: the inquiry form, endpoint, administrator list/status wo
 
 Phase 11 state: the Privacy page, metadata, approved photo-based social card, sitemap, fail-closed robots, manifest/icons, conservative structured data, accessibility hardening, performance review, and security headers are implemented. Production indexing is enabled only for the final public HTTPS origin. The structured data deliberately omits property images, exact coordinates, map/contact destinations, prices, conditional capacity, and other unresolved facts. A retention/deletion schedule, privacy-request channel, provider review, and any legally required consent control remain owner/production decisions and are not silently invented.
 
-Phase 12 release state: the public site is deployed at `https://villa-vessela-airbnb.vercel.app`, which is now the configured canonical origin. GitHub and Vercel publication, indexing/header/accessibility/privacy smoke checks, and private-contact/browser-secret scans pass. Analytics and inquiries are explicitly disabled in production; no Supabase or test credential is configured. The remaining photo gaps, public booking/contact/map destinations, rates, conditional inclusions, database activation, administrator identities, retention/deletion, and privacy-request operations remain unresolved and omitted.
+Phase 12 release state: the public site is deployed at `https://villa-vessela-airbnb.vercel.app`, which is now the configured canonical origin. GitHub and Vercel publication, indexing/header/accessibility/privacy smoke checks, and private-contact/browser-secret scans pass. The Airbnb listing, Facebook page, and two caretaker telephone contacts are approved public destinations. Analytics and inquiries are explicitly disabled in production; no Supabase or test credential is configured. The remaining photo gaps, Messenger/WhatsApp/map/owner-contact destinations, rates, conditional inclusions, database activation, administrator identities, retention/deletion, and privacy-request operations remain unresolved and omitted.
 
 - [ ] Confirm whether the website inquiry form should be active at launch.
 - [ ] Confirm whether English-only content is desired or English/Filipino language switching is required.

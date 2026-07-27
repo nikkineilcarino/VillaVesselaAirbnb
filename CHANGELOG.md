@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-07-27 — Approved Airbnb and Facebook destinations
+
+- Activated the owner-supplied Airbnb listing and Facebook page through validated public Vercel configuration.
+- Canonicalized the Airbnb destination to its stable room path instead of publishing the supplied transient impression-tracking query.
+- Updated Contact actions and release copy so active booking, social, and telephone channels are described accurately while Messenger, WhatsApp, map, email, and owner telephone remain inactive.
+- Made the full browser suite destination-aware in both configured and fail-closed modes, including mobile focus order, exact allowlisting, Contact actions, Privacy, and accessibility checks.
+
 ## 2026-07-27 — Approved caretaker telephone contacts
 
 - Added two separately validated, named caretaker telephone slots after explicit owner approval, without committing either value to Git.

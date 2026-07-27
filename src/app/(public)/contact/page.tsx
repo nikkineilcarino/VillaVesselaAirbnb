@@ -37,7 +37,7 @@ const channelIcons = {
 
 export default function ContactPage() {
   const inquiryEnabled = isContactInquiryEnabled();
-  const hasApprovedContact = contactChannels.some((channel) => channel.destination);
+  const hasApprovedDestination = contactChannels.some((channel) => channel.destination);
 
   return (
     <main id="main-content">
@@ -45,8 +45,8 @@ export default function ContactPage() {
         currentPage="Contact"
         currentPath="/contact"
         description={
-          hasApprovedContact
-            ? "Use only a complete, owner-approved destination. Approved caretaker telephone contacts are active; missing or malformed channels remain visibly inactive rather than linking to a guessed contact."
+          hasApprovedDestination
+            ? "Use only a complete, owner-approved destination. Active booking, social, and telephone channels are verified through configuration; missing channels remain visibly inactive."
             : "Use only a complete, owner-approved destination. Configured channels become active; missing or malformed values remain visibly inactive rather than linking to a guessed or private contact."
         }
         eyebrow="Booking and contact"
@@ -57,13 +57,13 @@ export default function ContactPage() {
         <Container size="wide">
           <PageSectionHeading
             description={
-              hasApprovedContact
-                ? "Named telephone contacts below have explicit owner approval. Other channels remain inactive until their complete destination and publication permission are confirmed."
+              hasApprovedDestination
+                ? "Every active destination below has explicit owner approval. Other channels remain inactive until their complete destination and publication permission are confirmed."
                 : "These are the supported public channels. Each one remains inactive until its complete destination and publication permission are confirmed in configuration."
             }
             eyebrow="Contact options"
             id="contact-options"
-            title={hasApprovedContact ? "Approved contacts and pending channels" : "No incomplete link is active"}
+            title={hasApprovedDestination ? "Approved contacts and pending channels" : "No incomplete link is active"}
           />
 
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -84,7 +84,7 @@ export default function ContactPage() {
                   {channel.displayValue ? (
                     <p className="mt-2 font-semibold text-primary">{channel.displayValue}</p>
                   ) : null}
-                  <p className="mt-5 text-sm font-semibold text-secondary">Call this contact</p>
+                  <p className="mt-5 text-sm font-semibold text-secondary">{channel.actionLabel}</p>
                 </TrackedExternalLink>
               ) : (
                 <article className="rounded-card border border-border bg-surface p-6 shadow-soft" key={channel.key}>

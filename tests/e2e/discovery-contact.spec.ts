@@ -1,19 +1,15 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
+import {
+  configuredAirbnbUrl,
+  configuredCaretakerPhones,
+  configuredFacebookUrl,
+} from "./configured-destinations";
+
 const testOrigin = new URL(
   process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000",
 ).origin;
-
-function normalizeConfiguredPhone(value: string | undefined) {
-  const digits = value?.replace(/\D/g, "");
-  return digits && /^[1-9]\d{7,14}$/.test(digits) ? `tel:+${digits}` : null;
-}
-
-const configuredCaretakerPhones = [
-  normalizeConfiguredPhone(process.env.NEXT_PUBLIC_CARETAKER_NIDA_PHONE),
-  normalizeConfiguredPhone(process.env.NEXT_PUBLIC_CARETAKER_EVELYN_PHONE),
-].filter((destination): destination is string => Boolean(destination));
 
 const phaseFiveRoutes = [
   {
@@ -123,7 +119,14 @@ test("reviews preserve supplied attribution and reserve Messenger content honest
   await expect(page.getByText("Helda", { exact: true })).toBeVisible();
   await expect(page.getByText("Rosalie", { exact: true })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Approved Messenger review pending" })).toHaveCount(3);
-  await expect(page.getByRole("button", { name: /View all reviews on Airbnb/ })).toBeDisabled();
+  if (configuredAirbnbUrl) {
+    await expect(page.getByRole("link", { name: "View all reviews on Airbnb" })).toHaveAttribute(
+      "href",
+      configuredAirbnbUrl,
+    );
+  } else {
+    await expect(page.getByRole("button", { name: /View all reviews on Airbnb/ })).toBeDisabled();
+  }
 });
 
 test("location keeps the map disabled and copies only the confirmed address", async ({ context, page }) => {
@@ -144,12 +147,15 @@ test("location keeps the map disabled and copies only the confirmed address", as
   expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(address);
 });
 
-test("contact channels expose only approved caretaker telephones while inquiries remain disabled", async ({
+test("contact channels expose only approved destinations while inquiries remain disabled", async ({
   page,
 }) => {
   await page.goto("/contact");
 
-  const pendingChannelCount = configuredCaretakerPhones.length ? 5 : 6;
+  const totalChannelCount = 5 + Math.max(1, configuredCaretakerPhones.length);
+  const activeChannelCount =
+    configuredCaretakerPhones.length + Number(Boolean(configuredAirbnbUrl)) + Number(Boolean(configuredFacebookUrl));
+  const pendingChannelCount = totalChannelCount - activeChannelCount;
   await expect(page.getByRole("button", { name: /destination awaiting confirmation/ })).toHaveCount(
     pendingChannelCount,
   );
@@ -167,6 +173,16 @@ test("contact channels expose only approved caretaker telephones while inquiries
     await expect(caretakerLinks).toHaveCount(0);
   }
 
+  if (configuredAirbnbUrl) {
+    await expect(page.locator(`a[href="${configuredAirbnbUrl}"]`)).toHaveCount(2);
+    await expect(page.getByText("View listing on Airbnb", { exact: true })).toBeVisible();
+  }
+
+  if (configuredFacebookUrl) {
+    await expect(page.locator(`a[href="${configuredFacebookUrl}"]`)).toHaveCount(1);
+    await expect(page.getByText("Visit Facebook page", { exact: true })).toBeVisible();
+  }
+
   const form = page.getByRole("form");
   expect(await form.getAttribute("action")).toBeNull();
   await expect(form.locator("fieldset")).toHaveAttribute("disabled", "");
@@ -180,7 +196,7 @@ test("contact channels expose only approved caretaker telephones while inquiries
   await expect(page.getByText(/Never send payment-card details/)).toBeVisible();
 });
 
-test("Phase 5 routes expose no unverified external destination", async ({ page }) => {
+test("Phase 5 routes expose only configured external destinations", async ({ page }) => {
   for (const route of phaseFiveRoutes) {
     await page.goto(route.path);
     const externalLinks = page.locator('a[href^="http"], a[href^="tel:"], a[href^="mailto:"]');
@@ -188,12 +204,28 @@ test("Phase 5 routes expose no unverified external destination", async ({ page }
       links.map((link) => link.getAttribute("href") ?? ""),
     );
 
+    const allowedDestinations = [configuredAirbnbUrl];
     if (route.path === "/contact") {
-      expect(destinations.sort()).toEqual([...configuredCaretakerPhones].sort());
-    } else {
-      expect(destinations).toEqual([]);
+      allowedDestinations.push(configuredFacebookUrl, ...configuredCaretakerPhones);
     }
-    await expect(page.getByRole("button", { name: /Book on Airbnb/ })).toBeDisabled();
+
+    const activeAllowedDestinations = allowedDestinations.filter(
+      (destination): destination is string => Boolean(destination),
+    );
+    expect(destinations.every((destination) => activeAllowedDestinations.includes(destination))).toBe(true);
+
+    for (const destination of activeAllowedDestinations) {
+      expect(destinations).toContain(destination);
+    }
+
+    if (configuredAirbnbUrl) {
+      await expect(page.getByRole("link", { name: "Book on Airbnb" })).toHaveAttribute(
+        "href",
+        configuredAirbnbUrl,
+      );
+    } else {
+      await expect(page.getByRole("button", { name: /Book on Airbnb/ })).toBeDisabled();
+    }
   }
 });
 

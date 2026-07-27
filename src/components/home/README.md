@@ -12,7 +12,7 @@ This directory owns the composed sections of the public Villa Vessela homepage. 
 - `ReviewsPreview.tsx` presents the supplied Airbnb summary/excerpts with attribution and a non-endorsement note.
 - `LocationPreview.tsx` presents confirmed address/direction text beside a non-navigational illustration and disabled map action.
 - `AttractionsPreview.tsx` uses condition-aware language for nearby activities.
-- `BookingCTA.tsx` closes the page without activating the unverified Airbnb destination.
+- `BookingCTA.tsx` closes the page with the validated Airbnb destination when configured and a fail-closed control otherwise.
 - `SectionHeading.tsx` centralizes accessible heading styling for light and dark sections.
 
 ## Safe extension

@@ -1,5 +1,7 @@
 import { expect, test } from "@playwright/test";
 
+import { configuredAirbnbUrl } from "./configured-destinations";
+
 test("homepage presents every required preview section", async ({ page }) => {
   await page.goto("/");
 
@@ -32,7 +34,7 @@ test("homepage preserves key facts and uncertainty qualifiers", async ({ page })
   await expect(page.getByText(/Rating and review information is based on the property's Airbnb listing/)).toBeVisible();
 });
 
-test("unverified destinations remain inactive", async ({ page }) => {
+test("only configured booking destinations are active", async ({ page }) => {
   await page.goto("/");
   await expect(
     page.getByRole("heading", {
@@ -44,12 +46,21 @@ test("unverified destinations remain inactive", async ({ page }) => {
   const externalLinks = page.locator(
     'a[href^="http"], a[href^="tel:"], a[href^="mailto:"], a[href^="https:"]',
   );
-  await expect(externalLinks).toHaveCount(0);
+  const destinations = await externalLinks.evaluateAll((links) =>
+    links.map((link) => link.getAttribute("href") ?? ""),
+  );
 
-  const bookingButtons = page.getByRole("button", { name: /Book on Airbnb/ });
-  expect(await bookingButtons.count()).toBeGreaterThanOrEqual(3);
-  for (let index = 0; index < (await bookingButtons.count()); index += 1) {
-    await expect(bookingButtons.nth(index)).toBeDisabled();
+  if (configuredAirbnbUrl) {
+    expect(destinations.length).toBeGreaterThanOrEqual(3);
+    expect(destinations.every((destination) => destination === configuredAirbnbUrl)).toBe(true);
+    expect(await page.getByRole("link", { name: "Book on Airbnb" }).count()).toBeGreaterThanOrEqual(3);
+  } else {
+    expect(destinations).toEqual([]);
+    const bookingButtons = page.getByRole("button", { name: /Book on Airbnb/ });
+    expect(await bookingButtons.count()).toBeGreaterThanOrEqual(3);
+    for (let index = 0; index < (await bookingButtons.count()); index += 1) {
+      await expect(bookingButtons.nth(index)).toBeDisabled();
+    }
   }
   await expect(page.getByRole("button", { name: /Open in Google Maps/ })).toBeDisabled();
 });

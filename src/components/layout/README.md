@@ -28,7 +28,7 @@ Activate a navigation entry only after its route exists and passes public-access
 
 ## Environment variables
 
-No layout component currently reads environment variables. The future verified Airbnb destination will enter through validated public configuration, not direct environment access inside presentation components.
+No layout component reads environment variables directly. The verified Airbnb destination enters through validated public configuration, and blank or malformed configuration retains the disabled state.
 
 ## Testing
 

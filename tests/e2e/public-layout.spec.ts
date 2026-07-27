@@ -1,6 +1,8 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
+import { configuredAirbnbUrl } from "./configured-destinations";
+
 test("desktop header and footer expose only implemented destinations", async ({ page }) => {
   await page.setViewportSize({ height: 900, width: 1440 });
   await page.goto("/");
@@ -20,7 +22,14 @@ test("desktop header and footer expose only implemented destinations", async ({ 
     "/#about",
   );
   await expect(primaryNavigation.locator('[aria-disabled="true"]')).toHaveCount(0);
-  await expect(header.getByRole("button", { name: /Book on Airbnb/ })).toBeDisabled();
+  if (configuredAirbnbUrl) {
+    await expect(header.getByRole("link", { name: "Book on Airbnb" })).toHaveAttribute(
+      "href",
+      configuredAirbnbUrl,
+    );
+  } else {
+    await expect(header.getByRole("button", { name: /Book on Airbnb/ })).toBeDisabled();
+  }
   await expect(footer.getByText("Tondol, Purok 2")).toBeVisible();
   await expect(footer.getByText(/Airbnb does not endorse this website/)).toBeVisible();
 });
@@ -40,7 +49,14 @@ test("mobile menu locks scrolling and restores focus after Escape", async ({ pag
   await expect(page.locator("body")).toHaveCSS("overflow", "hidden");
   await expect(dialog.getByRole("navigation", { name: "Mobile primary" })).toBeVisible();
   await expect(dialog.locator('[aria-disabled="true"]')).toHaveCount(0);
-  await expect(dialog.getByRole("button", { name: /Book on Airbnb/ })).toBeDisabled();
+  if (configuredAirbnbUrl) {
+    await expect(dialog.getByRole("link", { name: "Book on Airbnb" })).toHaveAttribute(
+      "href",
+      configuredAirbnbUrl,
+    );
+  } else {
+    await expect(dialog.getByRole("button", { name: /Book on Airbnb/ })).toBeDisabled();
+  }
 
   await page.keyboard.press("Escape");
 
@@ -56,15 +72,18 @@ test("mobile menu traps focus and closes after navigation", async ({ page }) => 
 
   const dialog = page.getByRole("dialog", { name: "Site navigation" });
   const closeButton = dialog.getByRole("button", { name: "Close site menu" });
-  const lastAvailableLink = dialog.getByRole("link", { name: "Contact" });
+  const contactLink = dialog.getByRole("link", { name: "Contact" });
+  const lastFocusableControl = configuredAirbnbUrl
+    ? dialog.getByRole("link", { name: "Book on Airbnb" })
+    : contactLink;
 
   await expect(closeButton).toBeFocused();
   await page.keyboard.press("Shift+Tab");
-  await expect(lastAvailableLink).toBeFocused();
+  await expect(lastFocusableControl).toBeFocused();
   await page.keyboard.press("Tab");
   await expect(closeButton).toBeFocused();
 
-  await lastAvailableLink.click();
+  await contactLink.click();
   await expect(dialog).toBeHidden();
   await expect(page).toHaveURL(/\/contact$/);
 });

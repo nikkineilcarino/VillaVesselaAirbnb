@@ -1,6 +1,8 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
+import { configuredAirbnbUrl } from "./configured-destinations";
+
 const testOrigin = new URL(
   process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000",
 ).origin;
@@ -177,7 +179,10 @@ test("privacy page is public, accurate, responsive, keyboard-visible, and Axe-cl
   await expect(page.getByText(/random visitor ID/)).toBeVisible();
   await expect(page.getByText(/does not intentionally collect or store a visitor name/)).toBeVisible();
   await expect(page.getByText(/No automatic analytics or inquiry deletion schedule/)).toBeVisible();
-  await expect(page.locator('a[href^="http"], a[href^="mailto:"], a[href^="tel:"]')).toHaveCount(0);
+  const externalDestinations = await page
+    .locator('a[href^="http"], a[href^="mailto:"], a[href^="tel:"]')
+    .evaluateAll((links) => links.map((link) => link.getAttribute("href") ?? ""));
+  expect(externalDestinations).toEqual(configuredAirbnbUrl ? [configuredAirbnbUrl] : []);
   expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
