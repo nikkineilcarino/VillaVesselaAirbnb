@@ -8,8 +8,8 @@
 - Vercel project: `villa-vessela-airbnb`
 - Production alias: `https://villa-vessela-airbnb.vercel.app`
 - Application framework: Next.js App Router
-- Application release commit: `0be4519722583aa136112af18cbdd171c4f3e261`
-- Production deployment: `dpl_EZua3dGkMF73dmdTKWfbsFeZJSCL` (Ready)
+- Application release commit: `a042ce582be844e7bc0242edaa8bcd8b7e620b0c`
+- Production deployment: `dpl_CuFt4ZTkMWBLF5iFWVfFszTUFPAM` (Ready)
 - Database/authentication provider when activated: Supabase
 
 The public information site is intentionally usable without Supabase. Administrator login, stored analytics, inquiries, dashboard data, and exports remain unavailable until an approved Supabase project is configured and the live authorization checks below pass.
