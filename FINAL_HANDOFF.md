@@ -10,9 +10,10 @@
 
 The verified public-information website is complete, published from `main`, and safe to leave online without further configuration.
 
-- Release commit: [`658c33ea2e4c4d5d895bc390f0147ef5c0dfe5e7`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/commit/658c33ea2e4c4d5d895bc390f0147ef5c0dfe5e7)
-- GitHub Quality run: [`30249757977`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/actions/runs/30249757977), passed
-- Vercel production deployment: `dpl_8dA1khBguf9jsGVpPHZzmj2xaCwG`, Ready and assigned to the canonical alias
+- Release commit: [`484c4dba146e14aa6ea75a53ef78260db5656c81`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/commit/484c4dba146e14aa6ea75a53ef78260db5656c81)
+- GitHub Quality run: [`30429753598`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/actions/runs/30429753598), passed
+- Vercel production deployment: `dpl_DaCop6F58zCeLHXBTbC4SUuECUWN`, Ready and assigned to the canonical alias
+- Maintenance scope: compatible Supabase, Node type, PostCSS, and Supabase CLI patch/minor updates; incompatible ESLint 10 and TypeScript 7 major upgrades remain deliberately deferred
 - Local verification: production audit clean; lint, strict types, 68 unit tests, production build, and 47 configured Chromium tests passed with 2 credential-dependent administrator checks intentionally skipped
 - Hosted verification: Google and Waze frames visually render the matching Tondol beachfront pin; the page initially creates no provider iframe; zoom and exact CSP frame sources passed. Contact returned HTTP 200 with exactly one matching WhatsApp action, approved wording, no mobile overflow, and zero Axe violations.
 - Production performance revalidation: two mobile Lighthouse runs scored 99 and two desktop runs scored 100; accessibility, best practices, and SEO scored 100 in all four runs
