@@ -1,6 +1,6 @@
 # Villa Vessela Website — Final Handoff
 
-**Handoff date:** 2026-07-27
+**Handoff date:** 2026-07-29
 
 **Repository:** [nikkineilcarino/VillaVesselaAirbnb](https://github.com/nikkineilcarino/VillaVesselaAirbnb)
 
@@ -10,9 +10,9 @@
 
 The verified public-information website is complete, published from `main`, and safe to leave online without further configuration.
 
-- Release commit: [`a042ce582be844e7bc0242edaa8bcd8b7e620b0c`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/commit/a042ce582be844e7bc0242edaa8bcd8b7e620b0c)
-- GitHub Quality run: [`30248702097`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/actions/runs/30248702097), passed
-- Vercel production deployment: `dpl_CuFt4ZTkMWBLF5iFWVfFszTUFPAM`, Ready and assigned to the canonical alias
+- Release commit: [`658c33ea2e4c4d5d895bc390f0147ef5c0dfe5e7`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/commit/658c33ea2e4c4d5d895bc390f0147ef5c0dfe5e7)
+- GitHub Quality run: [`30249757977`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/actions/runs/30249757977), passed
+- Vercel production deployment: `dpl_8dA1khBguf9jsGVpPHZzmj2xaCwG`, Ready and assigned to the canonical alias
 - Local verification: production audit clean; lint, strict types, 68 unit tests, production build, and 47 configured Chromium tests passed with 2 credential-dependent administrator checks intentionally skipped
 - Hosted verification: Google and Waze frames visually render the matching Tondol beachfront pin; the page initially creates no provider iframe; zoom and exact CSP frame sources passed. Contact returned HTTP 200 with exactly one matching WhatsApp action, approved wording, no mobile overflow, and zero Axe violations.
 - Production performance revalidation: two mobile Lighthouse runs scored 99 and two desktop runs scored 100; accessibility, best practices, and SEO scored 100 in all four runs
@@ -25,7 +25,8 @@ Thirty-seven approved photographs are published. The passenger-boat photograph r
 These are deliberate release boundaries, not broken features:
 
 - The Airbnb listing, Facebook page, Messenger conversation, WhatsApp contact, verified Google Maps/Waze property pin, and two named caretaker telephone contacts are explicitly approved and active through validated Vercel environment values. Public email and owner-telephone destinations remain inactive until exact owner-approved values are supplied.
-- Blue Kubo, Green Kubo, and confirmed parking retain visible photo slots. A higher-resolution front-of-villa hero remains recommended.
+- Blue Kubo, Green Kubo, and parking retain visible photo slots. The owner-confirmed carport and three-to-four-car arrangement is published without implying that a dedicated parking photograph has been supplied. A higher-resolution front-of-villa hero remains recommended.
+- The spacious front yard, tropical garden, complete household utilities, and the kitchen kubo shared by Blue and Green Kubo guests are published as owner-confirmed facts. Fixed Wi-Fi is still not advertised, and main-villa-only access to the kitchen kubo remains confirmation-required.
 - Analytics storage and contact inquiries are disabled in production.
 - No Supabase or test credential is configured. Administrator routes deny unauthenticated access and the public login reveals no configuration details.
 - Rates, fees, expanded capacity, kubo/cottage inclusion, and other conflicting facts remain qualified or omitted.
@@ -37,7 +38,7 @@ These are deliberate release boundaries, not broken features:
 | --- | --- | --- |
 | Blue Kubo photo | Original image, publication permission, truthful description, booking inclusion | Reserved gallery record in `src/data/gallery.ts` |
 | Green Kubo photo | Original image, publication permission, truthful description, booking inclusion | Reserved gallery record in `src/data/gallery.ts` |
-| Parking photo | Original image, confirmation that it is the guest area, current arrangement | Reserved gallery record in `src/data/gallery.ts` |
+| Parking photo | Original image and confirmation that it depicts the published carport/three-to-four-car arrangement | Reserved gallery record in `src/data/gallery.ts` |
 | Improved hero | Preferably an original image at least 1600 px wide | Existing hero image configuration |
 | Booking/social links or replacement map pin | Complete approved destination/pin and explicit permission to publish | Validated `NEXT_PUBLIC_*` Vercel variables |
 | Owner phone/email | Complete value and explicit approval to publish | Validated public-contact variables |
