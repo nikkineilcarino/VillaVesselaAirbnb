@@ -31,8 +31,8 @@ The advisory describes an out-of-memory denial of service when an attacker-contr
 
 `npm audit` proposes two breaking remedies:
 
-1. Upgrade ESLint 9.39.5 to 10.8.0. Several lint plugins bundled by `eslint-config-next` 16.2.11 still declare peer support through ESLint 9, so this would produce an unsupported plugin combination and would not remove the legacy `minimatch` copies inside those plugins.
-2. Downgrade `eslint-config-next` 16.2.11 to an older framework major. npm produced different old-major suggestions across audit modes; neither matches the current Next.js 16 framework line, so this is not a valid compatibility fix.
+1. Upgrade ESLint 9.39.5 to 10.8.0. Several lint plugins bundled by `eslint-config-next` 16.2.12 still declare peer support through ESLint 9, so this would produce an unsupported plugin combination and would not remove the legacy `minimatch` copies inside those plugins. This was rechecked and rejected on 2026-07-29 after npm reported the peer conflicts and six remaining propagated audit entries.
+2. Downgrade `eslint-config-next` 16.2.12 to an older framework major. npm produced different old-major suggestions across audit modes; neither matches the current Next.js 16 framework line, so this is not a valid compatibility fix.
 
 A global `brace-expansion` 5.0.8 override was rejected after API inspection. Installed `minimatch` 3 expects `require("brace-expansion")` itself to be callable. Version 5.0.8 instead exposes a named `expand` function, so a global override would break the linter at runtime. The applied `brace-expansion@^5.0.5` override deliberately matches only the modern branch, where that named API is expected.
 
@@ -44,7 +44,7 @@ A global `brace-expansion` 5.0.8 override was rejected after API inspection. Ins
 - `npm ci --ignore-scripts --dry-run --silent`: passed.
 - `npm run lint`: passed.
 - `npm run typecheck`: passed.
-- `npm test`: 9 files and 67 tests passed.
+- `npm test`: 9 files and 68 tests passed in the 2026-07-29 maintenance recheck.
 - `npm run build`: passed; all 14 static outputs generated.
 
 ## Temporary controls and follow-up

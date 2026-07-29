@@ -87,6 +87,7 @@ Phase 12 release state: the public site is deployed at `https://villa-vessela-ai
 - [ ] Confirm whether production analytics requires an additional consent or preference control for the intended jurisdictions.
 - [x] Provide the final public HTTPS origin for canonical URLs, robots, sitemap, and social metadata: `https://villa-vessela-airbnb.vercel.app`.
 - [x] Confirm the initial production domain and canonical site URL: `https://villa-vessela-airbnb.vercel.app`.
+- [ ] Obtain explicit purchase approval, billing/registrant details, and annual-renewal approval for `villavessela.com`. A read-only registry/DNS/Vercel check on 2026-07-29 reported it available at `$11.25` for the first year and `$11.25` per annual renewal; availability and pricing must be rechecked at checkout.
 - [ ] Provide or create the Supabase project and production credentials in a secure channel during the relevant phase.
 - [ ] Provide an approved administrator email and use the documented secure out-of-band Auth plus `admin_profiles` provisioning process; never commit credentials.
 - [ ] Provide dedicated non-production approved and unapproved accounts through ignored local/CI secret storage for live Phase 7 QA.

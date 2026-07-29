@@ -8,13 +8,13 @@
 - Vercel project: `villa-vessela-airbnb`
 - Production alias: `https://villa-vessela-airbnb.vercel.app`
 - Application framework: Next.js App Router
-- Application release commit: `a042ce582be844e7bc0242edaa8bcd8b7e620b0c`
-- Production deployment: `dpl_CuFt4ZTkMWBLF5iFWVfFszTUFPAM` (Ready)
+- Application release commit: `484c4dba146e14aa6ea75a53ef78260db5656c81`
+- Production deployment: `dpl_DaCop6F58zCeLHXBTbC4SUuECUWN` (Ready)
 - Database/authentication provider when activated: Supabase
 
 The public information site is intentionally usable without Supabase. Administrator login, stored analytics, inquiries, dashboard data, and exports remain unavailable until an approved Supabase project is configured and the live authorization checks below pass.
 
-The initial production environment contains exactly `NEXT_PUBLIC_SITE_URL=https://villa-vessela-airbnb.vercel.app`, `ANALYTICS_ENABLED=false`, and `CONTACT_INQUIRY_ENABLED=false`. No Supabase or test credential is configured.
+The production environment keeps `NEXT_PUBLIC_SITE_URL=https://villa-vessela-airbnb.vercel.app`, `ANALYTICS_ENABLED=false`, and `CONTACT_INQUIRY_ENABLED=false`, together with the separately approved public booking, social, map, WhatsApp, and caretaker-contact variables. No Supabase or test credential is configured.
 
 After explicit owner approval on 2026-07-27, production may also contain `NEXT_PUBLIC_CARETAKER_NIDA_PHONE` and `NEXT_PUBLIC_CARETAKER_EVELYN_PHONE`. Their values are intentionally omitted from Git and deployment documentation. This approval covers public telephone links only and does not establish WhatsApp availability.
 
@@ -33,8 +33,10 @@ npm run typecheck
 npm run test
 npm run test:e2e
 npm run build
-npm audit --audit-level=low
+npm audit --omit=dev --audit-level=low
 ```
+
+Review the complete development tree separately with `npm audit`. The known development-only ESLint globbing advisory and its compatibility analysis are documented in `docs/qa/dependency-audit-2026-07-27.md`; do not apply `--force` or misrepresent that report as a deployed application vulnerability.
 
 The credential-independent browser suite must report two live administrator checks as explicitly skipped unless dedicated non-production credentials are supplied. Run the enabled inquiry branch separately only against an intentionally enabled test server:
 
@@ -118,6 +120,22 @@ npx vercel@latest deploy --prod --yes --scope nikkineilcarino-2938s-projects
 ```
 
 Record the commit SHA, deployment ID/URL, production alias, environment state, and all post-deployment results in `docs/qa/phase-12-release.md`.
+
+## Optional `villavessela.com` custom domain
+
+A read-only registry, DNS, Vercel ownership, and Vercel domain-search check on 2026-07-29 found no existing registration or nameserver record and reported `villavessela.com` as available. Vercel displayed a purchase price of `$11.25` for one year and a `$11.25` annual renewal price. Availability and pricing can change at any time and must be checked again immediately before checkout.
+
+Domain registration is an annual expense rather than a monthly website charge. The existing `villa-vessela-airbnb.vercel.app` address can remain online without purchasing the custom domain.
+
+Do not purchase or attach the domain without explicit owner approval, an approved payment method, and accurate registrant details. Once those are supplied:
+
+1. Recheck availability and purchase/renewal pricing in Vercel Domains.
+2. Purchase `villavessela.com` through the approved account; keep renewal enabled only if the owner approves the recurring annual charge.
+3. Add both `villavessela.com` and `www.villavessela.com` to the `villa-vessela-airbnb` project.
+4. Make `https://www.villavessela.com` canonical and configure the apex domain to redirect to `www` so search engines see only one site origin.
+5. Update the production `NEXT_PUBLIC_SITE_URL` to `https://www.villavessela.com` and redeploy the reviewed commit.
+6. Verify DNS, the automatically provisioned SSL certificate, apex-to-`www` redirection, canonical/Open Graph metadata, sitemap, robots, security headers, all public routes, and mobile accessibility.
+7. Keep the Vercel alias available as an operational fallback; do not publish two competing canonical origins.
 
 ## Post-deployment verification
 
