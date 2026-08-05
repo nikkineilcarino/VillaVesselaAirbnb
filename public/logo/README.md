@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This directory stores the editable, local SVG identity and its mechanically rasterized web-app icons. The concept combines an intertwined VV, restrained sampaguita details, and a small wave.
+This directory stores the editable, local SVG identity and its mechanically rasterized web-app icons. The concept combines an intertwined VV, three individual sampaguita flowers above the monogram, and a flowering sampaguita garland below it.
 
 ## Assets
 

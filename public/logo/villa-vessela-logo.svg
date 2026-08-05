@@ -1,28 +1,45 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 120" role="img" aria-labelledby="title description">
   <title id="title">Villa Vessela</title>
-  <desc id="description">Intertwined VV monogram with sampaguita flowers and a wave, beside the Villa Vessela name.</desc>
+  <desc id="description">Villa Vessela wordmark with an intertwined VV, three sampaguita flowers above, and a flowering sampaguita garland below.</desc>
   <defs>
-    <g id="flower" fill="#ffffff" stroke="#d8c18f" stroke-width="0.7">
-      <ellipse cx="0" cy="-3.4" rx="2.2" ry="3.4"/>
-      <ellipse cx="0" cy="-3.4" rx="2.2" ry="3.4" transform="rotate(72)"/>
-      <ellipse cx="0" cy="-3.4" rx="2.2" ry="3.4" transform="rotate(144)"/>
-      <ellipse cx="0" cy="-3.4" rx="2.2" ry="3.4" transform="rotate(216)"/>
-      <ellipse cx="0" cy="-3.4" rx="2.2" ry="3.4" transform="rotate(288)"/>
-      <circle r="1.15" fill="#c79a44" stroke="none"/>
+    <g id="sampaguita" fill="#ffffff" stroke="#d8c18f" stroke-linejoin="round" stroke-width="0.75">
+      <path d="M0-1.1C-2.8-2.6-3.3-6.1 0-8c3.3 1.9 2.8 5.4 0 6.9Z"/>
+      <path d="M0-1.1C-2.8-2.6-3.3-6.1 0-8c3.3 1.9 2.8 5.4 0 6.9Z" transform="rotate(72)"/>
+      <path d="M0-1.1C-2.8-2.6-3.3-6.1 0-8c3.3 1.9 2.8 5.4 0 6.9Z" transform="rotate(144)"/>
+      <path d="M0-1.1C-2.8-2.6-3.3-6.1 0-8c3.3 1.9 2.8 5.4 0 6.9Z" transform="rotate(216)"/>
+      <path d="M0-1.1C-2.8-2.6-3.3-6.1 0-8c3.3 1.9 2.8 5.4 0 6.9Z" transform="rotate(288)"/>
+      <circle r="1.35" fill="#c79a44" stroke="none"/>
+    </g>
+    <g id="emblem">
+      <circle cx="64" cy="64" r="59" fill="#0e5673"/>
+      <circle cx="64" cy="64" r="55" fill="none" stroke="#c79a44" stroke-width="1.8"/>
+      <use href="#sampaguita" transform="translate(39 27) rotate(-16) scale(0.72)"/>
+      <use href="#sampaguita" transform="translate(64 19) rotate(7) scale(0.82)"/>
+      <use href="#sampaguita" transform="translate(89 27) rotate(18) scale(0.72)"/>
+      <path d="M29 38 51 87 65 56" fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"/>
+      <path d="m51 38 22 49 25-49" fill="none" stroke="#c79a44" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"/>
+      <path d="M27 91c12 5 22 14 37 17 15-3 25-12 37-17" fill="none" stroke="#74b895" stroke-linecap="round" stroke-width="2.6"/>
+      <g fill="#64a681">
+        <ellipse cx="34" cy="95" rx="4.6" ry="1.8" transform="rotate(31 34 95)"/>
+        <ellipse cx="43" cy="100" rx="4.2" ry="1.7" transform="rotate(-22 43 100)"/>
+        <ellipse cx="53" cy="105" rx="4.3" ry="1.7" transform="rotate(32 53 105)"/>
+        <ellipse cx="59" cy="106" rx="3.8" ry="1.6" transform="rotate(-30 59 106)"/>
+        <ellipse cx="69" cy="106" rx="3.8" ry="1.6" transform="rotate(30 69 106)"/>
+        <ellipse cx="75" cy="105" rx="4.3" ry="1.7" transform="rotate(-32 75 105)"/>
+        <ellipse cx="85" cy="100" rx="4.2" ry="1.7" transform="rotate(22 85 100)"/>
+        <ellipse cx="94" cy="95" rx="4.6" ry="1.8" transform="rotate(-31 94 95)"/>
+      </g>
+      <use href="#sampaguita" transform="translate(29 91) rotate(-22) scale(0.47)"/>
+      <use href="#sampaguita" transform="translate(40 98) rotate(14) scale(0.42)"/>
+      <use href="#sampaguita" transform="translate(51 104) rotate(-8) scale(0.47)"/>
+      <use href="#sampaguita" transform="translate(64 108) rotate(9) scale(0.52)"/>
+      <use href="#sampaguita" transform="translate(77 104) rotate(18) scale(0.47)"/>
+      <use href="#sampaguita" transform="translate(88 98) rotate(-12) scale(0.42)"/>
+      <use href="#sampaguita" transform="translate(99 91) rotate(24) scale(0.47)"/>
     </g>
   </defs>
-  <circle cx="58" cy="60" r="47" fill="#0e5673"/>
-  <circle cx="58" cy="60" r="44" fill="none" stroke="#c79a44" stroke-width="1.5"/>
-  <g opacity="0.98">
-    <use href="#flower" transform="translate(25 30) rotate(-28)"/>
-    <use href="#flower" transform="translate(60 15) rotate(6)"/>
-    <use href="#flower" transform="translate(92 35) rotate(32)"/>
-    <use href="#flower" transform="translate(96 75) rotate(56)"/>
-    <use href="#flower" transform="translate(30 91) rotate(-55)"/>
-  </g>
-  <path d="M29 38 47 78 59 52" fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="7"/>
-  <path d="m48 38 18 40 20-40" fill="none" stroke="#c79a44" stroke-linecap="round" stroke-linejoin="round" stroke-width="7"/>
-  <path d="M27 87c11-5 20-5 31 0s20 5 31 0" fill="none" stroke="#8bcbd5" stroke-linecap="round" stroke-width="2.5"/>
+
+  <use href="#emblem" transform="translate(7 9) scale(0.796875)" aria-hidden="true"/>
   <text x="124" y="58" fill="#12303b" font-family="Georgia, 'Times New Roman', serif" font-size="31" font-weight="700" letter-spacing="2.6">VILLA VESSELA</text>
   <path d="M125 70h292" stroke="#c79a44" stroke-width="1"/>
   <text x="125" y="88" fill="#2b7a68" font-family="Arial, Helvetica, sans-serif" font-size="11.5" font-weight="700" letter-spacing="2.2">BEACHFRONT • TONDOL BEACH</text>
