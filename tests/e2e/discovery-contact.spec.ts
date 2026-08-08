@@ -228,9 +228,11 @@ test("contact channels expose only approved destinations while inquiries remain 
   await expect(
     page.getByRole("heading", {
       level: 2,
-      name: pendingChannelCount
-        ? "Approved contacts and pending channels"
-        : "Approved contact channels",
+      name: activeChannelCount
+        ? pendingChannelCount
+          ? "Approved contacts and pending channels"
+          : "Approved contact channels"
+        : "No incomplete link is active",
     }),
   ).toBeVisible();
 
