@@ -37,6 +37,7 @@ The canonical Contact page returned HTTP 200 and exposed six approved channel ca
 - Email links: exactly 1
 - Evelyn headings or contact cards: 0
 - Approved Airbnb, Facebook, Messenger, and WhatsApp destinations: present
+- Contact section heading: approved-only wording with no pending-channel claim
 - Mobile horizontal overflow at 390 × 844: none
 - Phase 5 production Axe scan: 0 violations
 - Content Security Policy, Referrer Policy, and `X-Content-Type-Options`: present

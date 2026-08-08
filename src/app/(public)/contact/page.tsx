@@ -38,6 +38,7 @@ const channelIcons = {
 export default function ContactPage() {
   const inquiryEnabled = isContactInquiryEnabled();
   const hasApprovedDestination = contactChannels.some((channel) => channel.destination);
+  const hasPendingDestination = contactChannels.some((channel) => !channel.destination);
 
   return (
     <main id="main-content">
@@ -58,12 +59,20 @@ export default function ContactPage() {
           <PageSectionHeading
             description={
               hasApprovedDestination
-                ? "Every active destination below has explicit owner approval. Other channels remain inactive until their complete destination and publication permission are confirmed."
+                ? hasPendingDestination
+                  ? "Every active destination below has explicit owner approval. Other channels remain inactive until their complete destination and publication permission are confirmed."
+                  : "Every contact below has explicit owner approval and an active, validated destination."
                 : "These are the supported public channels. Each one remains inactive until its complete destination and publication permission are confirmed in configuration."
             }
             eyebrow="Contact options"
             id="contact-options"
-            title={hasApprovedDestination ? "Approved contacts and pending channels" : "No incomplete link is active"}
+            title={
+              hasApprovedDestination
+                ? hasPendingDestination
+                  ? "Approved contacts and pending channels"
+                  : "Approved contact channels"
+                : "No incomplete link is active"
+            }
           />
 
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

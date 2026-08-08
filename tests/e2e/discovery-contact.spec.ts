@@ -225,6 +225,14 @@ test("contact channels expose only approved destinations while inquiries remain 
   for (const button of await page.getByRole("button", { name: /destination awaiting confirmation/ }).all()) {
     await expect(button).toBeDisabled();
   }
+  await expect(
+    page.getByRole("heading", {
+      level: 2,
+      name: pendingChannelCount
+        ? "Approved contacts and pending channels"
+        : "Approved contact channels",
+    }),
+  ).toBeVisible();
 
   const caretakerLinks = page.locator('a[href^="tel:"]');
   if (configuredCaretakerPhones.length) {
