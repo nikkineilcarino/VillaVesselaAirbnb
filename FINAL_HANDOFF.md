@@ -1,6 +1,6 @@
 # Villa Vessela Website — Final Handoff
 
-**Handoff date:** 2026-07-29
+**Handoff date:** 2026-08-08
 
 **Repository:** [nikkineilcarino/VillaVesselaAirbnb](https://github.com/nikkineilcarino/VillaVesselaAirbnb)
 
@@ -10,16 +10,16 @@
 
 The verified public-information website is complete, published from `main`, and safe to leave online without further configuration.
 
-- Release commit: [`484c4dba146e14aa6ea75a53ef78260db5656c81`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/commit/484c4dba146e14aa6ea75a53ef78260db5656c81)
-- GitHub Quality run: [`30429753598`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/actions/runs/30429753598), passed
-- Vercel production deployment: `dpl_DaCop6F58zCeLHXBTbC4SUuECUWN`, Ready and assigned to the canonical alias
-- Maintenance scope: compatible Supabase, Node type, PostCSS, and Supabase CLI patch/minor updates; incompatible ESLint 10 and TypeScript 7 major upgrades remain deliberately deferred
-- Local verification: production audit clean; lint, strict types, 68 unit tests, production build, and 47 configured Chromium tests passed with 2 credential-dependent administrator checks intentionally skipped
-- Hosted verification: Google and Waze frames visually render the matching Tondol beachfront pin; the page initially creates no provider iframe; zoom and exact CSP frame sources passed. Contact returned HTTP 200 with exactly one matching WhatsApp action, approved wording, no mobile overflow, and zero Axe violations.
+- Release commit: [`537d5df390a974b7001241c9b3930af2452cc298`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/commit/537d5df390a974b7001241c9b3930af2452cc298)
+- GitHub Quality run: [`31247231534`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/actions/runs/31247231534), passed
+- Vercel production deployment: `dpl_GYTtfAvoopAZk3aTP2mMM2Zp49hK`, Ready and assigned to the canonical alias
+- Maintenance scope: compatible PostCSS, `nanoid`, `brace-expansion`, `minimatch`, and `js-yaml` security updates; incompatible ESLint 10 and TypeScript 7 major upgrades remain deliberately deferred
+- Local verification: complete and production audits clean; lint, strict types, 68 unit tests, production build, and 47 configured Chromium tests passed with 2 credential-dependent administrator checks intentionally skipped
+- Hosted verification: Contact returned HTTP 200 with all six approved channels, exactly one telephone action, exactly one email action, no Evelyn contact, no mobile overflow, required security headers, and zero Axe violations. Google and Waze opt-in map behavior remains covered by the full browser suite.
 - Production performance revalidation: two mobile Lighthouse runs scored 99 and two desktop runs scored 100; accessibility, best practices, and SEO scored 100 in all four runs
 - GitHub maintenance snapshot: 0 open pull requests and 0 open non-PR issues
 
-Thirty-seven approved photographs are published. The passenger-boat photograph remains excluded because it contains recognizable people and a vessel identifier. Approved caretaker telephone values are published only through environment configuration and are not repeated in the repository.
+Thirty-seven approved photographs are published. The passenger-boat photograph remains excluded because it contains recognizable people and a vessel identifier. The approved caretaker telephone value and public email are published only through environment configuration and are not repeated in the repository.
 
 ## Intentional safe defaults
 
@@ -42,7 +42,7 @@ These are deliberate release boundaries, not broken features:
 | Parking photo | Original image and confirmation that it depicts the published carport/three-to-four-car arrangement | Reserved gallery record in `src/data/gallery.ts` |
 | Improved hero | Preferably an original image at least 1600 px wide | Existing hero image configuration |
 | Booking/social links or replacement map pin | Complete approved destination/pin and explicit permission to publish | Validated `NEXT_PUBLIC_*` Vercel variables |
-| Owner phone/email | Complete value and explicit approval to publish | Validated public-contact variables |
+| Owner phone | Complete value and explicit approval to publish | Validated public-contact variable |
 | Rates, fees, and property facts | A decision for the matching unchecked item | `CONTENT_TODO.md` and typed `src/data/` modules |
 | Messenger reviews | Approved excerpt or redacted screenshot plus attribution permission | Three empty review reservations |
 | Custom domain | Final HTTPS origin and DNS access | Canonical environment setting and deployment runbook |

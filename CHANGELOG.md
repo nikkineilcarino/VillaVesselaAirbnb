@@ -6,6 +6,8 @@
 - Retained Nida as the sole named caretaker telephone contact.
 - Activated the owner-approved public email through validated environment configuration and displayed it on the Contact card.
 - Kept the email value out of tracked source and documentation while extending configured/fail-closed browser coverage.
+- Updated PostCSS and compatible transitive packages after newly published advisories surfaced during release verification.
+- Restored both the production and complete dependency audits to zero vulnerabilities without a forced major upgrade.
 
 ## 2026-07-27 — Approved Messenger destination
 

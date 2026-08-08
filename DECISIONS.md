@@ -314,3 +314,12 @@
 - **Reason:** revocation must remove the contact from every active public path, while the approved email should follow the same environment-only privacy boundary as other public contact values.
 - **Consequences:** production release requires deleting the former Evelyn variable from every Vercel scope, retaining Nida only in the intended scope, setting the email variable in the intended scope, redeploying, and verifying zero Evelyn labels/links plus the expected Nida and email destinations. The email is intentionally visible to visitors and mail clients after a click but remains absent from Git history.
 - **Date:** 2026-08-08
+
+## Decision 036 — Apply newly compatible dependency security fixes
+
+- **Context:** The final contact release audit found new advisories affecting the prior PostCSS/nanoid and brace-expansion/js-yaml dependency resolutions. Compatible patched releases were now available for both the modern and legacy dependency branches covered by Decision 027.
+- **Options considered:** leave the development-only findings under the earlier temporary controls; run `npm audit fix --force`; update only production dependencies; apply the compatible non-breaking resolutions and re-run every release gate.
+- **Selected approach:** update PostCSS to 8.5.26, scope the modern `brace-expansion` override to 5.0.9, accept npm's compatible legacy `brace-expansion` 1.1.18 and `js-yaml` 4.3.1 resolutions, and retain exact lockfile control. Do not use `--force`.
+- **Reason:** the available versions remove both production and development findings while preserving the supported Next.js, ESLint, TypeScript, and minimatch major lines.
+- **Consequences:** both complete and production audits return zero vulnerabilities. Lint, type checking, 68 unit tests, 47 credential-independent browser tests, the production build, provider build, and GitHub Quality workflow all passed against the new lockfile.
+- **Date:** 2026-08-08
