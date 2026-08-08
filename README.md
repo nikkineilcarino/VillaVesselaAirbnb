@@ -120,7 +120,7 @@ Production is deployed through the `villa-vessela-airbnb` project in the `nikkin
 - `src/data/` — typed navigation, property, amenity, guide, rules, fee, FAQ, gallery, review, location, and attraction content
 - `src/lib/` — shared utilities, typed Supabase boundaries, bounded validation/rate limits, administrator authorization, dashboard/inquiry/CSV helpers, canonical/SEO safeguards, public-destination configuration, and privacy-safe analytics logic
 - `src/types/` — reviewed database mirror plus shared analytics, dashboard, inquiry, and export contracts
-- `public/` — editable SVG brand assets, mechanically rasterized app icons, 37 approved local property/stay photographs, and clearly labelled placeholders for unresolved positions
+- `public/` — editable SVG brand assets, mechanically rasterized app icons, 41 approved local property/stay photographs, and clearly labelled placeholders for unresolved positions
 - `supabase/` — ordered SQL migrations, local configuration, synthetic seed data, RLS/policy guidance, and blocked-live-test instructions
 - `tests/` — Vitest utility/database/auth/analytics/dashboard/inquiry/CSV/SEO coverage and Playwright public, administrator, analytics, inquiry-mode, metadata, privacy, security-header, interaction, responsive, and accessibility checks
 - `docs/qa/` — phase-specific, evidence-based QA reports

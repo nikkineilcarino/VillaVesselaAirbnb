@@ -70,7 +70,14 @@ test("guest guide provides rules, fee safeguards, attractions, and accessible FA
   await expect(page.getByRole("heading", { name: "Every listed amount still requires confirmation" })).toBeVisible();
   await expect(page.getByText(/No amount is published until the owner approves/)).toBeVisible();
   await expect(page.locator("main").getByText(/PHP|₱/)).toHaveCount(0);
+  await expect(page.getByRole("heading", { name: "Hundred Islands" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Silaki Island and giant-clam conservation" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Bolinao floating restaurant" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Tara Falls" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Bolinao Falls" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Tanduyong Island low-tide walk" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Toothbrush Island" })).toBeVisible();
+  await expect(page.locator('section[aria-labelledby="attractions"]').getByRole("img")).toHaveCount(6);
   await expect(page.locator("details")).toHaveCount(20);
 
   const waterFaq = page.locator("details").filter({ hasText: "Is drinking water provided?" });

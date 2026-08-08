@@ -38,7 +38,7 @@ export default function GalleryPage() {
         <Container size="wide">
           <PageSectionHeading
             description="Open any photograph for a larger view. Captions identify nearby attractions and clearly separate optional or still-unconfirmed arrangements."
-            eyebrow="37 supplied photographs"
+            eyebrow="41 supplied photographs"
             id="gallery-grid"
             title="Explore the property and nearby coast"
           />

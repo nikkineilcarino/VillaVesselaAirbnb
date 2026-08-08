@@ -28,15 +28,89 @@ export const attractionPreviews = [
 export type NearbyAttraction = {
   category: "activity" | "day trip" | "food" | "local culture";
   description: string;
+  image?: {
+    alt: string;
+    height: number;
+    src: string;
+    width: number;
+  };
   title: string;
 };
+
+const attractionImageRoot = "/images/villa-vessela/attraction";
 
 export const nearbyAttractions = [
   {
     category: "day trip",
     description:
-      "Explore the celebrated island group from Alaminos through local providers, subject to schedules, weather, and sea conditions.",
+      "Explore Hundred Islands National Park from Alaminos through local providers, subject to current schedules, weather, sea conditions, and fees.",
+    image: {
+      alt: "Green islands and turquoise coves in Hundred Islands National Park",
+      height: 1105,
+      src: `${attractionImageRoot}/hundred-islands-view.jpg`,
+      width: 1474,
+    },
     title: "Hundred Islands",
+  },
+  {
+    category: "day trip",
+    description:
+      "Silaki Island is associated with giant-clam conservation in Bolinao. Confirm whether visitor activities are operating and arrange any trip through an authorized local provider, subject to sea and weather conditions.",
+    image: {
+      alt: "Local boats and a covered floating platform on blue water near Silaki Island",
+      height: 1829,
+      src: `${attractionImageRoot}/silaki-island-giant-clams.jpg`,
+      width: 1463,
+    },
+    title: "Silaki Island and giant-clam conservation",
+  },
+  {
+    category: "food",
+    description:
+      "A supplied photograph shows floating dining structures in Bolinao. Confirm the current operator, route, opening hours, menu, price, and reservation requirements before visiting.",
+    image: {
+      alt: "Bamboo floating dining huts on a blue-green river in Bolinao",
+      height: 1105,
+      src: `${attractionImageRoot}/bolinao-floating-restaurant.jpg`,
+      width: 1474,
+    },
+    title: "Bolinao floating restaurant",
+  },
+  {
+    category: "day trip",
+    description:
+      "The supplied source identifies this destination as Tara Falls. Confirm current access, weather, water conditions, safety guidance, opening status, and fees locally before setting out.",
+    image: {
+      alt: "Turquoise pool below a small waterfall framed by hanging roots and greenery",
+      height: 1105,
+      src: `${attractionImageRoot}/tara-falls-bolinao.jpg`,
+      width: 1474,
+    },
+    title: "Tara Falls",
+  },
+  {
+    category: "day trip",
+    description:
+      "The supplied source identifies this destination only as Bolinao Falls. Confirm which falls, current access, capacity, water conditions, safety guidance, and fees locally before visiting.",
+    image: {
+      alt: "Wide tiered waterfall flowing into a blue-green rocky pool in Bolinao",
+      height: 1829,
+      src: `${attractionImageRoot}/bolinao-falls.jpg`,
+      width: 1463,
+    },
+    title: "Bolinao Falls",
+  },
+  {
+    category: "activity",
+    description:
+      "The supplied source describes a walk toward Tanduyong Island during low tide. Verify the tide window, route, weather, guide needs, and suitable footwear locally; do not attempt an uncertain crossing.",
+    image: {
+      alt: "Shallow clear water leading toward low green Tanduyong Island under a blue sky",
+      height: 1105,
+      src: `${attractionImageRoot}/tanduyong-island-low-tide.jpg`,
+      width: 1474,
+    },
+    title: "Tanduyong Island low-tide walk",
   },
   {
     category: "day trip",

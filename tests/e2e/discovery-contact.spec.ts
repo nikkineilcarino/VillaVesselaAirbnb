@@ -58,9 +58,21 @@ test("Phase 5 routes are public, titled, and active in navigation", async ({ pag
 });
 
 test("gallery exposes every supplied photograph and the three honest open slots", async ({ page, request }) => {
-  const photo = await request.get("/images/villa-vessela/property/villa-vessela-photo-wall.jpg");
-  expect(photo.ok()).toBe(true);
-  expect(photo.headers()["content-type"]).toContain("image/jpeg");
+  const publishedPhotos = [
+    "/images/villa-vessela/property/villa-vessela-photo-wall.jpg",
+    "/images/villa-vessela/attraction/silaki-island-giant-clams.jpg",
+    "/images/villa-vessela/attraction/bolinao-floating-restaurant.jpg",
+    "/images/villa-vessela/attraction/tara-falls-bolinao.jpg",
+    "/images/villa-vessela/attraction/bolinao-falls.jpg",
+    "/images/villa-vessela/attraction/hundred-islands-view.jpg",
+    "/images/villa-vessela/attraction/tanduyong-island-low-tide.jpg",
+  ];
+
+  for (const source of publishedPhotos) {
+    const photo = await request.get(source);
+    expect(photo.ok(), `${source} should load`).toBe(true);
+    expect(photo.headers()["content-type"]).toContain("image/jpeg");
+  }
 
   const placeholder = await request.get("/images/placeholders/gallery-generic-placeholder.svg");
   expect(placeholder.ok()).toBe(true);
@@ -74,7 +86,7 @@ test("gallery exposes every supplied photograph and the three honest open slots"
     await route.continue();
   });
   await page.goto("/gallery");
-  await expect(page.getByRole("button", { name: /^Open .+ image$/ })).toHaveCount(40);
+  await expect(page.getByRole("button", { name: /^Open .+ image$/ })).toHaveCount(44);
   await expect(
     page.getByRole("button", { name: "Open Villa exterior image" }).first().getByRole("img"),
   ).toHaveAttribute("srcset", /q=60/);
@@ -97,16 +109,16 @@ test("gallery lightbox traps focus, supports arrows, and restores its trigger", 
   await expect(dialog).toBeVisible();
   await expect(closeButton).toBeFocused();
   await expect(page.locator("body")).toHaveCSS("overflow", "hidden");
-  await expect(dialog.getByText("Image 1 of 40")).toBeVisible();
+  await expect(dialog.getByText("Image 1 of 44")).toBeVisible();
   await expect(dialog.getByRole("img", { name: /Front view of Villa Vessela with flowers/ })).toHaveClass(
     /object-contain/,
   );
 
   await page.keyboard.press("ArrowRight");
-  await expect(page.getByRole("dialog", { name: "Villa exterior" }).getByText("Image 2 of 40")).toBeVisible();
+  await expect(page.getByRole("dialog", { name: "Villa exterior" }).getByText("Image 2 of 44")).toBeVisible();
   await expect(page.getByRole("dialog", { name: "Villa exterior" }).getByRole("img", { name: /coral-colored/ })).toBeVisible();
   await page.keyboard.press("ArrowLeft");
-  await expect(page.getByRole("dialog", { name: "Villa exterior" }).getByText("Image 1 of 40")).toBeVisible();
+  await expect(page.getByRole("dialog", { name: "Villa exterior" }).getByText("Image 1 of 44")).toBeVisible();
 
   await page.keyboard.press("Shift+Tab");
   await expect(dialog.getByRole("button", { name: "Next image" })).toBeFocused();

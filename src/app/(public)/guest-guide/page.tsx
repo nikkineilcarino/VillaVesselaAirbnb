@@ -10,6 +10,7 @@ import {
   UtensilsCrossed,
 } from "lucide-react";
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 
 import { DisclosureNote } from "@/components/public/DisclosureNote";
@@ -238,10 +239,20 @@ export default function GuestGuidePage() {
             id="attractions"
             title="Explore the coast, islands, and local flavours"
           />
-          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {nearbyAttractions.map((attraction) => (
               <article className="rounded-card border border-border bg-surface p-6 shadow-soft" key={attraction.title}>
-                {attraction.category === "food" ? (
+                {"image" in attraction ? (
+                  <div className="relative aspect-[4/3] overflow-hidden rounded-[1.25rem] bg-surface-muted">
+                    <Image
+                      alt={attraction.image.alt}
+                      className="object-cover"
+                      fill
+                      sizes="(min-width: 1024px) 30vw, (min-width: 640px) 46vw, 92vw"
+                      src={attraction.image.src}
+                    />
+                  </div>
+                ) : attraction.category === "food" ? (
                   <UtensilsCrossed aria-hidden="true" className="text-secondary" size={27} />
                 ) : attraction.category === "local culture" ? (
                   <MapPinned aria-hidden="true" className="text-secondary" size={27} />

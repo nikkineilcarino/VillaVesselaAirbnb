@@ -20,7 +20,7 @@ export function GalleryPreview() {
           />
           <p className="inline-flex max-w-sm items-center gap-3 rounded-full border border-border bg-surface-muted px-5 py-3 text-sm text-foreground/75">
             <Images aria-hidden="true" className="shrink-0 text-secondary" size={19} />
-            Explore 37 supplied photographs in the full gallery.
+            Explore 41 supplied photographs in the full gallery.
           </p>
         </div>
 
