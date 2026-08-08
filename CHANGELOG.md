@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-08-08 — Final public contact selection
+
+- Removed Evelyn from the public caretaker list, runtime configuration, and telephone destination allowlist following the owner's updated instruction.
+- Retained Nida as the sole named caretaker telephone contact.
+- Activated the owner-approved public email through validated environment configuration and displayed it on the Contact card.
+- Kept the email value out of tracked source and documentation while extending configured/fail-closed browser coverage.
+
 ## 2026-07-27 — Approved Messenger destination
 
 - Activated the owner-supplied Messenger conversation through the existing validated public destination boundary.

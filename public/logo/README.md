@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This directory stores the editable, local SVG identity and its mechanically rasterized web-app icons. The concept combines an intertwined VV, three individual sampaguita flowers above the monogram, and a flowering sampaguita garland below it.
+This directory stores the editable, local SVG identity and its mechanically rasterized web-app icons. The concept combines an intertwined VV with three individual sampaguita flowers above the monogram and three below it.
 
 ## Assets
 
@@ -17,7 +17,7 @@ This directory stores the editable, local SVG identity and its mechanically rast
 
 ## Interactions
 
-`src/components/branding/VillaLogo.tsx` selects the correct asset and preserves intrinsic dimensions. Root metadata exposes `favicon.svg` and the Apple icon; the web manifest references both web-app icon sizes.
+`src/components/branding/VillaLogo.tsx` selects the correct asset and preserves intrinsic dimensions. `src/components/branding/logoAssets.ts` applies one shared revision query so browsers fetch approved artwork immediately after a logo update. Root metadata exposes `favicon.svg` and the Apple icon; the web manifest references both web-app icon sizes.
 
 ## Adding or changing assets safely
 

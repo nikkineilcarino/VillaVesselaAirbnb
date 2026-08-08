@@ -2,7 +2,6 @@ import type { ExternalLinkType } from "@/types/analytics";
 
 export type PublicDestinationEnvironment = {
   airbnbUrl?: null | string;
-  caretakerEvelynPhone?: null | string;
   caretakerNidaPhone?: null | string;
   contactEmail?: null | string;
   contactPhone?: null | string;
@@ -17,7 +16,6 @@ export type PublicDestinationEnvironment = {
 
 export type PublicDestinationConfig = {
   airbnb: null | string;
-  caretakerEvelynPhone: null | string;
   caretakerNidaPhone: null | string;
   email: null | string;
   facebook: null | string;
@@ -115,9 +113,6 @@ function normalizeInternationalDigits(value: null | string | undefined) {
 export function createPublicDestinationConfig(
   environment: PublicDestinationEnvironment,
 ): PublicDestinationConfig {
-  const caretakerEvelynPhoneDigits = normalizeInternationalDigits(
-    environment.caretakerEvelynPhone,
-  );
   const caretakerNidaPhoneDigits = normalizeInternationalDigits(
     environment.caretakerNidaPhone,
   );
@@ -126,9 +121,6 @@ export function createPublicDestinationConfig(
 
   return {
     airbnb: normalizeHttpsUrl(environment.airbnbUrl),
-    caretakerEvelynPhone: caretakerEvelynPhoneDigits
-      ? `tel:+${caretakerEvelynPhoneDigits}`
-      : null,
     caretakerNidaPhone: caretakerNidaPhoneDigits
       ? `tel:+${caretakerNidaPhoneDigits}`
       : null,
@@ -146,7 +138,6 @@ export function createPublicDestinationConfig(
 
 export const publicDestinations = createPublicDestinationConfig({
   airbnbUrl: process.env.NEXT_PUBLIC_AIRBNB_URL,
-  caretakerEvelynPhone: process.env.NEXT_PUBLIC_CARETAKER_EVELYN_PHONE,
   caretakerNidaPhone: process.env.NEXT_PUBLIC_CARETAKER_NIDA_PHONE,
   contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL,
   contactPhone: process.env.NEXT_PUBLIC_CONTACT_PHONE,
@@ -166,7 +157,7 @@ export function getApprovedExternalDestinations(
   if (linkType === "google_maps") return config.googleMaps ? [config.googleMaps] : [];
   if (linkType === "other") return [];
   if (linkType === "phone") {
-    return [config.phone, config.caretakerNidaPhone, config.caretakerEvelynPhone].filter(
+    return [config.phone, config.caretakerNidaPhone].filter(
       (destination): destination is string => Boolean(destination),
     );
   }

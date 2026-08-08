@@ -37,7 +37,7 @@ Represent unknown values explicitly with `null`, a disabled state, or an `upcomi
 
 ## Environment variables
 
-Data modules do not read environment variables directly. `src/lib/config/publicDestinations.ts` normalizes the public destination variables, including the two separately approved caretaker telephone slots, and supplies typed `null` fallback states.
+Data modules do not read environment variables directly. `src/lib/config/publicDestinations.ts` normalizes the public destination variables, including the approved public email and Nida caretaker telephone slot, and supplies typed `null` fallback states.
 
 ## Testing
 

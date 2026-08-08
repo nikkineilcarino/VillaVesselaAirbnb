@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 
+import { logoAssets } from "@/components/branding/logoAssets";
 import { SkipLink } from "@/components/ui/SkipLink";
 import {
   siteMetadataDescription,
@@ -24,15 +25,15 @@ export const metadata: Metadata = {
       {
         sizes: "180x180",
         type: "image/png",
-        url: "/logo/apple-touch-icon.png",
+        url: logoAssets.appleTouchIcon,
       },
     ],
     icon: [
-      { type: "image/svg+xml", url: "/logo/favicon.svg" },
+      { type: "image/svg+xml", url: logoAssets.favicon },
       {
         sizes: "any",
         type: "image/svg+xml",
-        url: "/logo/villa-vessela-mark.svg",
+        url: logoAssets.mark.dark,
       },
     ],
   },

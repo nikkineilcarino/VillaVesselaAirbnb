@@ -46,7 +46,7 @@ export default function ContactPage() {
         currentPath="/contact"
         description={
           hasApprovedDestination
-            ? "Use only a complete, owner-approved destination. Active booking, social, and telephone channels are verified through configuration; missing channels remain visibly inactive."
+            ? "Use only a complete, owner-approved destination. Active booking, social, telephone, and email channels are verified through configuration; missing channels remain visibly inactive."
             : "Use only a complete, owner-approved destination. Configured channels become active; missing or malformed values remain visibly inactive rather than linking to a guessed or private contact."
         }
         eyebrow="Booking and contact"

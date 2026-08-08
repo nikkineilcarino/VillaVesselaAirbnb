@@ -1,5 +1,7 @@
 # Caretaker telephone activation — 2026-07-27
 
+> **Superseded contact scope (2026-08-08):** The owner retained Nida and removed Evelyn from the public contact list. Current releases must expose only Nida's approved caretaker telephone and must not configure `NEXT_PUBLIC_CARETAKER_EVELYN_PHONE`. The details below remain as historical evidence for the 2026-07-27 release.
+
 ## Authority and scope
 
 The 42-page source package identifies two named caretaker telephone contacts, classifies them as internal by default, and requires explicit approval before public display. On 2026-07-27, the owner explicitly approved their use after that privacy restriction was restated.

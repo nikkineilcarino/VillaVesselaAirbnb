@@ -102,11 +102,15 @@ test("brand assets and favicon are available", async ({ page, request }) => {
   }
 
   await page.goto("/");
+  await expect(page.getByAltText("Villa Vessela").first()).toHaveAttribute(
+    "src",
+    /\/logo\/villa-vessela-logo-dark\.svg\?v=/,
+  );
   await expect(
-    page.locator('link[rel="icon"][href="/logo/favicon.svg"]'),
+    page.locator('link[rel="icon"][href^="/logo/favicon.svg?v="]'),
   ).toHaveAttribute(
     "href",
-    /\/logo\/favicon\.svg/,
+    /\/logo\/favicon\.svg\?v=/,
   );
 });
 

@@ -228,7 +228,12 @@ test("global security headers and static asset caching are present without break
   expect(headers["cross-origin-opener-policy"]).toBe("same-origin");
 
   const asset = await request.get("/logo/web-app-icon-192.png");
-  expect(asset.headers()["cache-control"]).toContain("max-age=86400");
+  const testHostname = new URL(
+    process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000",
+  ).hostname;
+  expect(asset.headers()["cache-control"]).toContain(
+    ["127.0.0.1", "localhost"].includes(testHostname) ? "no-store" : "max-age=86400",
+  );
 
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");

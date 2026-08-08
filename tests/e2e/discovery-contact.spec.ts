@@ -4,6 +4,7 @@ import { expect, test } from "@playwright/test";
 import {
   configuredAirbnbUrl,
   configuredCaretakerPhones,
+  configuredContactEmail,
   configuredFacebookUrl,
   configuredGoogleMapsEmbedUrl,
   configuredGoogleMapsUrl,
@@ -213,6 +214,7 @@ test("contact channels expose only approved destinations while inquiries remain 
   const activeChannelCount =
     configuredCaretakerPhones.length +
     Number(Boolean(configuredAirbnbUrl)) +
+    Number(Boolean(configuredContactEmail)) +
     Number(Boolean(configuredFacebookUrl)) +
     Number(Boolean(configuredMessengerUrl)) +
     Number(Boolean(configuredWhatsAppUrl));
@@ -227,12 +229,14 @@ test("contact channels expose only approved destinations while inquiries remain 
   const caretakerLinks = page.locator('a[href^="tel:"]');
   if (configuredCaretakerPhones.length) {
     await expect(caretakerLinks).toHaveCount(configuredCaretakerPhones.length);
+    await expect(page.getByText("Nida — Caretaker", { exact: true })).toBeVisible();
     expect((await caretakerLinks.evaluateAll((links) => links.map((link) => link.getAttribute("href")))).sort()).toEqual(
       [...configuredCaretakerPhones].sort(),
     );
   } else {
     await expect(caretakerLinks).toHaveCount(0);
   }
+  await expect(page.getByText("Evelyn — Caretaker", { exact: true })).toHaveCount(0);
 
   if (configuredAirbnbUrl) {
     await expect(page.locator(`a[href="${configuredAirbnbUrl}"]`)).toHaveCount(2);
@@ -253,6 +257,14 @@ test("contact channels expose only approved destinations while inquiries remain 
     await expect(page.locator(`a[href="${configuredWhatsAppUrl}"]`)).toHaveCount(1);
     await expect(page.getByText("Open WhatsApp", { exact: true })).toBeVisible();
     await expect(page.getByText("Owner-approved WhatsApp contact", { exact: true })).toBeVisible();
+  }
+
+  if (configuredContactEmail) {
+    await expect(page.locator(`a[href="${configuredContactEmail}"]`)).toHaveCount(1);
+    await expect(
+      page.getByText(configuredContactEmail.replace(/^mailto:/, ""), { exact: true }),
+    ).toBeVisible();
+    await expect(page.getByText("Owner-approved public email", { exact: true })).toBeVisible();
   }
 
   const form = page.getByRole("form");
@@ -283,6 +295,7 @@ test("Phase 5 routes expose only configured external destinations", async ({ pag
     if (route.path === "/contact") {
       allowedDestinations.push(
         configuredFacebookUrl,
+        configuredContactEmail,
         configuredMessengerUrl,
         configuredWhatsAppUrl,
         ...configuredCaretakerPhones,

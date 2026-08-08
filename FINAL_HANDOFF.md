@@ -25,7 +25,7 @@ Thirty-seven approved photographs are published. The passenger-boat photograph r
 
 These are deliberate release boundaries, not broken features:
 
-- The Airbnb listing, Facebook page, Messenger conversation, WhatsApp contact, verified Google Maps/Waze property pin, and two named caretaker telephone contacts are explicitly approved and active through validated Vercel environment values. Public email and owner-telephone destinations remain inactive until exact owner-approved values are supplied.
+- The Airbnb listing, Facebook page, Messenger conversation, WhatsApp contact, verified Google Maps/Waze property pin, Nida caretaker telephone, and public email are explicitly approved through validated environment values. Evelyn has been removed from the public contact list; the owner-telephone destination remains inactive until an exact approved value is supplied.
 - Blue Kubo, Green Kubo, and parking retain visible photo slots. The owner-confirmed carport and three-to-four-car arrangement is published without implying that a dedicated parking photograph has been supplied. A higher-resolution front-of-villa hero remains recommended.
 - The spacious front yard, tropical garden, complete household utilities, and the kitchen kubo shared by Blue and Green Kubo guests are published as owner-confirmed facts. Fixed Wi-Fi is still not advertised, and main-villa-only access to the kitchen kubo remains confirmation-required.
 - Analytics storage and contact inquiries are disabled in production.

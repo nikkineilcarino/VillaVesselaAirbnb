@@ -1,57 +1,42 @@
-# Dependency security re-audit — 2026-07-27
+# Dependency security re-audit — 2026-08-08
 
 ## Outcome
 
 - Production dependencies: **0 vulnerabilities**.
-- Complete installed tree: **9 high-severity package entries**, all tracing to one development-only advisory, CVE-2026-14257 / [GHSA-mh99-v99m-4gvg](https://github.com/advisories/GHSA-mh99-v99m-4gvg).
-- Dependency tree: valid (`npm ls --all --silent`).
-- Lockfile reproducibility simulation: valid (`npm ci --ignore-scripts --dry-run --silent`).
-- Compatible package change: the modern `minimatch` 10 branch is constrained to patched `brace-expansion` 5.0.8 with a version-scoped override.
-- Remaining legacy branch: `minimatch` 3 still requires the incompatible callable API from `brace-expansion` 1.x, so the available forced remedies are not safe.
+- Complete installed dependency tree: **0 vulnerabilities**.
+- Dependency tree: valid.
+- The modern `brace-expansion` branch is pinned to 5.0.9, the legacy branch resolved to 1.1.18, `js-yaml` resolved to 4.3.1, and PostCSS resolved to 8.5.26 with `nanoid` 3.3.18.
+
+## Change rationale
+
+New compatible patched releases became available after the 2026-07-27 audit. The dependency refresh therefore removes the previous development-only findings without a forced major upgrade:
+
+- `brace-expansion` 5.0.9 addresses the bypass affecting the modern branch.
+- `brace-expansion` 1.1.18 addresses the legacy branch while retaining the callable API expected by `minimatch` 3.
+- `js-yaml` 4.3.1 addresses the reported quadratic CPU-consumption issue.
+- PostCSS 8.5.26 resolves to `nanoid` 3.3.18, removing the production advisory raised against the prior transitive version.
+
+No `npm audit --force` operation was used.
 
 ## Evidence
 
-The following commands were run with Node.js 22.18.0 against the committed lockfile:
+The following checks were run against the updated lockfile:
 
 ```powershell
-npm audit --omit=dev --json
-npm audit --json
-npm ls --all --silent
-npm ci --ignore-scripts --dry-run --silent
-npm explain brace-expansion
-npm explain minimatch
-npm ls brace-expansion minimatch --all --silent
+npm audit --omit=dev
+npm audit
+npm ls brace-expansion minimatch js-yaml nanoid postcss --all
+npm run lint
+npm run typecheck
+npm test
+npm run test:e2e
+npm run build
 ```
 
-The complete audit expands the same root finding across `brace-expansion`, `minimatch`, ESLint, two ESLint configuration packages, three Next-bundled lint plugins, and `eslint-config-next`. This is one dependency chain, not nine unrelated vulnerabilities. The installed tree confirms that the modern `minimatch` 10 copy now resolves to patched `brace-expansion` 5.0.8; the remaining report traces through legacy `minimatch` 3 to `brace-expansion` 1.1.16.
+The audit commands and dependency-tree inspection passed with zero vulnerabilities. The application checks are recorded in the current release verification after the contact-selection change.
 
-The advisory describes an out-of-memory denial of service when an attacker-controlled brace pattern is expanded. It affects `brace-expansion` through 5.0.7 and identifies 5.0.8 as the patched release. The installed dependency is used only by ESLint tooling. The repository scripts pass the fixed local path `.` to ESLint, and `eslint.config.mjs` contains only repository-owned fixed ignore patterns.
+## Follow-up
 
-## Why no forced fix was applied
-
-`npm audit` proposes two breaking remedies:
-
-1. Upgrade ESLint 9.39.5 to 10.8.0. Several lint plugins bundled by `eslint-config-next` 16.2.12 still declare peer support through ESLint 9, so this would produce an unsupported plugin combination and would not remove the legacy `minimatch` copies inside those plugins. This was rechecked and rejected on 2026-07-29 after npm reported the peer conflicts and six remaining propagated audit entries.
-2. Downgrade `eslint-config-next` 16.2.12 to an older framework major. npm produced different old-major suggestions across audit modes; neither matches the current Next.js 16 framework line, so this is not a valid compatibility fix.
-
-A global `brace-expansion` 5.0.8 override was rejected after API inspection. Installed `minimatch` 3 expects `require("brace-expansion")` itself to be callable. Version 5.0.8 instead exposes a named `expand` function, so a global override would break the linter at runtime. The applied `brace-expansion@^5.0.5` override deliberately matches only the modern branch, where that named API is expected.
-
-## Post-change verification
-
-- `npm audit --omit=dev`: 0 vulnerabilities.
-- Complete `npm audit`: 9 high-severity propagated development entries; the only vulnerable `brace-expansion` node is the legacy 1.1.16 copy.
-- `npm ls --all --silent`: passed.
-- `npm ci --ignore-scripts --dry-run --silent`: passed.
-- `npm run lint`: passed.
-- `npm run typecheck`: passed.
-- `npm test`: 9 files and 68 tests passed in the 2026-07-29 maintenance recheck.
-- `npm run build`: passed; all 14 static outputs generated.
-
-## Temporary controls and follow-up
-
-- No affected package is part of the production dependency set or deployed visitor request path.
-- Run ESLint only with the committed script/configuration; do not pass untrusted glob or brace patterns to the tooling.
-- Keep `npm audit --omit=dev` as a blocking production check.
-- Review the full development audit separately and do not suppress or mislabel it.
-- Recheck after new ESLint, `eslint-config-next`, `eslint-plugin-*`, `minimatch`, or compatible legacy `brace-expansion` releases.
-- Accept an upstream fix only after `npm ls`, lockfile simulation, lint, type checking, unit tests, browser tests, and production build all pass.
+- Keep both the production and complete dependency audits in release verification.
+- Recheck advisories whenever dependencies or the lockfile change.
+- Continue using exact dependency versions and scoped overrides so dependency behavior remains reproducible.

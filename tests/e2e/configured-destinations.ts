@@ -11,6 +11,13 @@ function normalizeConfiguredHttpsUrl(value: string | undefined) {
   }
 }
 
+function normalizeConfiguredEmail(value: string | undefined) {
+  const candidate = value?.trim().toLowerCase();
+  return candidate && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(candidate)
+    ? `mailto:${candidate}`
+    : null;
+}
+
 export function normalizeConfiguredPhone(value: string | undefined) {
   const digits = value?.replace(/\D/g, "");
   return digits && /^[1-9]\d{7,14}$/.test(digits) ? `tel:+${digits}` : null;
@@ -60,7 +67,10 @@ export const configuredWhatsAppUrl = normalizeConfiguredWhatsApp(
   process.env.NEXT_PUBLIC_WHATSAPP_NUMBER,
 );
 
+export const configuredContactEmail = normalizeConfiguredEmail(
+  process.env.NEXT_PUBLIC_CONTACT_EMAIL,
+);
+
 export const configuredCaretakerPhones = [
   normalizeConfiguredPhone(process.env.NEXT_PUBLIC_CARETAKER_NIDA_PHONE),
-  normalizeConfiguredPhone(process.env.NEXT_PUBLIC_CARETAKER_EVELYN_PHONE),
 ].filter((destination): destination is string => Boolean(destination));

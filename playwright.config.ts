@@ -1,4 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
+import { loadEnvConfig } from "@next/env";
+
+loadEnvConfig(process.cwd());
 
 const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000";
 
@@ -30,6 +33,9 @@ export default defineConfig({
       ...(process.env.NEXT_PUBLIC_AIRBNB_URL
         ? { NEXT_PUBLIC_AIRBNB_URL: process.env.NEXT_PUBLIC_AIRBNB_URL }
         : {}),
+      NEXT_PUBLIC_CARETAKER_NIDA_PHONE:
+        process.env.NEXT_PUBLIC_CARETAKER_NIDA_PHONE ?? "",
+      NEXT_PUBLIC_CONTACT_EMAIL: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "",
       ...(process.env.NEXT_PUBLIC_FACEBOOK_URL
         ? { NEXT_PUBLIC_FACEBOOK_URL: process.env.NEXT_PUBLIC_FACEBOOK_URL }
         : {}),

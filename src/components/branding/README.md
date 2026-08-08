@@ -7,6 +7,7 @@ This directory presents the original Villa Vessela identity without duplicating 
 ## Files and responsibilities
 
 - `VillaLogo.tsx` maps full/mark and dark/light choices to stable SVG assets through Next Image.
+- `logoAssets.ts` centralizes revisioned SVG and icon URLs so approved artwork replaces browser-cached versions immediately.
 - `SampaguitaDivider.tsx` provides a small decorative floral divider used sparingly in public layouts.
 
 ## Interactions
@@ -38,4 +39,4 @@ Logo metadata must not contain author-system paths, personal contacts, or hidden
 
 ## Files requiring careful review
 
-`VillaLogo.tsx` affects every public page. Changes to asset mapping, alt text, priority, intrinsic size, or filename require full shell and build retesting.
+`VillaLogo.tsx` affects every public page. Changes to asset mapping, revision, alt text, priority, intrinsic size, or filename require full shell and build retesting.

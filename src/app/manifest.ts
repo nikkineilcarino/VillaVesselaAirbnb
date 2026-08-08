@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 
+import { logoAssets } from "@/components/branding/logoAssets";
 import { siteMetadataDescription } from "@/lib/seo/metadata";
 
 export default function manifest(): MetadataRoute.Manifest {
@@ -11,13 +12,13 @@ export default function manifest(): MetadataRoute.Manifest {
       {
         purpose: "any",
         sizes: "192x192",
-        src: "/logo/web-app-icon-192.png",
+        src: logoAssets.webAppIcon192,
         type: "image/png",
       },
       {
         purpose: "any",
         sizes: "512x512",
-        src: "/logo/web-app-icon-512.png",
+        src: logoAssets.webAppIcon512,
         type: "image/png",
       },
     ],

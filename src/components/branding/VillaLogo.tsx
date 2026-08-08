@@ -1,16 +1,11 @@
 import Image from "next/image";
 
+import { logoAssets } from "@/components/branding/logoAssets";
 import { cn } from "@/lib/utils";
 
 const logoSources = {
-  full: {
-    dark: "/logo/villa-vessela-logo-dark.svg",
-    light: "/logo/villa-vessela-logo-light.svg",
-  },
-  mark: {
-    dark: "/logo/villa-vessela-mark.svg",
-    light: "/logo/villa-vessela-mark-light.svg",
-  },
+  full: logoAssets.full,
+  mark: logoAssets.mark,
 } as const;
 
 const logoDimensions = {

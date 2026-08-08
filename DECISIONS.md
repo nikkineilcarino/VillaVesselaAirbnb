@@ -305,3 +305,12 @@
 - **Reason:** this activates precisely the channel the owner supplied while keeping the public-but-personal number out of permanent Git history and without associating it with an unconfirmed person or another telephone slot.
 - **Consequences:** the resulting `wa.me` destination is intentionally visible to every visitor and to WhatsApp after a click. Replacement or revocation requires changing/removing the Vercel variable and redeploying. The public email and owner-telephone slots remain inactive; analytics, inquiries, and Supabase remain disabled.
 - **Date:** 2026-07-27
+
+## Decision 035 — Retain Nida, revoke Evelyn, and activate the approved public email
+
+- **Context:** On 2026-08-08, the owner instructed that all approved contacts remain public except Evelyn and supplied a public email address with permission to display it. Nida remains the approved caretaker telephone contact.
+- **Options considered:** hide only Evelyn's rendered card while retaining the environment input and analytics allowlist; commit the email into source; remove Evelyn across the configuration boundary, retain Nida, and activate the email through the existing validated environment slot.
+- **Selected approach:** remove `NEXT_PUBLIC_CARETAKER_EVELYN_PHONE` from runtime configuration, rendering, exact destination allowlisting, examples, and current operational documentation. Retain historical release evidence with a superseded-scope note. Keep Nida through `NEXT_PUBLIC_CARETAKER_NIDA_PHONE`. Supply the approved email only through `NEXT_PUBLIC_CONTACT_EMAIL`, render its normalized address, and allowlist its exact `mailto:` destination.
+- **Reason:** revocation must remove the contact from every active public path, while the approved email should follow the same environment-only privacy boundary as other public contact values.
+- **Consequences:** production release requires deleting the former Evelyn variable from every Vercel scope, retaining Nida only in the intended scope, setting the email variable in the intended scope, redeploying, and verifying zero Evelyn labels/links plus the expected Nida and email destinations. The email is intentionally visible to visitors and mail clients after a click but remains absent from Git history.
+- **Date:** 2026-08-08

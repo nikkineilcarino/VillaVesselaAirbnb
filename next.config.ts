@@ -80,7 +80,9 @@ const nextConfig = {
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=86400, stale-while-revalidate=604800",
+            value: isProduction
+              ? "public, max-age=86400, stale-while-revalidate=604800"
+              : "private, no-cache, no-store, must-revalidate, max-age=0",
           },
         ],
         source: "/logo/:path*",

@@ -32,17 +32,6 @@ const configuredCaretakerPhoneChannels = ([
     label: "Nida — Caretaker",
     note: "Owner-approved public caretaker telephone",
   },
-  {
-    actionLabel: "Call this contact",
-    destination: siteConfig.caretakers.evelynPhone,
-    displayValue: siteConfig.caretakers.evelynPhone
-      ? formatTelephoneDestination(siteConfig.caretakers.evelynPhone)
-      : undefined,
-    id: "phone",
-    key: "caretaker-evelyn-phone",
-    label: "Evelyn — Caretaker",
-    note: "Owner-approved public caretaker telephone",
-  },
 ] satisfies readonly ContactChannel[]).filter((channel) => Boolean(channel.destination));
 
 const telephoneChannels: readonly ContactChannel[] = configuredCaretakerPhoneChannels.length
@@ -103,9 +92,12 @@ export const contactChannels: readonly ContactChannel[] = [
   {
     actionLabel: "Send an email",
     destination: siteConfig.booking.contactEmail,
+    displayValue: siteConfig.booking.contactEmail?.replace(/^mailto:/, ""),
     id: "email",
     key: "email",
     label: "Email",
-    note: "Public owner email and publication permission are pending",
+    note: siteConfig.booking.contactEmail
+      ? "Owner-approved public email"
+      : "Owner-approved public email is not configured",
   },
 ];

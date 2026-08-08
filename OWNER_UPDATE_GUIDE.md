@@ -55,9 +55,8 @@ The website already has disabled configuration slots for future public destinati
 | Public email | `NEXT_PUBLIC_CONTACT_EMAIL` |
 | Public telephone | `NEXT_PUBLIC_CONTACT_PHONE` |
 | Nida caretaker telephone | `NEXT_PUBLIC_CARETAKER_NIDA_PHONE` |
-| Evelyn caretaker telephone | `NEXT_PUBLIC_CARETAKER_EVELYN_PHONE` |
 
-These are intentionally public values. The owner explicitly approved the Airbnb listing, Facebook page, Messenger conversation, WhatsApp contact, two named caretaker telephone contacts, and use of the verified Google Maps/Waze property pin on 2026-07-27; that approval does not approve other private details. Use a stable canonical listing URL instead of transient tracking parameters. Keep public telephone and messaging numbers out of committed files. The current hosted map embeds need no project API key; do not add a billing-enabled Maps JavaScript key merely to replace them. HTTPS destinations, provider hosts/paths, email syntax, and international phone digits are validated automatically; blank or malformed values remain inactive.
+These are intentionally public values. The owner approved the Airbnb listing, Facebook page, Messenger conversation, WhatsApp contact, Nida's caretaker telephone, the public email address, and use of the verified Google Maps/Waze property pin; that approval does not approve other private details. Evelyn was removed from the public contact list on 2026-08-08. Use a stable canonical listing URL instead of transient tracking parameters. Keep public telephone and messaging numbers out of committed files. The current hosted map embeds need no project API key; do not add a billing-enabled Maps JavaScript key merely to replace them. HTTPS destinations, provider hosts/paths, email syntax, and international phone digits are validated automatically; blank or malformed values remain inactive.
 
 ## Business facts to confirm later
 

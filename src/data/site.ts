@@ -16,7 +16,6 @@ export const siteConfig = {
     whatsappUrl: publicDestinations.whatsapp,
   },
   caretakers: {
-    evelynPhone: publicDestinations.caretakerEvelynPhone,
     nidaPhone: publicDestinations.caretakerNidaPhone,
   },
   checkIn: "After 1:00 PM",
@@ -31,9 +30,7 @@ export const siteConfig = {
   },
   name: "Beachfront Tondol Beach Villa Vessela",
   shortName: "Villa Vessela",
-  showCaretakerContactsPublicly: Boolean(
-    publicDestinations.caretakerNidaPhone || publicDestinations.caretakerEvelynPhone,
-  ),
+  showCaretakerContactsPublicly: Boolean(publicDestinations.caretakerNidaPhone),
 } as const;
 
 export const trustIndicators = [

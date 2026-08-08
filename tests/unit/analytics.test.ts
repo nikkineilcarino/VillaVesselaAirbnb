@@ -85,8 +85,7 @@ describe("Phase 8 analytics privacy and validation", () => {
   it("normalizes only safe configured public destinations", () => {
     const config = createPublicDestinationConfig({
       airbnbUrl: " https://www.airbnb.example/listing/123 ",
-      caretakerEvelynPhone: "+63 900 000 0002",
-      caretakerNidaPhone: "+63 900 000 0001",
+      caretakerNidaPhone: "+63 900 000 0002",
       contactEmail: "Host@Example.invalid",
       contactPhone: "+63 (900) 000-0000",
       facebookUrl: "https://www.facebook.com/approved-page",
@@ -101,8 +100,7 @@ describe("Phase 8 analytics privacy and validation", () => {
     });
 
     expect(config.airbnb).toBe("https://www.airbnb.example/listing/123");
-    expect(config.caretakerEvelynPhone).toBe("tel:+639000000002");
-    expect(config.caretakerNidaPhone).toBe("tel:+639000000001");
+    expect(config.caretakerNidaPhone).toBe("tel:+639000000002");
     expect(config.email).toBe("mailto:host@example.invalid");
     expect(config.phone).toBe("tel:+639000000000");
     expect(config.whatsapp).toBe("https://wa.me/639000000000");
@@ -120,8 +118,8 @@ describe("Phase 8 analytics privacy and validation", () => {
     );
     expect(config.facebook).toBe("https://www.facebook.com/approved-page");
     expect(config.messenger).toBe("https://www.messenger.com/t/1234567890");
-    expect(isApprovedExternalDestination("phone", "tel:+639000000001", config)).toBe(true);
     expect(isApprovedExternalDestination("phone", "tel:+639000000002", config)).toBe(true);
+    expect(isApprovedExternalDestination("phone", "tel:+639000000001", config)).toBe(false);
     expect(isApprovedExternalDestination("phone", "tel:+639000000003", config)).toBe(false);
     expect(
       isApprovedExternalDestination(
