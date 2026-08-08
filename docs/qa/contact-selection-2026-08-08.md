@@ -13,9 +13,10 @@ Contact values are intentionally redacted from this report and remain outside tr
 
 ## Release evidence
 
-- Application commit: `537d5df390a974b7001241c9b3930af2452cc298`
-- GitHub Quality run: `31247231534` — passed
-- Vercel deployment: `dpl_GYTtfAvoopAZk3aTP2mMM2Zp49hK` — Ready
+- Application commit: `0d55c57c67c94c76534f88e3fe015fbbf028e8b0`
+- Validation follow-up commit: `7c71334`, covering the fully unconfigured CI state
+- GitHub Quality run: `31247981887` — passed
+- Vercel deployment: `dpl_5TDeyaCX11kFYG4Hum9GutBAMVjv` — Ready
 - Canonical production alias: `https://villa-vessela-airbnb.vercel.app`
 
 ## Local verification

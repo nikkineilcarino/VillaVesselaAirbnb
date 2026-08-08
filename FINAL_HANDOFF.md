@@ -10,9 +10,10 @@
 
 The verified public-information website is complete, published from `main`, and safe to leave online without further configuration.
 
-- Release commit: [`537d5df390a974b7001241c9b3930af2452cc298`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/commit/537d5df390a974b7001241c9b3930af2452cc298)
-- GitHub Quality run: [`31247231534`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/actions/runs/31247231534), passed
-- Vercel production deployment: `dpl_GYTtfAvoopAZk3aTP2mMM2Zp49hK`, Ready and assigned to the canonical alias
+- Application release commit: [`0d55c57c67c94c76534f88e3fe015fbbf028e8b0`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/commit/0d55c57c67c94c76534f88e3fe015fbbf028e8b0)
+- Validation follow-up commit: [`7c71334`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/commit/7c71334), covering the fully unconfigured CI state
+- GitHub Quality run: [`31247981887`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/actions/runs/31247981887), passed
+- Vercel production deployment: `dpl_5TDeyaCX11kFYG4Hum9GutBAMVjv`, Ready and assigned to the canonical alias
 - Maintenance scope: compatible PostCSS, `nanoid`, `brace-expansion`, `minimatch`, and `js-yaml` security updates; incompatible ESLint 10 and TypeScript 7 major upgrades remain deliberately deferred
 - Local verification: complete and production audits clean; lint, strict types, 68 unit tests, production build, and 47 configured Chromium tests passed with 2 credential-dependent administrator checks intentionally skipped
 - Hosted verification: Contact returned HTTP 200 with all six approved channels, exactly one telephone action, exactly one email action, no Evelyn contact, no mobile overflow, required security headers, and zero Axe violations. Google and Waze opt-in map behavior remains covered by the full browser suite.
