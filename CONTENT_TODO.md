@@ -119,6 +119,12 @@ Local verification completed on 2026-08-08. ESLint and strict TypeScript passed;
 
 All six attraction JPEGs decode successfully at their declared dimensions as RGB progressive JPEGs, contain no EXIF or ICC metadata, and retain the completed visual privacy review. Changed-text credential scanning, the excluded-contact scan, and the superseded-runtime-reference scan passed. `npm audit --audit-level=high` reported zero vulnerabilities. The optimized Next.js production build compiled, type-checked, generated all 14 static outputs, and completed successfully. The local development preview was restored after the exclusive browser/build checks.
 
+#### Step 6 publication
+
+The verified application changes were committed as `c06ed146facfc1f74cba99cde529d05dd109f1c5` (`feat: add nearby attraction photo guide`) using the configured `nikkineilcarino` contributor identity and pushed to `origin/main` at `nikkineilcarino/VillaVesselaAirbnb`. Local `HEAD` and the remote branch were confirmed identical after the push.
+
+Vercel production deployment `dpl_AZMBK154nZE4fQxn1TGqd3uCV31p` completed successfully and reported `Ready`; the project alias resolves to `https://villa-vessela-airbnb.vercel.app`. The canonical homepage, Guest Guide, and Gallery returned HTTP 200. All six attraction JPEGs returned HTTP 200 with `image/jpeg` content types and public cache headers, while the superseded generic asset returned HTTP 404. Live content checks confirmed the six attraction headings, 41-photo Gallery count, homepage count, canonical URL, and security headers. A focused Chromium run against the canonical production alias passed all seven Gallery, Guest Guide, mobile-overflow, keyboard/lightbox, and Axe accessibility checks.
+
 Implementation checkpoints:
 
 - [x] Confirm the source file is readable, unencrypted, six pages long, and visually inspect every page.
@@ -131,9 +137,9 @@ Implementation checkpoints:
 - [x] Keep all attraction claims qualified by current weather, tide, access, operator, schedule, safety, and price checks; publish no guessed distance or travel time.
 - [x] Update relevant data/components/tests and the published-photo count only after the final asset set is known.
 - [x] Run responsive, keyboard, image-loading, accessibility, privacy, lint, type, unit, browser, build, and dependency checks.
-- [ ] Commit and push with the configured contributor identity, deploy to Vercel, and verify the canonical production site.
+- [x] Commit and push with the configured contributor identity, deploy to Vercel, and verify the canonical production site.
 
-Step boundary: source intake, factual reconciliation, website mapping, cropping, privacy review, asset optimization, local data integration, Guest Guide presentation, Gallery integration, test updates, documentation, and full local verification are complete. Nothing from this package has been committed, pushed, or deployed yet. Step 6 remains the publication boundary.
+Step boundary: source intake, factual reconciliation, website mapping, cropping, privacy review, asset optimization, local data integration, Guest Guide presentation, Gallery integration, test updates, documentation, full local verification, GitHub publication, Vercel deployment, and canonical production verification are complete.
 
 - [ ] Obtain approved high-resolution front-of-villa, Blue Kubo, Green Kubo, and confirmed-parking photographs; current exterior, bedroom, living-room, entrance, and some garden sources are below 500 pixels on their longest side.
 - [ ] Obtain publication permission for the passenger-boat photograph or a crop without recognizable people and the vessel identifier.
