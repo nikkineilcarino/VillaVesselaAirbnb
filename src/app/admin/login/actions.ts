@@ -11,11 +11,6 @@ export type AdminLoginState = {
   status: "error" | "idle";
 };
 
-export const initialAdminLoginState: AdminLoginState = {
-  message: "",
-  status: "idle",
-};
-
 const genericLoginError = "Unable to sign in with those details.";
 const unavailableError = "Administrator sign-in is unavailable right now. Please try again later.";
 

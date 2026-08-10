@@ -108,4 +108,19 @@ describe("Phase 7 administrator authentication", () => {
     expect(source).not.toMatch(/console\.(?:log|error|warn)/);
     expect(source).not.toContain("returnTo");
   });
+
+  it("keeps non-function login state outside the server-action module", () => {
+    const root = process.cwd();
+    const actions = readFileSync(
+      join(root, "src", "app", "admin", "login", "actions.ts"),
+      "utf8",
+    );
+    const form = readFileSync(
+      join(root, "src", "components", "auth", "AdminLoginForm.tsx"),
+      "utf8",
+    );
+
+    expect(actions).not.toContain("export const initialAdminLoginState");
+    expect(form).toContain("const initialAdminLoginState: AdminLoginState");
+  });
 });

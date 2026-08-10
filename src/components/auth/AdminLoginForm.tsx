@@ -3,14 +3,17 @@
 import { LockKeyhole } from "lucide-react";
 import { useActionState } from "react";
 
-import {
-  initialAdminLoginState,
-  loginAdmin,
-} from "@/app/admin/login/actions";
+import { loginAdmin } from "@/app/admin/login/actions";
+import type { AdminLoginState } from "@/app/admin/login/actions";
 import { Button } from "@/components/ui/Button";
 
 type AdminLoginFormProps = {
   isConfigured: boolean;
+};
+
+const initialAdminLoginState: AdminLoginState = {
+  message: "",
+  status: "idle",
 };
 
 export function AdminLoginForm({ isConfigured }: AdminLoginFormProps) {
