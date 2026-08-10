@@ -18,6 +18,21 @@ export type DashboardDateRange = {
   today: string;
 };
 
+export type AnalyticsOperationalState =
+  | "activity"
+  | "disabled"
+  | "healthy-no-data"
+  | "storage-unavailable";
+
+export type DashboardOperationalStatus = {
+  collectionEnabled: boolean;
+  lastLinkClickAt: string | null;
+  lastPageViewAt: string | null;
+  refreshedAt: string;
+  reportingAvailable: boolean;
+  storageConfigured: boolean;
+};
+
 export type DashboardSummary = {
   airbnbClicks: number;
   clickThroughRate: number;
@@ -92,4 +107,3 @@ export type DashboardData = {
   recentPages: RecentPageActivity[];
   summary: DashboardSummary;
 };
-

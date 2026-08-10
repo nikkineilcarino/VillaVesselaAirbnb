@@ -149,7 +149,7 @@ export function DashboardCharts({
 
       <div className="mt-4 grid gap-5 xl:grid-cols-2">
         <ChartCard
-          description="Distinct anonymous visitor IDs for each Asia/Manila day."
+          description="Distinct anonymous visitor IDs among people who allowed analytics for each Asia/Manila day."
           empty={!hasVisitors}
           emptyMessage="No visitor activity was recorded in this period."
           id="daily-visitors-chart"
@@ -182,7 +182,7 @@ export function DashboardCharts({
         </ChartCard>
 
         <ChartCard
-          description="All public-route page-view records for each Asia/Manila day."
+          description="Public-route page views recorded after analytics was allowed for each Asia/Manila day."
           empty={!hasPageViews}
           emptyMessage="No page views were recorded in this period."
           id="page-views-chart"
@@ -215,7 +215,7 @@ export function DashboardCharts({
         </ChartCard>
 
         <ChartCard
-          description="Recorded clicks grouped by approved external-link type."
+          description="Consent-based clicks grouped by supported external-link reporting category."
           empty={!hasLinks}
           emptyMessage="No external-link clicks were recorded in this period."
           id="external-links-chart"
@@ -247,7 +247,7 @@ export function DashboardCharts({
         </ChartCard>
 
         <ChartCard
-          description="Page views grouped into coarse, privacy-safe device categories."
+          description="Consent-based page views grouped into coarse, privacy-safe device categories."
           empty={!hasDevices}
           emptyMessage="No device information was recorded in this period."
           id="device-chart"
@@ -284,7 +284,7 @@ export function DashboardCharts({
         </ChartCard>
 
         <ChartCard
-          description="Normalized public paths ordered by page-view count."
+          description="Normalized public paths ordered by consent-based page-view count."
           empty={!hasPages}
           emptyMessage="No pages were viewed in this period."
           id="top-pages-chart"
@@ -311,4 +311,3 @@ export function DashboardCharts({
     </section>
   );
 }
-

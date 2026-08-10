@@ -3,9 +3,16 @@ import { join } from "node:path";
 
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import { dispatchLinkClick } from "@/lib/analytics/dispatch";
+import {
+  dispatchLinkClick,
+  dispatchPageView,
+} from "@/lib/analytics/dispatch";
 import {
   ANALYTICS_SESSION_INACTIVITY_MS,
+  ANALYTICS_SESSION_STORAGE_KEY,
+  ANALYTICS_VISITOR_COOKIE,
+  clearAnonymousAnalyticsIdentity,
+  getAnonymousAnalyticsIdentity,
   isUuid,
   resolveSession,
 } from "@/lib/analytics/identifiers";
@@ -16,6 +23,10 @@ import {
   normalizeReferrer,
 } from "@/lib/analytics/normalization";
 import { FixedWindowRateLimiter } from "@/lib/analytics/rateLimit";
+import {
+  ANALYTICS_PREFERENCE_STORAGE_KEY,
+  parseAnalyticsPreference,
+} from "@/lib/analytics/preference";
 import {
   isSameOriginAnalyticsRequest,
   readBoundedAnalyticsJson,
@@ -82,6 +93,63 @@ describe("Phase 8 analytics privacy and validation", () => {
     expect(isUuid(inactive?.id ?? "")).toBe(true);
   });
 
+  it("recognizes only an explicit stored analytics preference", () => {
+    expect(parseAnalyticsPreference("allowed")).toBe("allowed");
+    expect(parseAnalyticsPreference("declined")).toBe("declined");
+    expect(parseAnalyticsPreference(null)).toBeNull();
+    expect(parseAnalyticsPreference("true")).toBeNull();
+    expect(parseAnalyticsPreference("ALLOW")).toBeNull();
+    expect(ANALYTICS_PREFERENCE_STORAGE_KEY).toBe("vv_analytics_preference");
+  });
+
+  it("does not create an identity when explicit analytics consent is absent", () => {
+    const cookieRead = vi.fn().mockReturnValue("");
+    const sessionRead = vi.fn();
+    const documentMock = {} as { cookie: string };
+
+    Object.defineProperty(documentMock, "cookie", {
+      configurable: true,
+      get: cookieRead,
+      set: vi.fn(),
+    });
+    vi.stubGlobal("document", documentMock);
+    vi.stubGlobal("window", {
+      localStorage: { getItem: vi.fn().mockReturnValue(null) },
+      sessionStorage: { getItem: sessionRead },
+    });
+
+    expect(getAnonymousAnalyticsIdentity()).toBeNull();
+    expect(cookieRead).not.toHaveBeenCalled();
+    expect(sessionRead).not.toHaveBeenCalled();
+  });
+
+  it("expires the visitor cookie and removes session state during cleanup", () => {
+    let cookieWrite = "";
+    const sessionRemove = vi.fn();
+    const documentMock = {} as { cookie: string };
+
+    Object.defineProperty(documentMock, "cookie", {
+      configurable: true,
+      get: vi.fn().mockReturnValue(""),
+      set: (value: string) => {
+        cookieWrite = value;
+      },
+    });
+    vi.stubGlobal("document", documentMock);
+    vi.stubGlobal("window", {
+      location: { protocol: "https:" },
+      sessionStorage: { removeItem: sessionRemove },
+    });
+
+    clearAnonymousAnalyticsIdentity();
+
+    expect(cookieWrite).toContain(`${ANALYTICS_VISITOR_COOKIE}=`);
+    expect(cookieWrite).toContain("Max-Age=0");
+    expect(cookieWrite).toContain("Path=/");
+    expect(cookieWrite).toContain("Secure");
+    expect(sessionRemove).toHaveBeenCalledWith(ANALYTICS_SESSION_STORAGE_KEY);
+  });
+
   it("normalizes only safe configured public destinations", () => {
     const config = createPublicDestinationConfig({
       airbnbUrl: " https://www.airbnb.example/listing/123 ",
@@ -121,6 +189,20 @@ describe("Phase 8 analytics privacy and validation", () => {
     expect(isApprovedExternalDestination("phone", "tel:+639000000002", config)).toBe(true);
     expect(isApprovedExternalDestination("phone", "tel:+639000000001", config)).toBe(false);
     expect(isApprovedExternalDestination("phone", "tel:+639000000003", config)).toBe(false);
+    expect(
+      isApprovedExternalDestination(
+        "waze",
+        "https://www.waze.com/ul?ll=16.1%2C120.1&navigate=yes&zoom=17",
+        config,
+      ),
+    ).toBe(true);
+    expect(
+      isApprovedExternalDestination(
+        "waze",
+        "https://www.google.com/maps/search/?api=1&query=Approved&query_place_id=approved",
+        config,
+      ),
+    ).toBe(false);
     expect(
       isApprovedExternalDestination(
         "facebook",
@@ -252,12 +334,37 @@ describe("Phase 8 analytics privacy and validation", () => {
     expect(limiter.allow("visitor-b", 1000)).toBe(true);
   });
 
-  it("uses sendBeacon first and never throws when delivery fails", () => {
+  it("requires consent, then uses sendBeacon and never throws when delivery fails", () => {
     const fetchMock = vi.fn().mockRejectedValue(new Error("offline"));
     const sendBeacon = vi.fn().mockReturnValue(false);
+    const getItem = vi.fn().mockReturnValue(null);
     vi.stubGlobal("fetch", fetchMock);
     vi.stubGlobal("navigator", { sendBeacon });
+    vi.stubGlobal("window", { localStorage: { getItem } });
 
+    expect(() =>
+      dispatchLinkClick({
+        anonymousVisitorId: visitorId,
+        destinationUrl: "https://approved.example/listing",
+        linkType: "airbnb",
+        sessionId,
+        sourcePage: "/",
+      }),
+    ).not.toThrow();
+    expect(() =>
+      dispatchPageView({
+        anonymousVisitorId: visitorId,
+        browserType: "chrome",
+        deviceType: "desktop",
+        path: "/",
+        referrer: null,
+        sessionId,
+      }),
+    ).not.toThrow();
+    expect(sendBeacon).not.toHaveBeenCalled();
+    expect(fetchMock).not.toHaveBeenCalled();
+
+    getItem.mockReturnValue("allowed");
     expect(() =>
       dispatchLinkClick({
         anonymousVisitorId: visitorId,

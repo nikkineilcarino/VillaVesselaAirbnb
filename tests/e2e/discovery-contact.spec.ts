@@ -217,6 +217,51 @@ test("location exposes opt-in zoomable maps and copies only the confirmed addres
   expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(address);
 });
 
+test("configured Waze navigation dispatches its exact analytics category without cancelling the anchor", async ({
+  page,
+}) => {
+  test.skip(!configuredInteractiveMaps, "The complete owner-approved map configuration is required.");
+
+  const linkEvents: Record<string, unknown>[] = [];
+
+  await page.addInitScript(() => {
+    localStorage.setItem("vv_analytics_preference", "allowed");
+  });
+  await page.route("**/api/analytics/link-click", async (route) => {
+    linkEvents.push(route.request().postDataJSON() as Record<string, unknown>);
+    await route.fulfill({ status: 201 });
+  });
+  await page.goto("/location");
+  await expect(page.getByRole("button", { name: "Analytics settings" })).toBeVisible();
+
+  await page.evaluate(() => {
+    document.addEventListener("click", (event) => {
+      const target = event.target;
+      if (
+        target instanceof Element &&
+        target.closest('a[href^="https://www.waze.com/"], a[href^="https://waze.com/"]')
+      ) {
+        // The component's anchor handler has already run by the time this document-level
+        // bubble listener executes. Cancelling only the external test navigation keeps
+        // the browser test local without replacing the anchor's production behavior.
+        event.preventDefault();
+      }
+    });
+  });
+
+  const wazeLink = page.getByRole("link", { name: /Navigate with Waze/ });
+  await expect(wazeLink).toHaveAttribute("href", configuredWazeUrl!);
+  await wazeLink.click();
+
+  await expect.poll(() => linkEvents.length).toBe(1);
+  expect(linkEvents[0]).toMatchObject({
+    destinationUrl: configuredWazeUrl,
+    linkType: "waze",
+    sourcePage: "/location",
+  });
+  await expect(page).toHaveURL(/\/location$/);
+});
+
 test("contact channels expose only approved destinations while inquiries remain disabled", async ({
   page,
 }) => {

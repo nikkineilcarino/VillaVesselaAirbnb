@@ -1,8 +1,14 @@
 import type { LinkClickPayload, PageViewPayload } from "@/types/analytics";
 
+import { hasAnalyticsConsent } from "./preference";
+
 const jsonHeaders = { "Content-Type": "application/json" } as const;
 
 export function dispatchPageView(payload: PageViewPayload) {
+  if (!hasAnalyticsConsent()) {
+    return;
+  }
+
   try {
     void fetch("/api/analytics/page-view", {
       body: JSON.stringify(payload),
@@ -17,6 +23,10 @@ export function dispatchPageView(payload: PageViewPayload) {
 }
 
 export function dispatchLinkClick(payload: LinkClickPayload) {
+  if (!hasAnalyticsConsent()) {
+    return;
+  }
+
   const body = JSON.stringify(payload);
 
   try {

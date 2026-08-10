@@ -8,4 +8,6 @@ All administrator routes are marked `noindex`. Errors are non-revealing, no publ
 
 Dashboard query parameters are untrusted. Invalid, reversed, future, or longer-than-366-day custom ranges render an inline validation state and do not query the database. All successful cards, charts, and recent tables use the same start-inclusive/end-exclusive interval.
 
+The dashboard operational panel is server-evaluated and protected by the same layout. It differentiates the collection switch, server write-configuration presence, authenticated reporting reachability, global newest analytics timestamps, and the selected range's empty state. Its manual refresh uses Next.js route refresh; it never exposes environment values or reads through the service-role client.
+
 The inquiry status Server Action must be treated as a public endpoint: it repeats `requireAdmin()`, validates its bound UUID and status, updates only `status`, revalidates fixed admin paths, and redirects only to fixed notices. The CSV handler lives under the proxy matcher but repeats authorization, type/date validation, row limits, and private download headers internally.

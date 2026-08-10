@@ -2,17 +2,13 @@ import {
   CalendarClock,
   ExternalLink,
   Eye,
-  MapPinned,
-  MessageCircle,
   MousePointerClick,
   Send,
-  Share2,
   Users,
-  Waves,
 } from "lucide-react";
 import type { ComponentType } from "react";
 
-import type { DashboardSummary } from "@/types/dashboard";
+import type { DashboardLinkTotal, DashboardSummary } from "@/types/dashboard";
 
 type MetricDefinition = {
   description: string;
@@ -25,58 +21,40 @@ function formatCount(value: number) {
   return new Intl.NumberFormat("en-PH").format(value);
 }
 
-export function DashboardMetricCards({ summary }: { summary: DashboardSummary }) {
+export function DashboardMetricCards({
+  links,
+  summary,
+}: {
+  links: DashboardLinkTotal[];
+  summary: DashboardSummary;
+}) {
   const metrics: MetricDefinition[] = [
     {
-      description: "Distinct anonymous visitor IDs",
+      description: "Distinct anonymous visitor IDs among people who allowed analytics",
       icon: Users,
       label: "Estimated unique visitors",
       value: formatCount(summary.estimatedUniqueVisitors),
     },
     {
-      description: "All recorded public-route views",
+      description: "Recorded public-route views after analytics was allowed",
       icon: Eye,
       label: "Total page views",
       value: formatCount(summary.totalPageViews),
     },
     {
-      description: "Distinct anonymous sessions",
+      description: "Distinct anonymous sessions after analytics was allowed",
       icon: CalendarClock,
       label: "Sessions",
       value: formatCount(summary.sessions),
     },
     {
-      description: "Clicks to the configured Airbnb listing",
-      icon: Waves,
-      label: "Airbnb clicks",
-      value: formatCount(summary.airbnbClicks),
-    },
-    {
-      description: "Clicks to the configured Facebook page",
-      icon: Share2,
-      label: "Facebook clicks",
-      value: formatCount(summary.facebookClicks),
-    },
-    {
-      description: "Clicks to the approved map destination",
-      icon: MapPinned,
-      label: "Google Maps clicks",
-      value: formatCount(summary.googleMapsClicks),
-    },
-    {
-      description: "Clicks to the configured WhatsApp contact",
-      icon: MessageCircle,
-      label: "WhatsApp clicks",
-      value: formatCount(summary.whatsappClicks),
-    },
-    {
-      description: "All approved external-link click records",
+      description: "All supported external-link click records after analytics was allowed",
       icon: ExternalLink,
       label: "External-link clicks",
       value: formatCount(summary.totalExternalLinkClicks),
     },
     {
-      description: `${formatCount(summary.uniqueClickingVisitors)} visitors clicked an external link`,
+      description: `${formatCount(summary.uniqueClickingVisitors)} visitors who allowed analytics clicked an external link`,
       icon: MousePointerClick,
       label: "Click-through rate",
       value: `${summary.clickThroughRate.toFixed(1)}%`,
@@ -100,10 +78,12 @@ export function DashboardMetricCards({ summary }: { summary: DashboardSummary })
             Summary metrics
           </h2>
         </div>
-        <p className="text-sm text-foreground/60">Database totals for the selected period</p>
+        <p className="text-sm text-foreground/60">
+          Database totals for the selected period; analytics metrics include only allowed collection
+        </p>
       </div>
 
-      <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
+      <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {metrics.map(({ description, icon: Icon, label, value }) => (
           <article className="rounded-card border border-border bg-surface p-5" key={label}>
             <div className="flex items-start justify-between gap-4">
@@ -112,6 +92,40 @@ export function DashboardMetricCards({ summary }: { summary: DashboardSummary })
             </div>
             <p className="mt-4 text-3xl font-semibold tracking-tight">{value}</p>
             <p className="mt-2 text-xs leading-5 text-foreground/55">{description}</p>
+          </article>
+        ))}
+      </div>
+
+      <div className="mt-8 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p className="text-xs font-semibold tracking-[0.18em] text-secondary uppercase">
+            Complete breakdown
+          </p>
+          <h3 className="mt-2 text-xl font-semibold">Link clicks by category</h3>
+        </div>
+        <p className="text-sm text-foreground/60">
+          Every supported reporting category is shown, including zero totals
+        </p>
+      </div>
+
+      <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        {links.map((link) => (
+          <article
+            className="rounded-card border border-border bg-surface p-5"
+            key={link.linkType}
+          >
+            <div className="flex items-start justify-between gap-4">
+              <p className="text-sm font-semibold leading-5 text-foreground/70">
+                {link.label} clicks
+              </p>
+              <ExternalLink aria-hidden className="shrink-0 text-secondary" size={20} />
+            </div>
+            <p className="mt-4 text-3xl font-semibold tracking-tight">
+              {formatCount(link.total)}
+            </p>
+            <p className="mt-2 text-xs leading-5 text-foreground/55">
+              Consent-based clicks categorized as {link.label}
+            </p>
           </article>
         ))}
       </div>

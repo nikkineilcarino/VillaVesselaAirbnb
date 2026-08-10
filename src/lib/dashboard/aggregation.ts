@@ -62,6 +62,7 @@ const linkLabels: Record<ExternalLinkType, string> = {
   messenger: "Messenger",
   other: "Other",
   phone: "Phone",
+  waze: "Waze",
   whatsapp: "WhatsApp",
 };
 
@@ -251,4 +252,3 @@ export function describeContactMethod(email: string | null, phone: string | null
 
   return "Unavailable";
 }
-

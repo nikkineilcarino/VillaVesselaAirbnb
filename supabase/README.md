@@ -13,8 +13,9 @@ This directory owns the versioned PostgreSQL schema, deny-by-default Row Level S
 5. `migrations/005_create_admin_policies.sql` adds the hardened membership helper and administrator-only policies/grants.
 6. `migrations/006_create_analytics_views.sql` adds security-invoker daily aggregates using Asia/Manila dates.
 7. `migrations/007_create_dashboard_functions.sql` adds exact range-bounded dashboard aggregates without bypassing administrator RLS.
-8. `seed.sql` adds only repeatable, visibly synthetic local demonstration records; it creates no Auth user or administrator.
-9. `config.toml` configures local ports, migration/seed discovery, disabled signup, and no production secret.
+8. `migrations/008_add_waze_and_analytics_retention.sql` adds a distinct Waze category and daily analytics-only retention through Supabase Cron.
+9. `seed.sql` adds only repeatable, visibly synthetic local demonstration records; it creates no Auth user or administrator.
+10. `config.toml` configures local ports, migration/seed discovery, disabled signup, and no production secret.
 
 ## Access model
 
@@ -41,7 +42,7 @@ npm run db:types
 
 `db:types` prints generated TypeScript to standard output. Save it to a temporary review file and reconcile it with `src/types/database.ts`; do not blindly overwrite the reviewed application contract. `db:reset` destroys the local database only and reapplies all migrations plus `seed.sql`.
 
-The current workstation has Docker installed but its engine is unavailable, so the migrations cannot be reset/linted locally and generated-type comparison, live role probes, or populated dashboard checks cannot run. Those checks remain blocked—not passed—until Docker is running or an approved non-production Supabase project is supplied.
+If Docker is unavailable, local reset, lint, generated-type comparison, role probes, and populated dashboard checks remain blocked rather than passed. Do not use lint against the older linked schema as evidence for a pending migration.
 
 ## Remote application
 
@@ -56,7 +57,9 @@ Public signup remains disabled. Create the administrator Auth identity through t
 - Analytics has no raw-IP, exact-GPS, fingerprint, or visitor-name column.
 - Inquiry fields are bounded and require a contact method, ordered dates when both exist, positive bounded guests, a message, and true consent.
 - The guest-count maximum is an anti-abuse storage bound, not a booking/capacity promise.
-- Retention/deletion periods remain unresolved in `CONTENT_TODO.md`; no automated deletion job is invented.
+- Migration `008` schedules one database-local job at 18:15 GMT (02:15 Asia/Manila) to delete only `page_views` and `link_clicks` once they are older than 365 days. A daily schedule can add up to one scheduling interval of delay.
+- The private retention function accepts no caller-controlled cutoff, uses invoker rights, and is unavailable to `public`, `anon`, `authenticated`, and `service_role`. Its scheduling owner retains the required table authority.
+- Inquiry retention remains separate and unresolved; the analytics job never reads or deletes `contact_inquiries`.
 - Seed destinations use the reserved `.invalid` domain and seed inquiry identity is explicitly synthetic.
 - Administrator profiles are never seeded because they require a real Auth user and explicit approval.
 
@@ -69,3 +72,4 @@ Applied migrations are immutable history: fix later defects with a new migration
 - Supabase Row Level Security guidance: <https://supabase.com/docs/guides/database/postgres/row-level-security>
 - Supabase table/view security guidance: <https://supabase.com/docs/guides/database/tables>
 - Supabase server-side secret/service client guidance: <https://supabase.com/docs/guides/troubleshooting/performing-administration-tasks-on-the-server-side-with-the-servicerole-secret-BYM4Fa>
+- Supabase Cron guidance: <https://supabase.com/docs/guides/cron>

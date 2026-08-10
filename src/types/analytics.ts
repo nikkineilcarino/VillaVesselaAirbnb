@@ -14,6 +14,7 @@ export const externalLinkTypes = [
   "facebook",
   "messenger",
   "google_maps",
+  "waze",
   "whatsapp",
   "phone",
   "email",

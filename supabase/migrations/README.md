@@ -13,6 +13,7 @@ Files run lexicographically and each depends on the preceding migration. Every m
 - `005` grants approved administrators limited operations through an injection-resistant `SECURITY DEFINER` membership function.
 - `006` creates `security_invoker` views so base-table RLS remains effective.
 - `007` creates five range-bounded authenticated dashboard functions using `SECURITY INVOKER`.
+- `008` adds a distinct Waze click category and an owner-only daily Supabase Cron job that prunes only anonymous analytics after 365 days.
 
 ## Safe change workflow
 
@@ -21,8 +22,9 @@ Files run lexicographically and each depends on the preceding migration. Every m
 3. Keep every new table deny-by-default; explicitly revoke anon/authenticated privileges before adding narrow policies.
 4. Avoid public insert policies for analytics or inquiries. Their later server endpoints own validation, destination allowlisting, consent, rate limits, and safe failure handling.
 5. Add constraints before trusting TypeScript types or UI validation.
-6. Run local reset/lint, generated-type comparison, role probes, unit tests, lint, typecheck, and build.
-7. Record destructive/irreversible changes and backup requirements before remote application.
+6. Keep retention functions parameter-free, analytics-only, and unavailable to application roles. Never grant client roles direct `DELETE` access.
+7. Run local reset/lint, generated-type comparison, role probes, unit tests, lint, typecheck, and build.
+8. Record destructive/irreversible changes, scheduled jobs, and backup requirements before remote application.
 
 ## Required role probes
 

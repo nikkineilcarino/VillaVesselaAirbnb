@@ -7,8 +7,10 @@ import { DashboardCharts } from "@/components/admin/DashboardCharts";
 import { DashboardDateFilters } from "@/components/admin/DashboardDateFilters";
 import { DashboardExportLinks } from "@/components/admin/DashboardExportLinks";
 import { DashboardMetricCards } from "@/components/admin/DashboardMetricCards";
+import { DashboardOperationalStatus } from "@/components/admin/DashboardOperationalStatus";
 import { resolveDashboardDateRange } from "@/lib/dashboard/dateRange";
 import { getDashboardData } from "@/lib/dashboard/query";
+import { getDashboardOperationalStatus } from "@/lib/dashboard/status";
 
 export const metadata: Metadata = {
   description: "Protected, privacy-safe Villa Vessela analytics reporting.",
@@ -43,6 +45,7 @@ export default async function AdminDashboardPage({
   const now = new Date();
   const rangeResult = resolveDashboardDateRange(parameters, now);
   const fallbackResult = resolveDashboardDateRange({}, now);
+  const operationalStatus = await getDashboardOperationalStatus();
 
   if (!fallbackResult.success) {
     throw new Error("Dashboard date initialization failed.");
@@ -69,6 +72,8 @@ export default async function AdminDashboardPage({
           Review privacy-safe website activity and inquiry totals. Every value comes from the authenticated database connection; no sample fallback is substituted for missing data.
         </p>
       </div>
+
+      <DashboardOperationalStatus status={operationalStatus} />
 
       <div className="mt-6">
         <DashboardDateFilters
@@ -173,7 +178,7 @@ async function DashboardResults({
         </div>
       ) : null}
 
-      <DashboardMetricCards summary={data.summary} />
+      <DashboardMetricCards links={data.links} summary={data.summary} />
       <DashboardCharts
         daily={data.daily}
         devices={data.devices}
@@ -192,13 +197,13 @@ async function DashboardResults({
         <div className="mt-4 grid gap-3 text-sm leading-6 text-foreground/70 md:grid-cols-2">
           <p>
             <strong className="text-foreground">Estimated unique visitors:</strong>{" "}
-            distinct anonymous visitor IDs in the selected period.
+            distinct anonymous visitor IDs among people who allowed analytics in the selected period.
           </p>
           <p>
-            <strong className="text-foreground">Sessions:</strong> distinct anonymous session IDs in the selected period.
+            <strong className="text-foreground">Sessions:</strong> distinct anonymous session IDs created after analytics was allowed in the selected period.
           </p>
           <p>
-            <strong className="text-foreground">Click-through rate:</strong> visitors who both viewed a page and clicked at least one approved external link, divided by estimated unique visitors. A zero denominator returns 0%.
+            <strong className="text-foreground">Click-through rate:</strong> visitors who allowed analytics and both viewed a page and clicked at least one supported external link, divided by estimated unique visitors. A zero denominator returns 0%.
           </p>
           <p>
             <strong className="text-foreground">Date boundary:</strong> start-inclusive and end-exclusive UTC timestamps derived from Asia/Manila midnight.

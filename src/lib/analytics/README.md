@@ -2,7 +2,7 @@
 
 ## Data model
 
-The browser creates a random UUID visitor cookie (`vv_visitor_id`) for at most 365 days and a separate session UUID in `sessionStorage`. The session rotates after 30 minutes of inactivity. IDs are never derived from names, hardware, IP addresses, exact location, or a browser fingerprint.
+Only an explicit `allowed` value in the separate `vv_analytics_preference` browser-storage key permits analytics. Unknown, declined, storage-blocked, and feature-disabled states fail closed. After consent, the browser creates a random UUID visitor cookie (`vv_visitor_id`) for at most 365 days and a separate session UUID in `sessionStorage`. The session rotates after 30 minutes of inactivity. IDs are never derived from names, hardware, IP addresses, exact location, or a browser fingerprint.
 
 Only the nine implemented public paths, including Privacy, origin-only HTTP(S) referrers, and coarse device/browser categories are accepted. Administrator routes are outside the public route group and cannot mount the page tracker. External-link events must exactly match a normalized owner-configured destination and supported type.
 
@@ -14,4 +14,4 @@ Per-visitor and global fixed-window limits are in-process and retain only random
 
 ## Browser delivery
 
-`PageViewTracker` uses a keepalive fetch after completed public route navigation and suppresses effect re-renders. `TrackedExternalLink` calls `sendBeacon` where available, falls back to keepalive fetch, and never prevents the anchor's native navigation. Failed storage, blocked cookies, disabled storage, network errors, and analytics-disabled mode all fail silently for visitors.
+`PageViewTracker` uses a keepalive fetch after completed public route navigation and suppresses effect re-renders. `TrackedExternalLink` calls `sendBeacon` where available, falls back to keepalive fetch, and never prevents the anchor's native navigation. Identity creation and both dispatch functions independently verify consent as defense in depth. Decline immediately expires the visitor cookie, removes session storage, and clears memory fallbacks. If a decline cannot be persisted, a current-tab override keeps analytics disabled and the code removes any stale stored Allow so a reload cannot silently reactivate it. Failed analytics delivery never interrupts public navigation or external links.

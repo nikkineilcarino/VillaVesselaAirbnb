@@ -78,7 +78,7 @@ export type Database = {
           created_at: string;
           destination_url: string | null;
           id: string;
-          link_type: "airbnb" | "email" | "facebook" | "google_maps" | "messenger" | "other" | "phone" | "whatsapp";
+          link_type: "airbnb" | "email" | "facebook" | "google_maps" | "messenger" | "other" | "phone" | "waze" | "whatsapp";
           session_id: string;
           source_page: string | null;
         };
@@ -87,7 +87,7 @@ export type Database = {
           created_at?: string;
           destination_url?: string | null;
           id?: string;
-          link_type: "airbnb" | "email" | "facebook" | "google_maps" | "messenger" | "other" | "phone" | "whatsapp";
+          link_type: "airbnb" | "email" | "facebook" | "google_maps" | "messenger" | "other" | "phone" | "waze" | "whatsapp";
           session_id: string;
           source_page?: string | null;
         };
@@ -96,7 +96,7 @@ export type Database = {
           created_at?: string;
           destination_url?: string | null;
           id?: string;
-          link_type?: "airbnb" | "email" | "facebook" | "google_maps" | "messenger" | "other" | "phone" | "whatsapp";
+          link_type?: "airbnb" | "email" | "facebook" | "google_maps" | "messenger" | "other" | "phone" | "waze" | "whatsapp";
           session_id?: string;
           source_page?: string | null;
         };

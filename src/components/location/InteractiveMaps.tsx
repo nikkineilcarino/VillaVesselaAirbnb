@@ -191,15 +191,16 @@ export function InteractiveMaps({
             </TrackedExternalLink>
           ) : null}
           {wazeUrl ? (
-            <a
+            <TrackedExternalLink
               className="inline-flex min-h-10 items-center justify-center gap-2 rounded-full border border-border bg-surface px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:bg-surface-muted"
               href={wazeUrl}
+              linkType="waze"
               rel="noopener noreferrer"
               target="_blank"
             >
               Navigate with Waze
               <ExternalLink aria-hidden="true" size={16} />
-            </a>
+            </TrackedExternalLink>
           ) : null}
         </div>
       </div>

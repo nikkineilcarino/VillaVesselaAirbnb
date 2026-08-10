@@ -12,13 +12,14 @@ const expectedMigrations = [
   "005_create_admin_policies.sql",
   "006_create_analytics_views.sql",
   "007_create_dashboard_functions.sql",
+  "008_add_waze_and_analytics_retention.sql",
 ] as const;
 
 function readMigration(name: (typeof expectedMigrations)[number]) {
   return readFileSync(join(migrationDirectory, name), "utf8");
 }
 
-describe("database contract through Phase 9", () => {
+describe("database contract through analytics remediation", () => {
   it("keeps the required migrations ordered and documented", () => {
     const migrations = readdirSync(migrationDirectory).filter((file) => file.endsWith(".sql")).sort();
 
@@ -99,6 +100,39 @@ describe("database contract through Phase 9", () => {
     expect(functions.match(/to authenticated;/g)).toHaveLength(5);
     expect(functions).not.toMatch(/security definer/i);
     expect(functions).not.toMatch(/to anon/i);
+  });
+
+  it("adds exact Waze reporting and owner-only analytics retention", () => {
+    const remediation = readMigration("008_add_waze_and_analytics_retention.sql");
+
+    expect(remediation).toContain("create extension if not exists pg_cron");
+    expect(remediation).toContain("drop constraint link_clicks_type_allowed");
+    expect(remediation).toContain("'google_maps',\n      'waze',\n      'whatsapp'");
+    expect(remediation).toContain("validate constraint link_clicks_type_allowed");
+    expect(remediation).toContain(
+      "create or replace function private.prune_expired_analytics()",
+    );
+    expect(remediation).toContain("security invoker");
+    expect(remediation).toContain("set search_path = ''");
+    expect(remediation).toContain("'365 days'::pg_catalog.interval");
+    expect(remediation.match(/delete from public\.(?:page_views|link_clicks)/g)).toHaveLength(
+      2,
+    );
+    expect(remediation).not.toMatch(/delete from public\.contact_inquiries/i);
+    expect(remediation).toContain(
+      "from public, anon, authenticated, service_role",
+    );
+    expect(remediation).not.toMatch(
+      /grant\s+(?:delete|execute)[^;]*to\s+(?:public|anon|authenticated|service_role)/i,
+    );
+    expect(remediation).toContain("'villa-vessela-analytics-retention'");
+    expect(remediation).toContain("'15 18 * * *'");
+    expect(remediation).toContain(
+      "$job$select * from private.prune_expired_analytics();$job$",
+    );
+    expect(remediation).toContain("revoke all on schema cron");
+    expect(remediation).toContain("cron.alter_job(retention_job.job_id, active => true)");
+    expect(remediation).not.toMatch(/drop extension/i);
   });
 
   it("uses repeatable, visibly synthetic seed data without creating an administrator", () => {

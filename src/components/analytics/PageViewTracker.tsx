@@ -12,12 +12,20 @@ import {
   normalizeReferrer,
 } from "@/lib/analytics/normalization";
 
-export function PageViewTracker({ enabled }: { enabled: boolean }) {
+import { useAnalyticsEnabled } from "./AnalyticsProvider";
+
+export function PageViewTracker() {
   const pathname = usePathname();
+  const enabled = useAnalyticsEnabled();
   const lastTrackedPath = useRef<null | string>(null);
 
   useEffect(() => {
-    if (!enabled || lastTrackedPath.current === pathname) {
+    if (!enabled) {
+      lastTrackedPath.current = null;
+      return;
+    }
+
+    if (lastTrackedPath.current === pathname) {
       return;
     }
 

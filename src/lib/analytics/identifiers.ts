@@ -1,5 +1,7 @@
 import type { AnonymousAnalyticsIdentity } from "@/types/analytics";
 
+import { hasAnalyticsConsent } from "./preference";
+
 export const ANALYTICS_SESSION_INACTIVITY_MS = 30 * 60 * 1000;
 export const ANALYTICS_VISITOR_MAX_AGE_SECONDS = 365 * 24 * 60 * 60;
 export const ANALYTICS_VISITOR_COOKIE = "vv_visitor_id";
@@ -12,6 +14,31 @@ type StoredSession = {
 
 let memoryVisitorId: null | string = null;
 let memorySession: null | StoredSession = null;
+
+export function clearAnonymousAnalyticsIdentity() {
+  memoryVisitorId = null;
+  memorySession = null;
+
+  if (typeof document !== "undefined") {
+    try {
+      const secure =
+        typeof window !== "undefined" && window.location.protocol === "https:"
+          ? "; Secure"
+          : "";
+      document.cookie = `${ANALYTICS_VISITOR_COOKIE}=; Max-Age=0; Path=/; SameSite=Lax${secure}`;
+    } catch {
+      // Restricted browsing contexts may block cookie removal.
+    }
+  }
+
+  if (typeof window !== "undefined") {
+    try {
+      window.sessionStorage.removeItem(ANALYTICS_SESSION_STORAGE_KEY);
+    } catch {
+      // Restricted browsing contexts may block session storage cleanup.
+    }
+  }
+}
 
 export function isUuid(value: string) {
   return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
@@ -94,7 +121,11 @@ export function resolveSession(
 }
 
 export function getAnonymousAnalyticsIdentity(): AnonymousAnalyticsIdentity | null {
-  if (typeof document === "undefined" || typeof window === "undefined") {
+  if (
+    typeof document === "undefined" ||
+    typeof window === "undefined" ||
+    !hasAnalyticsConsent()
+  ) {
     return null;
   }
 

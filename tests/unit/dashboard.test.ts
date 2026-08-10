@@ -22,6 +22,7 @@ import {
   listCalendarDates,
   resolveDashboardDateRange,
 } from "@/lib/dashboard/dateRange";
+import { resolveAnalyticsOperationalState } from "@/lib/dashboard/operational";
 
 describe("dashboard date ranges", () => {
   const now = new Date("2026-07-22T16:30:00.000Z");
@@ -167,9 +168,51 @@ describe("dashboard aggregate definitions", () => {
     ]);
 
     const links = normalizeLinkTotals([{ link_type: "airbnb", total_clicks: 3 }]);
-    expect(links).toHaveLength(8);
+    expect(links).toHaveLength(9);
     expect(links[0]).toEqual({ label: "Airbnb", linkType: "airbnb", total: 3 });
+    expect(links.find((item) => item.linkType === "waze")).toEqual({
+      label: "Waze",
+      linkType: "waze",
+      total: 0,
+    });
     expect(links.find((item) => item.linkType === "whatsapp")?.total).toBe(0);
+  });
+});
+
+describe("dashboard operational states", () => {
+  it("distinguishes disabled, unavailable, configured-no-data, and stored activity", () => {
+    expect(
+      resolveAnalyticsOperationalState({
+        collectionEnabled: false,
+        hasActivity: false,
+        reportingAvailable: false,
+        storageConfigured: false,
+      }),
+    ).toBe("disabled");
+    expect(
+      resolveAnalyticsOperationalState({
+        collectionEnabled: true,
+        hasActivity: false,
+        reportingAvailable: true,
+        storageConfigured: false,
+      }),
+    ).toBe("storage-unavailable");
+    expect(
+      resolveAnalyticsOperationalState({
+        collectionEnabled: true,
+        hasActivity: false,
+        reportingAvailable: true,
+        storageConfigured: true,
+      }),
+    ).toBe("healthy-no-data");
+    expect(
+      resolveAnalyticsOperationalState({
+        collectionEnabled: true,
+        hasActivity: true,
+        reportingAvailable: true,
+        storageConfigured: true,
+      }),
+    ).toBe("activity");
   });
 });
 
@@ -197,10 +240,32 @@ describe("dashboard privacy-safe presentation", () => {
       join(process.cwd(), "src", "lib", "dashboard", "query.ts"),
       "utf8",
     );
+    const statusSource = readFileSync(
+      join(process.cwd(), "src", "lib", "dashboard", "status.ts"),
+      "utf8",
+    );
+    const refreshSource = readFileSync(
+      join(
+        process.cwd(),
+        "src",
+        "components",
+        "admin",
+        "DashboardRefreshControl.tsx",
+      ),
+      "utf8",
+    );
 
     expect(querySource).toContain("createServerSupabaseClient");
     expect(querySource).not.toContain("createServiceRoleSupabaseClient");
     expect(querySource.match(/\.limit\(15\)/g)).toHaveLength(3);
     expect(querySource).not.toMatch(/\.select\([^)]*(?:destination_url|message|consent)/s);
+
+    expect(statusSource).toContain("isAnalyticsEnabled");
+    expect(statusSource).toContain("createServerSupabaseClient");
+    expect(statusSource).not.toContain("createServiceRoleSupabaseClient");
+    expect(statusSource.match(/\.select\("created_at"\)/g)).toHaveLength(2);
+    expect(statusSource).not.toMatch(/\.select\([^)]*(?:destination_url|session_id|anonymous_visitor_id)/s);
+    expect(refreshSource).toContain("useRouter");
+    expect(refreshSource).toContain("router.refresh()");
   });
 });
