@@ -1,6 +1,6 @@
 # Villa Vessela Website — Final Handoff
 
-**Handoff date:** 2026-08-08
+**Handoff date:** 2026-08-10
 
 **Repository:** [nikkineilcarino/VillaVesselaAirbnb](https://github.com/nikkineilcarino/VillaVesselaAirbnb)
 
@@ -12,15 +12,16 @@ The verified public-information website is complete, published from `main`, and 
 
 - Application release commit: [`0d55c57c67c94c76534f88e3fe015fbbf028e8b0`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/commit/0d55c57c67c94c76534f88e3fe015fbbf028e8b0)
 - Validation follow-up commit: [`7c71334`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/commit/7c71334), covering the fully unconfigured CI state
+- Administrator activation fix: [`3099463`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/commit/3099463d6720746af8f394858022eb0cfafb372f), covering the Next.js server-action runtime boundary
 - GitHub Quality run: [`31247981887`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/actions/runs/31247981887), passed
-- Vercel production deployment: `dpl_5TDeyaCX11kFYG4Hum9GutBAMVjv`, Ready and assigned to the canonical alias
+- Vercel administrator-enabled deployment: `dpl_9ANCAoMFRoznxvhk3FbQjpZ95U2G`, Ready and assigned to the canonical alias
 - Maintenance scope: compatible PostCSS, `nanoid`, `brace-expansion`, `minimatch`, and `js-yaml` security updates; incompatible ESLint 10 and TypeScript 7 major upgrades remain deliberately deferred
-- Local verification: complete and production audits clean; lint, strict types, 68 unit tests, production build, and 47 configured Chromium tests passed with 2 credential-dependent administrator checks intentionally skipped
+- Local verification: complete and production audits clean; lint, strict types, 69 unit tests, and the production build pass. Out-of-band live checks pass approved sign-in/dashboard/inquiry access/logout and authenticated-unapproved denial.
 - Hosted verification: Contact returned HTTP 200 with all six approved channels, exactly one telephone action, exactly one email action, no Evelyn contact, no mobile overflow, required security headers, and zero Axe violations. Google and Waze opt-in map behavior remains covered by the full browser suite.
 - Production performance revalidation: two mobile Lighthouse runs scored 99 and two desktop runs scored 100; accessibility, best practices, and SEO scored 100 in all four runs
 - GitHub maintenance snapshot: 0 open pull requests and 0 open non-PR issues
 
-Thirty-seven approved photographs are published. The passenger-boat photograph remains excluded because it contains recognizable people and a vessel identifier. The approved caretaker telephone value and public email are published only through environment configuration and are not repeated in the repository.
+Forty-one approved photographs are published. The passenger-boat photograph remains excluded because it contains recognizable people and a vessel identifier. The approved caretaker telephone value and public email are published only through environment configuration and are not repeated in the repository.
 
 ## Intentional safe defaults
 
@@ -30,7 +31,7 @@ These are deliberate release boundaries, not broken features:
 - Blue Kubo, Green Kubo, and parking retain visible photo slots. The owner-confirmed carport and three-to-four-car arrangement is published without implying that a dedicated parking photograph has been supplied. A higher-resolution front-of-villa hero remains recommended.
 - The spacious front yard, tropical garden, complete household utilities, and the kitchen kubo shared by Blue and Green Kubo guests are published as owner-confirmed facts. Fixed Wi-Fi is still not advertised, and main-villa-only access to the kitchen kubo remains confirmation-required.
 - Analytics storage and contact inquiries are disabled in production.
-- No Supabase or test credential is configured. Administrator routes deny unauthenticated access and the public login reveals no configuration details.
+- Supabase Auth/database access is configured through the production public URL and anon key, with seven applied migrations and one manually approved administrator. No service-role key or test credential is deployed; unauthorized routes and identities remain denied without revealing configuration details.
 - Rates, fees, expanded capacity, kubo/cottage inclusion, and other conflicting facts remain qualified or omitted.
 - The current site needs none of those optional items to remain live, indexable, and usable.
 
@@ -50,16 +51,14 @@ These are deliberate release boundaries, not broken features:
 
 For the shortest safe update, send the new material and state what it depicts, whether it may be public, and any related booking condition. Follow `OWNER_UPDATE_GUIDE.md`; do not edit around its safeguards.
 
-## Optional backend activation
+## Backend and optional collection state
 
-The database schema, authentication shell, aggregate dashboard, inquiry workflow, and CSV exports are implemented but intentionally inactive. Activation is a separate operational project and requires all of the following before any production flag changes:
+The production database, authentication boundary, empty aggregate dashboard, inquiry administration page, and CSV interfaces are operational for the approved owner account. Public analytics collection and inquiry submission remain intentionally inactive. Before either production flag changes, the owner still needs:
 
-1. An approved Supabase project and secure server-side credentials.
-2. Applied migrations plus live RLS, grant, insertion, dashboard, inquiry, and export verification.
-3. Approved administrator identities provisioned out of band.
-4. An inquiry and analytics retention/deletion process, privacy-request channel, responsible operator, and consent decision.
-5. An approved distributed rate-limit or WAF approach for launch-scale collection.
-6. A complete rebuild and the applicable local, CI, and production release checks.
+1. An inquiry and analytics retention/deletion process, privacy-request channel, responsible operator, and consent decision.
+2. Live insertion, status, export, deletion, and reconciliation verification for the feature being enabled.
+3. An approved distributed rate-limit or WAF approach for launch-scale collection.
+4. A complete rebuild and the applicable local, CI, and production release checks.
 
 Until those inputs exist, keep `ANALYTICS_ENABLED=false` and `CONTACT_INQUIRY_ENABLED=false`. Never place test credentials or the Supabase service-role key in a public variable.
 

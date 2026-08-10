@@ -24,7 +24,7 @@ test("an approved non-production administrator can sign in, open the dashboard, 
   await expect(page.getByRole("heading", { level: 2, name: "Recent activity" })).toBeVisible();
   await expect(page.getByRole("heading", { level: 2, name: "CSV exports" })).toBeVisible();
 
-  await page.getByRole("link", { name: "Inquiries" }).click();
+  await page.getByRole("link", { name: "Inquiries", exact: true }).click();
   await expect(page).toHaveURL(/\/admin\/inquiries$/);
   await expect(
     page.getByRole("heading", { level: 1, name: "Website inquiries" }),
@@ -49,6 +49,6 @@ test("an authenticated but unapproved non-production account is denied", async (
   await page.getByRole("button", { name: "Sign in securely" }).click();
 
   await expect(page).toHaveURL(/\/admin\/login$/);
-  await expect(page.getByRole("alert")).toHaveText("Unable to sign in with those details.");
+  await expect(page.getByText("Unable to sign in with those details.", { exact: true })).toBeVisible();
   await expect(page.getByText(/user|profile|row level|credential is valid/i)).toHaveCount(0);
 });

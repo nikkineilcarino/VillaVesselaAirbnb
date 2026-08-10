@@ -9,12 +9,12 @@
 - Production alias: `https://villa-vessela-airbnb.vercel.app`
 - Application framework: Next.js App Router
 - Application release commit: `484c4dba146e14aa6ea75a53ef78260db5656c81`
-- Production deployment: `dpl_DaCop6F58zCeLHXBTbC4SUuECUWN` (Ready)
-- Database/authentication provider when activated: Supabase
+- Administrator-enabled deployment: `dpl_9ANCAoMFRoznxvhk3FbQjpZ95U2G` (Ready)
+- Database/authentication provider: Supabase (administrator authentication active)
 
-The public information site is intentionally usable without Supabase. Administrator login, stored analytics, inquiries, dashboard data, and exports remain unavailable until an approved Supabase project is configured and the live authorization checks below pass.
+The public information site remains usable if Supabase is temporarily unavailable. Production administrator login is connected to an approved Supabase project with all seven migrations applied; one manually authorized owner identity can reach the empty dashboard and inquiry administration routes. Stored analytics and public inquiry submission remain disabled.
 
-The production environment keeps `NEXT_PUBLIC_SITE_URL=https://villa-vessela-airbnb.vercel.app`, `ANALYTICS_ENABLED=false`, and `CONTACT_INQUIRY_ENABLED=false`, together with the separately approved public booking, social, map, WhatsApp, and caretaker-contact variables. No Supabase or test credential is configured.
+The production environment keeps `NEXT_PUBLIC_SITE_URL=https://villa-vessela-airbnb.vercel.app`, `ANALYTICS_ENABLED=false`, and `CONTACT_INQUIRY_ENABLED=false`, together with the separately approved public booking, social, map, WhatsApp, and caretaker-contact variables. `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` are configured for Auth/RLS; no service-role key or test credential is deployed.
 
 Production may contain the owner-approved `NEXT_PUBLIC_CARETAKER_NIDA_PHONE` and `NEXT_PUBLIC_CONTACT_EMAIL` values. The caretaker telephone and public email remain intentionally omitted from Git and deployment documentation. Evelyn's former caretaker contact was withdrawn from public use on 2026-08-08 and `NEXT_PUBLIC_CARETAKER_EVELYN_PHONE` must not be configured. Telephone approval does not establish WhatsApp availability.
 
@@ -69,8 +69,8 @@ Configure only reviewed values. Missing optional values intentionally keep their
 | `NEXT_PUBLIC_SITE_URL` | Required: exact final Vercel/custom HTTPS origin | Rebuild, then inspect canonical, Open Graph, sitemap, and robots output |
 | `ANALYTICS_ENABLED` | `false` | Approved Supabase project, migrations/RLS probes, privacy/provider/retention approval, and live insertion QA |
 | `CONTACT_INQUIRY_ENABLED` | `false` | Approved storage, consent wording, retention/deletion process, operator, rate-limit review, and live inquiry/admin/export QA |
-| `NEXT_PUBLIC_SUPABASE_URL` | Omit initially | Approved Supabase project |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Omit initially | Approved project with RLS verified for anonymous and authenticated roles |
+| `NEXT_PUBLIC_SUPABASE_URL` | Configured for production administrator authentication | Approved Supabase project |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Configured for production administrator authentication | Public key; safe only with verified RLS |
 | `SUPABASE_SERVICE_ROLE_KEY` | Omit initially | Server-only secret; add only when validated analytics/inquiry inserts are approved |
 | `NEXT_PUBLIC_GOOGLE_MAPS_URL` / `NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL` | Verified property pin | Coordinate-based Google Maps navigation and click-to-load embed; no project API key required |
 | `NEXT_PUBLIC_WAZE_URL` / `NEXT_PUBLIC_WAZE_EMBED_URL` | Verified property pin | Matching Waze deep link and click-to-load Live Map embed |
@@ -89,7 +89,7 @@ Do not place credentials on command lines. Add future secrets through an approve
 
 ## Supabase activation order
 
-No production Supabase project is linked at the initial static-site release. When the owner approves one:
+The production Supabase project was activated on 2026-08-10 using this sequence. Steps 1, 4, 5, and the authentication portions of step 6 are complete; collection/storage gates remain outstanding:
 
 1. Apply the seven migrations in filename order:
    `001_create_admin_profiles.sql`,
@@ -164,7 +164,7 @@ Vercel deployments are immutable. If a release fails:
 ## Support and current limitations
 
 - Official property photographs, approved external destinations, public owner contacts, rates, and several inclusion details remain unresolved and are represented by explicit placeholders or disabled controls.
-- Analytics, inquiry storage, administrator access, dashboard data, and CSV exports are not operational without approved Supabase configuration.
+- Administrator access and empty dashboard/inquiry administration routes are operational. Analytics collection and public inquiry storage remain disabled pending their separate privacy, retention, insertion, deletion, rate-limit, and reconciliation gates.
 - The in-process anonymous rate limiter is not globally atomic across serverless instances. Select an approved privacy-compatible distributed/WAF control before enabling collection at launch scale.
 - Retention, deletion, privacy-request handling, provider review, and any jurisdiction-specific consent control remain owner/legal/operational decisions.
 - Private caretaker numbers from the planning package must never be published or used as default contact configuration.
