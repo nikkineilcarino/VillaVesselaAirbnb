@@ -3,8 +3,8 @@
 **Created:** 2026-08-10
 **Production site:** `https://villa-vessela-airbnb.vercel.app`
 **Scope:** first-party page-view and approved external-link analytics, their Supabase storage, and the protected administrator reporting experience
-**Current step:** Step 5 -- reviewed commit and push
-**Overall status:** In progress; production analytics remains disabled until the production-activation step passes its prerequisites
+**Current step:** Step 5 passed -- awaiting `continue` for production migration, configuration, and deployment
+**Overall status:** The reviewed remediation is committed and pushed to `origin/main`; production analytics remains disabled until the production-activation step passes its prerequisites
 
 ## Purpose
 
@@ -77,7 +77,7 @@ The baseline is evidence, not the final diagnosis. Later steps must still rule o
 | 2 | Add retention and database/schema support | Ordered, backward-compatible migration; 365-day retention mechanism scoped only to analytics; accurate Waze/reporting schema support; schema tests/lint; grants/RLS review; generated/manual database types reconciled; no production application or collection activation | Passed |
 | 3 | Repair and harden collection plus administrator clarity | All approved external actions tracked, including Waze; visitor choice and active privacy wording; explicit server storage readiness; admin collection-status/last-event/refresh clarity; complete contact-type reporting; focused unit/component/browser QA; no public navigation blocking | Passed |
 | 4 | Run the complete local quality gate | ESLint, strict TypeScript, all unit tests, focused analytics/admin browser tests, complete credential-independent browser suite, production build, dependency/secret/privacy scans; all in-scope failures fixed | Passed |
-| 5 | Commit the reviewed application/database repair and push `main` | Focused diff reviewed; no secrets or unrelated files; owner-attributed commit; local `main` equals `origin/main`; exact commit recorded | In progress |
+| 5 | Commit the reviewed application/database repair and push `main` | Focused diff reviewed; no secrets or unrelated files; owner-attributed commit; local `main` equals `origin/main`; exact commit recorded | Passed |
 | 6 | Apply the reviewed migration, configure, and deploy production analytics | Remote migration history/lint verified; Vercel framework/runtime drift reconciled to Next.js/Node 22; server-only Supabase write credential added to Production only; `ANALYTICS_ENABLED=true`; inquiry flag remains false; build-time flag receives a fresh production deployment; deployment reaches Ready; canonical alias points to it; no secret value exposed | Pending |
 | 7 | Prove the full live production flow | Fresh browser preference choice; HTTPS identifier behavior; stored page view; actual approved Contact action click; `201` responses; exact Supabase rows; approved admin aggregates/recent tables/date ranges/CSV; unapproved denial; failure isolation; test-only records removed and genuine records preserved | Pending |
 | 8 | Reconcile documentation and run final regression | Dated QA report; README/deployment/architecture/handoff/todo/decision/changelog truth reconciled; final local and production smoke checks pass; documentation-only commit pushed; final deployment commit and Git cleanliness verified | Pending |
@@ -293,6 +293,24 @@ The safe rollback state is:
 - Known later-step boundaries remain explicit: actual production `201` insertion/readback and credentialed administrator reconciliation belong to Step 7; final current/historical documentation reconciliation belongs to Step 8. In-process rate limiting and the current inline CSP allowance remain documented hardening considerations, not concealed proof claims.
 - No Git commit/push, remote migration, production row change, Vercel/Supabase setting change, analytics activation, or deployment occurred in Step 4.
 
+### Step 5 -- 2026-08-10
+
+**Outcome:** Passed. The reviewed remediation commit and this documentation-only completion record were pushed to the requested GitHub repository on `main`. Local `main`, its upstream, and the live remote branch were verified equal after the push; production providers were not changed.
+
+#### Commit and push evidence
+
+- A fresh fetch confirmed local `main` and live `origin/main` both began at `759c8c6145b5d572f14d0a5c70b94564c9c399be`, with zero commits ahead or behind.
+- The configured fetch/push remote is the requested `nikkineilcarino/VillaVesselaAirbnb` repository. The branch is `main`.
+- Repository attribution matches the contributor and recent project history: `nikkineilcarino` with the account's GitHub noreply address.
+- The final allowlist contained exactly 40 remediation paths: 31 tracked modifications and nine new files. Independent and primary reviews found no unrelated property fact, rate, contact destination, photo, binary, generated output, test report, or provider configuration change.
+- The first staged-tree whitespace check found four Markdown hard-break spaces in this previously untracked control file. They were removed, the file was restaged, and the complete staged check then passed with exactly 40 files, zero missing/unexpected paths, zero unstaged files, and zero untracked files.
+- The exact staged content contained no Supabase/GitHub token, JWT, credential-bearing database URL, private key, ignored local environment value, configured contact value, or generated artifact.
+- Owner-attributed remediation commit: `98a5c316ea1451f6dad34c1e376b946107e00145` (`feat: harden analytics and admin reporting`). It contains the application, migration, documentation, and QA changes that passed Step 4.
+- This control-record update was committed separately so it could truthfully record the immutable remediation commit. Its final SHA and remote equality are reported in the Step 5 handoff.
+- Read-only Vercel project API metadata reported no Git repository link, so this GitHub push did not trigger a Vercel deployment. Deployment remains explicitly assigned to Step 6.
+- After pushing, live `refs/heads/main`, local `HEAD`, and `origin/main` were verified identical with zero ahead/behind divergence and a clean worktree/index.
+- No remote migration, Supabase production row, Vercel/Supabase setting change, analytics activation, or deployment occurred in Step 5.
+
 ## Next authorized action
 
-On the next exact `continue`, perform **Step 5 only**: review the final pending file set, confirm no secret/unrelated/staged artifact, create the owner-attributed remediation commit on `main`, push it to `origin/main`, and verify the exact local/remote commit equality. Do not apply migration `008` remotely, activate production analytics, change Vercel/Supabase production configuration, or deploy in Step 5.
+On the next exact `continue`, perform **Step 6 only**: revalidate remote migration/provider state, apply reviewed migration `008`, reconcile the Vercel project to Next.js and Node.js 22, add the server-only Supabase write credential to Production without exposing its value, set `ANALYTICS_ENABLED=true` while keeping inquiries disabled, create a fresh production deployment, and verify the deployment is Ready at the canonical alias. If any activation/deployment gate fails, restore the non-collecting state and record the rollback. Do not perform synthetic production event insertion or populated-dashboard reconciliation until Step 7.
