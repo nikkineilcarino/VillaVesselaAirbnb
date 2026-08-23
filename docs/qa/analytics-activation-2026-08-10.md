@@ -77,7 +77,9 @@ The final documentation/release gate is recorded here after it runs. No check is
 | Local/linked migration parity and database lint | Local and linked histories match migrations `001` through `008`; linked warning-level lint returned no findings | Passed |
 | Documentation whitespace, links, encoding, privacy, secret, and contact-value scans | All 30 changed paths are documentation; diff, 24 local links, UTF-8/mojibake, generic-secret, two ignored-environment-value, and 11 configured-destination-value checks passed with zero findings | Passed |
 | Canonical production route/security/consent/inquiry-disabled smoke | Public routes and login returned `200`; protected dashboard redirected to fixed login; consent and security/noindex/no-store markers passed; malformed analytics returned `415`/`415`; disabled inquiry returned `404`; no valid event was sent | Passed |
-| Final Git/remote/deployment equality and clean worktree | Pending | Pending |
+| Final Git/remote/deployment equality and clean worktree | Reconciliation commit `450f6f3c026123b06a907c94be5a6801704d5fea` matched local `main`, `origin/main`, and GitHub; Quality run `32654949226` passed; Ready deployment `dpl_24MdnUs75ecrsTXSBiVbxu1f9otm` used that exact source and held both canonical aliases; the release worktree was clean | Passed |
+
+The canonical post-deployment smoke passed 41 assertions across all nine public routes, canonicals, consent marker, security headers, fixed administrator denial, both malformed analytics endpoints, the disabled inquiry endpoint, and robots directives. No valid production analytics event was sent. The post-deployment Supabase snapshot remained zero page views, zero link clicks, and zero inquiries, with one retained administrator/Auth user; the one daily retention job remained active and all seven runs in the preceding seven days had succeeded. The completion-record commit necessarily postdates this release proof, so its final immutable Git/Vercel identifiers are reported in the operator handoff rather than self-referenced here.
 
 ## Current limitations
 

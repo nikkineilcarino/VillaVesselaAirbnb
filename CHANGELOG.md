@@ -5,6 +5,8 @@
 - Reconciled the current architecture, deployment runbook, owner handoff, decisions, QA checklist, implementation plan, content register, and historical follow-up notes with the verified consent-based production state.
 - Added the dated analytics activation report without rewriting the evidence or limitations recorded in earlier phase snapshots.
 - Re-ran lint, strict types, 77 unit/component tests, the complete isolated Chromium matrix and mutually exclusive branches, dependency audits, linked schema checks, a clean production build, and local production-mode smoke checks.
+- Pushed reconciliation commit `450f6f3`, passed GitHub Quality run `32654949226`, and promoted Ready Vercel deployment `dpl_24MdnUs75ecrsTXSBiVbxu1f9otm` from that exact source.
+- Passed 41 non-inserting canonical production assertions and confirmed zero QA analytics/inquiry rows, one retained owner authorization, and seven successful recent retention runs.
 - Preserved `CONTACT_INQUIRY_ENABLED=false`, the retained owner administrator, all genuine production data, and the mandatory analytics rollback boundary.
 
 ## 2026-08-10 — Consent-based analytics and administrator reporting activation

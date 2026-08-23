@@ -3,8 +3,8 @@
 **Created:** 2026-08-10
 **Production site:** `https://villa-vessela-airbnb.vercel.app`
 **Scope:** first-party page-view and approved external-link analytics, their Supabase storage, and the protected administrator reporting experience
-**Current step:** Step 8 in progress -- final documentation reconciliation and local regression have passed; release commit, push, deployment, and post-release verification remain
-**Overall status:** The reviewed remediation is committed and pushed, migration `008` is applied, and consent-gated production analytics is active. One isolated page-view and one approved Contact-action event were stored, reconciled through the protected dashboard and CSV exports, and then deleted exactly; unauthorized access remained denied and the retained owner administrator was not changed.
+**Current step:** Step 8 passed -- remediation and final release verification complete
+**Overall status:** Complete. The reviewed remediation is committed and pushed, migration `008` is applied, and consent-gated production analytics is active. One isolated page-view and one approved Contact-action event were stored, reconciled through the protected dashboard and CSV exports, and then deleted exactly; unauthorized access remained denied, the retained owner administrator was not changed, and the final documentation/release gate passed.
 
 ## Purpose
 
@@ -80,7 +80,7 @@ The baseline is evidence, not the final diagnosis. Later steps must still rule o
 | 5 | Commit the reviewed application/database repair and push `main` | Focused diff reviewed; no secrets or unrelated files; owner-attributed commit; local `main` equals `origin/main`; exact commit recorded | Passed |
 | 6 | Apply the reviewed migration, configure, and deploy production analytics | Remote migration history/lint verified; Vercel framework/runtime drift reconciled to Next.js/Node 22; server-only Supabase write credential added to Production only; `ANALYTICS_ENABLED=true`; inquiry flag remains false; build-time flag receives a fresh production deployment; deployment reaches Ready; canonical alias points to it; no secret value exposed | Passed |
 | 7 | Prove the full live production flow | Fresh browser preference choice; HTTPS identifier behavior; stored page view; actual approved Contact action click; `201` responses; exact Supabase rows; approved admin aggregates/recent tables/date ranges/CSV; unapproved denial; failure isolation; test-only records removed and genuine records preserved | Passed |
-| 8 | Reconcile documentation and run final regression | Dated QA report; README/deployment/architecture/handoff/todo/decision/changelog truth reconciled; final local and production smoke checks pass; documentation-only commit pushed; final deployment commit and Git cleanliness verified | Pending |
+| 8 | Reconcile documentation and run final regression | Dated QA report; README/deployment/architecture/handoff/todo/decision/changelog truth reconciled; final local and production smoke checks pass; documentation-only commit pushed; final deployment commit and Git cleanliness verified | Passed |
 
 ## Required live acceptance matrix
 
@@ -399,6 +399,12 @@ The safe rollback state is:
 - Exact synthetic row and disposable-user cleanup: passed; owner authorization and non-QA data preserved.
 - Post-cleanup production endpoint, consent marker, canonical deployment, and zero-row state checks: passed.
 
-## Remaining Step 8 release work
+### Step 8 -- 2026-08-24
 
-The current `continue` authorized Step 8. Documentation reconciliation, the dated activation report, the complete isolated local regression, and local production-mode smoke have passed. Finish the documentation audit, commit and push only the reviewed documentation, verify the GitHub Quality result, deploy the clean final `main` commit, and reconcile local `main`, `origin/main`, the GitHub branch, the canonical Vercel deployment, Supabase health, and the clean worktree. After every release check passes, replace this section with the completion outcome, deliver the final owner handoff, close open browser tabs, and initiate the user-requested computer shutdown.
+**Outcome:** Passed. Thirty reviewed documentation paths reconciled the current operational truth without rewriting historical evidence. Diff, relative-link, UTF-8/mojibake, generic-secret, ignored-environment-value, and configured-destination-value checks returned zero findings. ESLint, strict TypeScript, 77 unit/component tests, the isolated Chromium matrix, both mutually exclusive browser branches, complete and production dependency audits, linked migration parity/lint, a clean Next.js `16.2.12` production build, and an 18-assertion local production smoke all passed.
+
+Documentation reconciliation commit `450f6f3c026123b06a907c94be5a6801704d5fea` was pushed to `main`; local, upstream, and live GitHub refs matched with a clean worktree. GitHub Quality run `32654949226` passed every job step. Vercel deployment `dpl_24MdnUs75ecrsTXSBiVbxu1f9otm` reached Ready from that exact source commit and received both canonical aliases. Forty-one non-inserting production assertions passed, and the post-deployment Supabase snapshot preserved zero QA analytics/inquiry rows, one retained owner authorization, the active retention schedule, and seven successful recent retention runs.
+
+## Completion
+
+All remediation steps are complete. The final completion-record commit and deployment are verified after this file is published and reported in the owner handoff because a commit cannot contain its own immutable identifier. No additional `continue` is required for this analytics remediation. Inquiry activation, custom-domain purchase/configuration, unresolved owner content, and the documented maintenance follow-ups remain separate future work and were not silently activated.

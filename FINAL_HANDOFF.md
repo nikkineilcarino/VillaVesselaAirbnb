@@ -15,11 +15,15 @@ The verified public-information website is complete, published from `main`, and 
 - Administrator activation fix: [`3099463`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/commit/3099463d6720746af8f394858022eb0cfafb372f), covering the Next.js server-action runtime boundary
 - Analytics and administrator-reporting remediation: [`98a5c31`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/commit/98a5c316ea1451f6dad34c1e376b946107e00145), covering consent, Waze, retention, write health, and dashboard clarity
 - Activation control/evidence baseline: [`678e9af`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/commit/678e9af591cca78b9d008e660a4fa84c41e20d03)
+- Final evidence reconciliation: [`450f6f3`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/commit/450f6f3c026123b06a907c94be5a6801704d5fea)
 - Analytics-activation Quality evidence (2026-08-10): [`31247981887`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/actions/runs/31247981887), passed
 - Analytics-activation deployment proof (2026-08-10): `dpl_Hq2gcedwbYnEJCht5fLdqR2HnxWy`, Ready and assigned to the canonical alias at activation time
+- Final evidence Quality run: [`32654949226`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/actions/runs/32654949226), passed every job step
+- Final evidence deployment proof: `dpl_24MdnUs75ecrsTXSBiVbxu1f9otm`, Ready from exact commit `450f6f3c026123b06a907c94be5a6801704d5fea` and assigned both canonical aliases on 2026-08-24
 - Maintenance scope: compatible PostCSS, `nanoid`, `brace-expansion`, `minimatch`, and `js-yaml` security updates; incompatible ESLint 10 and TypeScript 7 major upgrades remain deliberately deferred
 - Final local verification: complete and production audits are clean; lint and strict types pass; 77 unit/component tests pass; the isolated Chromium matrix passes with 50 passed and 3 explicit environment skips, plus 1 analytics-disabled and 3 inquiry-enabled branch passes; linked schema parity/lint, the production build, and local production-mode smoke pass. Earlier out-of-band live checks passed approved sign-in/dashboard/inquiry access/logout and authenticated-unapproved denial.
 - Hosted verification: all nine public routes, consent choice, Contact's six approved channels, Google/Waze opt-in maps, security headers, accessibility, and protected-route denial pass. One isolated page view and approved Airbnb Contact click returned `201`, reconciled through Supabase, every in-scope dashboard/report surface, and page/link CSV, then were deleted exactly.
+- Final non-inserting production smoke passed 41 assertions after the evidence deployment. Supabase retained zero QA page/link/inquiry rows, one owner administrator/Auth user, and a healthy daily retention job with seven successful recent runs.
 - Production performance revalidation: two mobile Lighthouse runs scored 99 and two desktop runs scored 100; accessibility, best practices, and SEO scored 100 in all four runs
 - GitHub maintenance snapshot as of 2026-08-10: 0 open pull requests and 0 open non-PR issues
 
