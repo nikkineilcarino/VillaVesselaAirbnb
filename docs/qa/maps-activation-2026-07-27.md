@@ -1,5 +1,7 @@
 # Google Maps and Waze activation — 2026-07-27
 
+> **Historical snapshot.** Waze later received its own tracked reporting category and consent-based production analytics was activated on 2026-08-10; see [`analytics-activation-2026-08-10.md`](analytics-activation-2026-08-10.md).
+
 ## Outcome
 
 The production homepage and `/location` route now provide Google Maps and Waze views of one verified Villa Vessela property pin. Both maps remain unloaded until the visitor selects a provider, both have site-level keyboard-accessible zoom controls, and both provide a separate navigation action.

@@ -1,5 +1,7 @@
 # Phase 7 QA — Administrator Authentication
 
+> **Historical snapshot.** Production approved-administrator access, authenticated-unapproved denial, logout, and protected-route denial later passed on 2026-08-10; see [`admin-activation-2026-08-10.md`](admin-activation-2026-08-10.md) and [`analytics-activation-2026-08-10.md`](analytics-activation-2026-08-10.md). Forced token-expiry refresh remains a narrow follow-up rather than a claim in this earlier report.
+
 ## Status
 
 **Completed with live-integration blockers.** The credential-independent implementation, access-denial behavior, accessibility, regression, production build, header, secret, privacy, and static security checks pass. Approved-admin sign-in/access/logout, authenticated-unapproved denial, live refresh, and issued-cookie inspection cannot run because no Supabase project or dedicated test credentials were supplied. Phase 7 is not labelled `QA passed` until those checks execute.

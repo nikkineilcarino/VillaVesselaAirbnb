@@ -1,5 +1,7 @@
 # Phase 9 QA — Administrator Dashboard
 
+> **Historical snapshot.** Populated production reporting, RLS/RPC reconciliation, all nine link categories, accessible chart tables, recent activity, refresh, and page/link CSV checks later passed on 2026-08-10; see [`analytics-activation-2026-08-10.md`](analytics-activation-2026-08-10.md). Production-authenticated mobile tooltip/legend interaction remains a narrow follow-up.
+
 ## Status
 
 **Completed, not QA passed.**

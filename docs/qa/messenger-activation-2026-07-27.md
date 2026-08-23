@@ -1,5 +1,7 @@
 # Messenger activation — 2026-07-27
 
+> **Historical snapshot.** Consent-based production analytics was activated on 2026-08-10; see [`analytics-activation-2026-08-10.md`](analytics-activation-2026-08-10.md). This does not convert the empty Messenger review reservations into published review evidence.
+
 ## Authority and scope
 
 The owner supplied and approved a complete Messenger conversation URL on 2026-07-27. A direct HTTP check returned Messenger's normal login redirect while preserving the supplied conversation destination.

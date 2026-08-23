@@ -10,7 +10,9 @@ Only the nine implemented public paths, including Privacy, origin-only HTTP(S) r
 
 Both POST Route Handlers reject cross-origin browser requests, require JSON no larger than 4 KiB, validate with Zod, apply bounded rate limits, and insert through the isolated server-only privileged client. Responses are private/no-store. Invalid, oversized, arbitrary-destination, and over-limit requests fail without database access. Storage failures produce one payload-free warning per event/reason and never break the public UI or navigation.
 
-Per-visitor and global fixed-window limits are in-process and retain only random visitor IDs temporarily. They deliberately do not retain raw IP addresses. Because serverless requests can reach multiple instances, final deployment hardening must add an approved distributed limiter/WAF rule without storing raw IPs; the current limiter is a bounded application baseline, not a claim of globally atomic enforcement.
+Per-visitor and global fixed-window limits are in-process and retain only random visitor IDs temporarily. They deliberately do not retain raw IP addresses. Because serverless requests can reach multiple instances, the current limiter is a bounded application baseline rather than globally atomic enforcement; add a privacy-compatible distributed limiter/WAF before sustained or adversarial traffic.
+
+Production analytics is active after explicit consent. Valid stored events return `201`; disabled collection returns `204`; safely dropped storage returns `202`; invalid, cross-origin, and rate-limited requests retain their distinct bounded responses. Migration `008` adds distinct Waze reporting and deletes only analytics rows daily once they are older than 365 days. Administrator reports read through the authenticated RLS client, never through the backend secret.
 
 ## Browser delivery
 

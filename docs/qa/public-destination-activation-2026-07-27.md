@@ -1,5 +1,7 @@
 # Airbnb and Facebook activation — 2026-07-27
 
+> **Historical snapshot.** Consent-based production analytics was activated on 2026-08-10 and one approved Airbnb Contact action was used for exact live reconciliation; see [`analytics-activation-2026-08-10.md`](analytics-activation-2026-08-10.md). Destination values remain intentionally absent from Git.
+
 ## Authority and scope
 
 The owner supplied and approved these public destinations on 2026-07-27:

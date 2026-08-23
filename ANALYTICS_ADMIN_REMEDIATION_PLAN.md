@@ -3,8 +3,8 @@
 **Created:** 2026-08-10
 **Production site:** `https://villa-vessela-airbnb.vercel.app`
 **Scope:** first-party page-view and approved external-link analytics, their Supabase storage, and the protected administrator reporting experience
-**Current step:** Step 5 passed -- awaiting `continue` for production migration, configuration, and deployment
-**Overall status:** The reviewed remediation is committed and pushed to `origin/main`; production analytics remains disabled until the production-activation step passes its prerequisites
+**Current step:** Step 8 in progress -- final documentation reconciliation and local regression have passed; release commit, push, deployment, and post-release verification remain
+**Overall status:** The reviewed remediation is committed and pushed, migration `008` is applied, and consent-gated production analytics is active. One isolated page-view and one approved Contact-action event were stored, reconciled through the protected dashboard and CSV exports, and then deleted exactly; unauthorized access remained denied and the retained owner administrator was not changed.
 
 ## Purpose
 
@@ -12,9 +12,9 @@ This file is the control document for repairing the empty analytics dashboard. I
 
 The repair is complete only when a real public browser session can create an approved page-view event and an approved contact-link event, Supabase persists both, the approved administrator can see the correct aggregates and recent activity, unauthorized users remain denied, and the final production deployment passes regression and security checks.
 
-## Confirmed baseline
+## Confirmed pre-remediation baseline
 
-The current empty dashboard has a known configuration cause:
+The following facts describe the empty production state observed at the start of this remediation on 2026-08-10. Steps 2 through 7 below supersede this baseline with the active consent-based production state:
 
 - Production was deliberately released with `ANALYTICS_ENABLED=false`.
 - The public layout passes that flag to `AnalyticsProvider` and `PageViewTracker`. When it is false, no visitor/session identifier is created and no page-view or link-click request is dispatched.
@@ -78,8 +78,8 @@ The baseline is evidence, not the final diagnosis. Later steps must still rule o
 | 3 | Repair and harden collection plus administrator clarity | All approved external actions tracked, including Waze; visitor choice and active privacy wording; explicit server storage readiness; admin collection-status/last-event/refresh clarity; complete contact-type reporting; focused unit/component/browser QA; no public navigation blocking | Passed |
 | 4 | Run the complete local quality gate | ESLint, strict TypeScript, all unit tests, focused analytics/admin browser tests, complete credential-independent browser suite, production build, dependency/secret/privacy scans; all in-scope failures fixed | Passed |
 | 5 | Commit the reviewed application/database repair and push `main` | Focused diff reviewed; no secrets or unrelated files; owner-attributed commit; local `main` equals `origin/main`; exact commit recorded | Passed |
-| 6 | Apply the reviewed migration, configure, and deploy production analytics | Remote migration history/lint verified; Vercel framework/runtime drift reconciled to Next.js/Node 22; server-only Supabase write credential added to Production only; `ANALYTICS_ENABLED=true`; inquiry flag remains false; build-time flag receives a fresh production deployment; deployment reaches Ready; canonical alias points to it; no secret value exposed | Pending |
-| 7 | Prove the full live production flow | Fresh browser preference choice; HTTPS identifier behavior; stored page view; actual approved Contact action click; `201` responses; exact Supabase rows; approved admin aggregates/recent tables/date ranges/CSV; unapproved denial; failure isolation; test-only records removed and genuine records preserved | Pending |
+| 6 | Apply the reviewed migration, configure, and deploy production analytics | Remote migration history/lint verified; Vercel framework/runtime drift reconciled to Next.js/Node 22; server-only Supabase write credential added to Production only; `ANALYTICS_ENABLED=true`; inquiry flag remains false; build-time flag receives a fresh production deployment; deployment reaches Ready; canonical alias points to it; no secret value exposed | Passed |
+| 7 | Prove the full live production flow | Fresh browser preference choice; HTTPS identifier behavior; stored page view; actual approved Contact action click; `201` responses; exact Supabase rows; approved admin aggregates/recent tables/date ranges/CSV; unapproved denial; failure isolation; test-only records removed and genuine records preserved | Passed |
 | 8 | Reconcile documentation and run final regression | Dated QA report; README/deployment/architecture/handoff/todo/decision/changelog truth reconciled; final local and production smoke checks pass; documentation-only commit pushed; final deployment commit and Git cleanliness verified | Pending |
 
 ## Required live acceptance matrix
@@ -189,7 +189,7 @@ The safe rollback state is:
 - Added ordered migration `008_add_waze_and_analytics_retention.sql`; previously applied migrations `001` through `007` remain immutable.
 - Replaced the effective link-type constraint additively so `waze` is a distinct accepted category while every existing category remains valid. The existing generic link-total view/RPC reports Waze without changing a deployed function return shape.
 - Added a parameter-free `private.prune_expired_analytics()` routine that uses invoker rights, an empty search path, one fixed 365-day boundary, and deletes only `page_views` and `link_clicks`.
-- Denied `public`, `anon`, `authenticated`, and `service_role` execution of the retention routine and preserved their lack of direct analytics `DELETE` authority.
+- Denied `public`, `anon`, `authenticated`, and `service_role` execution of the retention routine. Anonymous and ordinary authenticated roles retain no direct analytics `DELETE` authority; the provider's modern backend secret remains full privilege and is controlled through server-only isolation rather than described as insert-only.
 - Added one named daily Supabase Cron job at `15 18 * * *` GMT, corresponding to 02:15 Asia/Manila. Its scheduling statement explicitly reactivates the returned job ID so replay cannot leave an existing named job disabled.
 - Revoked application-role access to the `cron` schema after scheduling, which is the effective boundary around Supabase-owned cron tables and functions.
 - Reconciled the Waze category across the analytics union, all three manual database row/insert/update contracts, dashboard labels, destination validation tests, schema tests, and dashboard normalization tests.
@@ -203,7 +203,7 @@ The safe rollback state is:
 - Locally generated TypeScript schema output contained the expected analytics tables, link-type fields, page-view table, and generic dashboard link-total RPC; the reviewed manual Waze union then passed strict TypeScript compilation.
 - A rollback-only database probe accepted exact `waze` rows and rejected an unknown link category through the live check constraint.
 - The same probe deleted analytics at 366 days, retained analytics at 364 days, retained an older inquiry sentinel, returned the expected deletion counts, and returned zero deletions on an immediate second call.
-- The probe confirmed anonymous, authenticated, and service roles cannot call the retention routine, cannot directly delete analytics, and cannot use the `cron` schema.
+- The local role probe confirmed anonymous and authenticated roles cannot call the retention routine, directly delete analytics, or use the `cron` schema. The local `service_role` probe could not invoke the private routine or use cron; this is not a claim that the deployed modern backend secret lacks its provider-level full table authority.
 - Exactly one active named job was observed with the expected schedule, command, current database, migration owner, and GMT cron timezone.
 - Replay safety was exercised by disabling the local named job through `cron.alter_job`, replaying the migration's schedule/reactivation statement, and observing exactly one correctly configured active job.
 - The rollback boundary was verified after the probe: zero synthetic QA page-view, click, or inquiry rows remained. The local Supabase stack was stopped after QA.
@@ -311,6 +311,94 @@ The safe rollback state is:
 - After pushing, live `refs/heads/main`, local `HEAD`, and `origin/main` were verified identical with zero ahead/behind divergence and a clean worktree/index.
 - No remote migration, Supabase production row, Vercel/Supabase setting change, analytics activation, or deployment occurred in Step 5.
 
-## Next authorized action
+### Step 6 -- 2026-08-10
 
-On the next exact `continue`, perform **Step 6 only**: revalidate remote migration/provider state, apply reviewed migration `008`, reconcile the Vercel project to Next.js and Node.js 22, add the server-only Supabase write credential to Production without exposing its value, set `ANALYTICS_ENABLED=true` while keeping inquiries disabled, create a fresh production deployment, and verify the deployment is Ready at the canonical alias. If any activation/deployment gate fails, restore the non-collecting state and record the rollback. Do not perform synthetic production event insertion or populated-dashboard reconciliation until Step 7.
+**Outcome:** Passed. Migration `008`, the reviewed production-only configuration, and the exact pushed `main` build are active at the canonical Vercel aliases. The complete non-inserting production QA gate passed without a rollback trigger. No valid analytics event, inquiry, outbound-link click, administrator sign-in, retention-function invocation, or analytics-row deletion occurred in this step.
+
+#### Supabase activation evidence
+
+- `npx supabase db push --linked --yes` applied only `008_add_waze_and_analytics_retention.sql`; no seed, role file, or earlier migration was replayed or changed.
+- Local and linked migration histories now match exactly for migrations `001` through `008`. Linked database lint returned no findings.
+- The validated production link-type constraint accepts the nine reviewed categories, including distinct `waze`, while retaining every prior category.
+- The parameterless private retention routine is owned by the migration owner, uses invoker rights and an empty search path, and is not executable by `public`, `anon`, `authenticated`, or `service_role`.
+- Application roles cannot use the `cron` schema. Exactly one named retention job is active with the reviewed `15 18 * * *` GMT schedule, fixed no-argument command, current database, and expected owner.
+- The production backend secret is a modern Supabase server secret. It is a full-privilege backend credential rather than an insert-limited key, so safety depends on keeping it server-only and limiting application usage to the validated handlers. An authenticated CLI standard-input transfer populated the Production variable without exposing the value; Step 7 later established that the deployed value was incomplete and replaced it safely. Temporary shell variables and references were unset after use; the value was never printed, written to a file, placed in a command argument, or committed.
+- Before and after all Step 6 browser checks, exact production counts remained `page_views = 0`, `link_clicks = 0`, `waze_clicks = 0`, and `contact_inquiries = 0`. The retention routine was not invoked.
+
+#### Vercel configuration and deployment evidence
+
+- Project settings were reconciled from framework `Other` / Node.js `24.x` to framework `nextjs` / Node.js `22.x`.
+- `SUPABASE_SERVICE_ROLE_KEY`, `ANALYTICS_ENABLED`, and `CONTACT_INQUIRY_ENABLED` each exist exactly once as sensitive Production-only variables. No `SUPABASE_TEST_*` variable and no public service-key variable exists.
+- The analytics flag is enabled and the inquiry flag remains disabled. A fresh deployment was required because the public layout consumes the analytics flag during the build.
+- Production deployment `dpl_EoekUvUaEhqHk4NPZPRmgmeLCR7r` reached `READY` from exact `main` commit `678e9af591cca78b9d008e660a4fa84c41e20d03`.
+- Both canonical Vercel aliases point to that deployment. Deployment metadata reports Next.js and Node.js `22.x`.
+
+#### Non-inserting production QA
+
+- All nine public routes returned `200`, exact production canonicals, and the enabled consent-build marker.
+- Before visitor choice, a fresh HTTPS browser created no analytics request, preference, visitor cookie, or session identifier. The choice panel was visible.
+- With both analytics endpoints intercepted and fulfilled locally before navigation, **Allow analytics** produced one minimized page-view payload, a random UUID visitor cookie with `Secure`, `SameSite=Lax`, root path, and bounded expiry, plus a separate random session UUID. No request reached the production endpoint.
+- **Decline** removed visitor/session identity, stored the declined preference, and a subsequent internal navigation produced no additional analytics request.
+- A clean administrator-login context mounted no consent UI, analytics storage, or analytics request.
+- All six configured Contact actions rendered as safe, non-placeholder anchors; the withdrawn Evelyn contact was absent. Google Maps and Waze navigation anchors were present with approved HTTPS providers, and map iframes remained unloaded by default. No outbound action was clicked.
+- The website inquiry fieldset and submit action were disabled. A `{}` probe to the inquiry API returned the exact disabled `404` response without storage.
+- Malformed `text/plain` probes to each analytics endpoint returned `415`, empty private/no-store responses. No probe returned `201`, `202`, `204`, `429`, or a server error, and no valid analytics payload was sent.
+- Robots directives, exact unauthenticated administrator redirects, protected-content non-disclosure, administrator noindex/private caching, CSP, HSTS, frame denial, MIME sniffing protection, referrer policy, permissions policy, cross-origin isolation headers, and removal of `X-Powered-By` all passed.
+- An independent Vercel metadata audit, independent linked Supabase audit, production HTTP/security audit, and browser behavior/DOM audit all passed. The first browser script stopped on two Playwright locator-semantics assumptions; targeted diagnostics confirmed the live DOM state, corrected assertions then passed, and every analytics request in those runs remained locally intercepted.
+- Step 6 proves deployed enablement, consent behavior, provider configuration presence, schema readiness, and non-inserting security behavior. It intentionally does not claim the backend secret can write, an endpoint can return `201`, Supabase can read back a new event, or the administrator dashboard/CSV can reconcile populated data; those are Step 7 acceptance gates.
+
+### Step 7 -- 2026-08-10
+
+**Outcome:** Passed. The minimum consented production event pair was stored with `201` responses, read back exactly, reconciled through every in-scope analytics reporting surface, and deleted using its unique identifiers. Failure isolation and unauthorized denial passed. The retained owner administrator and all non-QA rows were preserved. Production analytics remains enabled on the final Ready deployment.
+
+#### Activation correction and rollback evidence
+
+- The first valid page-view probe returned `202`, truthfully exposing that the backend write boundary was still unavailable. No Contact action was attempted after that failed prerequisite.
+- Direct server-secret access to the linked Supabase project succeeded, isolating the problem to the Vercel copy rather than the key class, database, validation, or insert code. The earlier interrupted CLI standard-input transfer had left the production variable incomplete.
+- The mandatory rollback rule was followed immediately: analytics was set to false, a fresh safe deployment was promoted, both analytics endpoints returned disabled-state `204`, and a fresh browser had no choice UI, analytics request, cookie, or session identifier.
+- A second CLI standard-input replacement still did not produce a usable deployed value, so collection stayed disabled. The value was then replaced through Vercel's authenticated environment API with the secret supplied only through JSON standard input; it was never printed, written to a file, placed in a command argument, or added to a public variable.
+- A fresh disabled deployment again proved `204` behavior before analytics was re-enabled and rebuilt. Final deployment `dpl_Hq2gcedwbYnEJCht5fLdqR2HnxWy` is `READY`, targets Production, uses Next.js and Node.js `22.x`, serves both canonical aliases, and was built from pushed `main` commit `678e9af591cca78b9d008e660a4fa84c41e20d03`.
+- A direct valid endpoint probe then returned `201`; its one exact row was read back and deleted before browser acceptance began. This proved the repaired Vercel-to-Supabase write boundary independently of the browser.
+
+#### Browser delivery and navigation evidence
+
+- A separate failure-isolation context intercepted and aborted analytics locally. Allowing analytics attempted one minimized page view, an approved Contact action attempted one link event, public content remained usable, and native hash navigation proceeded despite both analytics failures. Decline removed the browser identity. No request from this context reached production.
+- In the accepted live context, the site's own consent path created random visitor and session UUIDs. The first generated page view was intercepted locally only long enough to prove the new identity pair had zero remote rows before delivery.
+- After interception was removed, internal navigation to `/contact` produced exactly one production page-view response with `201`.
+- A trusted Control-click on the actual approved Airbnb Contact action produced exactly one link-click response with `201`. A separate top-level navigation request began for the configured destination, and its `noreferrer` behavior omitted the Referer header; the third-party tab was closed promptly.
+- Supabase readback for the exact visitor/session pair contained one `/contact` page view and one `airbnb` click sourced from `/contact`, with the configured destination matching by SHA-256. The stored rows matched the browser identity and the bounded QA time window.
+- Opening **Analytics settings** and selecting **Decline** removed the visitor cookie and session identifier and retained only the declined preference. No retry, reload, or second approved outbound action was used to obtain a passing result.
+- Playwright cannot retrieve a completed keepalive response body and cannot reliably parse a completed native `sendBeacon` body outside interception. Those harness limitations were not treated as product failures: status, minimized payload shape under local interception, exact stored fields, database row identity, and cleanup were proved through independent boundaries. Every exploratory synthetic row was uniquely located and removed before the accepted pair was created.
+
+#### Administrator, RLS, and report reconciliation
+
+- A disposable approved QA administrator, authorized through the same `admin_profiles` and RLS boundary as the retained owner, signed in successfully. Administrator navigation created zero public analytics requests or browser identifiers.
+- The operational panel reported stored analytics activity, Collection enabled, Write storage configured, and Authenticated reporting available. Its last-page and last-link timestamps matched the exact stored rows.
+- One custom Asia/Manila date range drove the database baseline and every UI/report query. All six summary cards, all nine link-category cards, five accessible chart tables, and both recent-activity tables reconciled with the five dashboard RPCs and exact base-table rows.
+- The refresh control changed the displayed last-refreshed time and preserved the reconciled values.
+- Authenticated page-view and link-click CSV exports both returned protected, non-cacheable CSV, were not truncated, reconciled by row count and minimized QA row fields, and omitted destination and full visitor/session identifiers as designed. The inquiry CSV was intentionally not downloaded because it can contain guest information.
+- Logging out denied the dashboard and export routes. A separate disposable authenticated-but-unapproved user received the generic sign-in denial and could read none of the QA analytics rows.
+- Independent database metadata checks confirmed RLS on both analytics tables, no anonymous table privileges, authenticated read-only grants with no write grants, and one approved-administrator SELECT policy per table. Approved direct reads returned the exact pair; unapproved direct reads returned zero rows and unapproved RPC totals remained zero.
+
+#### Exact cleanup and post-QA state
+
+- The cleanup candidate was required to match both random browser IDs, both primary row IDs, exact timestamps, `/contact` path/source, `airbnb` type, and the destination hash before deletion.
+- Exactly one page-view row and one link-click row were deleted. The exact target pair then returned zero rows, and every non-QA analytics row captured before cleanup remained present.
+- The temporary approved profile and both disposable Auth users were deleted and verified absent. The pre-existing retained owner profile remained present and was not reset, rotated, or edited.
+- Inquiry counts were unchanged. Final production counts after cleanup were `page_views = 0`, `link_clicks = 0`, and `contact_inquiries = 0`.
+- Post-cleanup malformed analytics probes returned enabled-state `415` from both endpoints, the public choice marker remained present, and the final deployment remained Ready at the canonical production alias.
+- No credential, configured contact value, random browser UUID, Auth user identifier, cookie, destination URL, or CSV content was printed, committed, or retained in a QA artifact.
+
+#### Step 7 QA
+
+- Stored endpoint probe: passed with `201`, exact readback, and exact cleanup.
+- Browser consent/page-view/approved-action/native-navigation proof: passed with one stored row of each type.
+- Failure isolation and declined-state identity cleanup: passed without a production event.
+- Approved administrator status/cards/charts/recent tables/date range/refresh/RPC/CSV reconciliation: passed.
+- Anonymous, unapproved, logged-out, and protected-export denial: passed.
+- Exact synthetic row and disposable-user cleanup: passed; owner authorization and non-QA data preserved.
+- Post-cleanup production endpoint, consent marker, canonical deployment, and zero-row state checks: passed.
+
+## Remaining Step 8 release work
+
+The current `continue` authorized Step 8. Documentation reconciliation, the dated activation report, the complete isolated local regression, and local production-mode smoke have passed. Finish the documentation audit, commit and push only the reviewed documentation, verify the GitHub Quality result, deploy the clean final `main` commit, and reconcile local `main`, `origin/main`, the GitHub branch, the canonical Vercel deployment, Supabase health, and the clean worktree. After every release check passes, replace this section with the completion outcome, deliver the final owner handoff, close open browser tabs, and initiate the user-requested computer shutdown.

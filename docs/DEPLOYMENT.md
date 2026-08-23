@@ -8,13 +8,14 @@
 - Vercel project: `villa-vessela-airbnb`
 - Production alias: `https://villa-vessela-airbnb.vercel.app`
 - Application framework: Next.js App Router
-- Application release commit: `484c4dba146e14aa6ea75a53ef78260db5656c81`
-- Administrator-enabled deployment: `dpl_9ANCAoMFRoznxvhk3FbQjpZ95U2G` (Ready)
+- Analytics remediation application commit: `98a5c316ea1451f6dad34c1e376b946107e00145`
+- Activation evidence commit: `678e9af591cca78b9d008e660a4fa84c41e20d03`
+- Verified analytics activation deployment: `dpl_Hq2gcedwbYnEJCht5fLdqR2HnxWy` (Ready and assigned to the canonical alias on 2026-08-10)
 - Database/authentication provider: Supabase (administrator authentication active)
 
-The public information site remains usable if Supabase is temporarily unavailable. Production administrator login is connected to an approved Supabase project with all seven migrations applied; one manually authorized owner identity can reach the empty dashboard and inquiry administration routes. Stored analytics and public inquiry submission remain disabled.
+The public information site and outbound navigation remain usable if Supabase or analytics delivery is temporarily unavailable. Production administrator login is connected to an approved Supabase project with all eight migrations applied; one manually authorized owner identity can reach the dashboard and inquiry administration routes. Consent-based page-view and approved external-link analytics is active. Public inquiry submission remains disabled.
 
-The production environment keeps `NEXT_PUBLIC_SITE_URL=https://villa-vessela-airbnb.vercel.app`, `ANALYTICS_ENABLED=false`, and `CONTACT_INQUIRY_ENABLED=false`, together with the separately approved public booking, social, map, WhatsApp, and caretaker-contact variables. `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` are configured for Auth/RLS; no service-role key or test credential is deployed.
+The production environment keeps `NEXT_PUBLIC_SITE_URL=https://villa-vessela-airbnb.vercel.app`, `ANALYTICS_ENABLED=true`, and `CONTACT_INQUIRY_ENABLED=false`, together with the separately approved public booking, social, map, WhatsApp, and caretaker-contact variables. `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` are configured for Auth/RLS. One modern Supabase backend secret is configured as sensitive, Production-only `SUPABASE_SERVICE_ROLE_KEY`; no `SUPABASE_TEST_*` credential is deployed. The backend secret is full privilege and must never be copied to a browser, public variable, log, file, command argument, or documentation.
 
 Production may contain the owner-approved `NEXT_PUBLIC_CARETAKER_NIDA_PHONE` and `NEXT_PUBLIC_CONTACT_EMAIL` values. The caretaker telephone and public email remain intentionally omitted from Git and deployment documentation. Evelyn's former caretaker contact was withdrawn from public use on 2026-08-08 and `NEXT_PUBLIC_CARETAKER_EVELYN_PHONE` must not be configured. Telephone approval does not establish WhatsApp availability.
 
@@ -64,48 +65,49 @@ npx vercel@latest link --yes --team nikkineilcarino-2938s-projects --project vil
 
 Configure only reviewed values. Missing optional values intentionally keep their feature or destination unavailable.
 
-| Variable | Initial production state | Activation requirement |
+| Variable | Current production state | Activation/maintenance requirement |
 | --- | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | Required: exact final Vercel/custom HTTPS origin | Rebuild, then inspect canonical, Open Graph, sitemap, and robots output |
-| `ANALYTICS_ENABLED` | `false` | Approved Supabase project, migrations/RLS probes, privacy/provider/retention approval, and live insertion QA |
+| `ANALYTICS_ENABLED` | `true` | Rebuild after any change; explicit browser choice, minimized collection, retention, write/readback, dashboard/CSV, failure-isolation, and rollback QA must remain valid |
 | `CONTACT_INQUIRY_ENABLED` | `false` | Approved storage, consent wording, retention/deletion process, operator, rate-limit review, and live inquiry/admin/export QA |
 | `NEXT_PUBLIC_SUPABASE_URL` | Configured for production administrator authentication | Approved Supabase project |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Configured for production administrator authentication | Public key; safe only with verified RLS |
-| `SUPABASE_SERVICE_ROLE_KEY` | Omit initially | Server-only secret; add only when validated analytics/inquiry inserts are approved |
+| `SUPABASE_SERVICE_ROLE_KEY` | Configured as sensitive and Production-only | Full-privilege backend secret; server-only validated analytics insert routes currently require it |
 | `NEXT_PUBLIC_GOOGLE_MAPS_URL` / `NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL` | Verified property pin | Coordinate-based Google Maps navigation and click-to-load embed; no project API key required |
 | `NEXT_PUBLIC_WAZE_URL` / `NEXT_PUBLIC_WAZE_EMBED_URL` | Verified property pin | Matching Waze deep link and click-to-load Live Map embed |
 | Other approved booking/contact destinations | Omit until supplied | Exact owner-approved public values and browser verification |
 | `SUPABASE_TEST_*` values | Never configure in production | Dedicated non-production test process or protected CI only |
 
-Example non-interactive configuration after the project is linked:
+Example non-interactive configuration for non-secret flags after the project is linked:
 
 ```powershell
-npx vercel@latest env add NEXT_PUBLIC_SITE_URL production --value "https://final-origin.example" --yes
-npx vercel@latest env add ANALYTICS_ENABLED production --value "false" --yes
-npx vercel@latest env add CONTACT_INQUIRY_ENABLED production --value "false" --yes
+'https://final-origin.example' | npx vercel@latest env add NEXT_PUBLIC_SITE_URL production --force --yes
+'true' | npx vercel@latest env add ANALYTICS_ENABLED production --sensitive --force --yes
+'false' | npx vercel@latest env add CONTACT_INQUIRY_ENABLED production --sensitive --force --yes
 ```
 
-Do not place credentials on command lines. Add future secrets through an approved protected provider interface or secret input channel, and verify that they never enter shell history, source, logs, client bundles, or deployment metadata.
+Do not place credentials on command lines. Add or rotate backend secrets through an approved protected provider interface or a reviewed value-suppressed API/standard-input bridge, then prove write health with one isolated event and exact cleanup. Verify that a secret never enters shell history, source, logs, client bundles, or deployment metadata. Environment-name presence is not proof that a copied secret value is complete.
 
 ## Supabase activation order
 
-The production Supabase project was activated on 2026-08-10 using this sequence. Steps 1, 4, 5, and the authentication portions of step 6 are complete; collection/storage gates remain outstanding:
+The production Supabase project and analytics were activated on 2026-08-10 using this sequence. Database, authentication, and analytics steps are complete; inquiry activation remains outstanding:
 
-1. Apply the seven migrations in filename order:
+1. Apply the eight migrations in filename order:
    `001_create_admin_profiles.sql`,
    `002_create_analytics_tables.sql`,
    `003_create_inquiries_table.sql`,
    `004_enable_rls.sql`,
    `005_create_admin_policies.sql`,
    `006_create_analytics_views.sql`,
-   `007_create_dashboard_functions.sql`.
+   `007_create_dashboard_functions.sql`,
+   `008_add_waze_and_analytics_retention.sql`.
 2. Regenerate and review `src/types/database.ts`.
 3. Prove anonymous and arbitrary authenticated users cannot read analytics, inquiries, or administrator data.
 4. Create dedicated Supabase Auth identities through an approved administrative path; general signup stays disabled.
 5. Add only the approved administrator user ID to `admin_profiles`.
 6. Prove approved login/logout and dashboard/inquiry/export access, and prove an authenticated user without a profile is denied.
-7. Verify analytics/inquiry insertion, rate bounds, outage behavior, retention, deletion, and CSV reconciliation.
-8. Add production variables and enable each feature separately only after its gate passes.
+7. Verify analytics insertion, exact approved-link delivery, outage/navigation behavior, consent storage, retention, exact synthetic deletion, dashboard aggregates, and page/link CSV reconciliation. This passed on 2026-08-10.
+8. Add production variables and enable analytics only after its gate passes. Keep inquiries false until their separate retention, live insertion/status/export, operator, and deletion gates pass.
 
 Detailed role probes and provisioning boundaries remain in `supabase/README.md` and `src/lib/auth/README.md`.
 
@@ -119,7 +121,7 @@ git rev-parse HEAD
 npx vercel@latest deploy --prod --yes --scope nikkineilcarino-2938s-projects
 ```
 
-Record the commit SHA, deployment ID/URL, production alias, environment state, and all post-deployment results in `docs/qa/phase-12-release.md`.
+Record the commit SHA, deployment ID/URL, production alias, environment state, and all post-deployment results in a dated QA report. The original public release remains in `docs/qa/phase-12-release.md`; analytics activation is in `docs/qa/analytics-activation-2026-08-10.md`.
 
 ## Optional `villavessela.com` custom domain
 
@@ -149,7 +151,7 @@ Verify on the production alias:
 6. CSP, HSTS, clickjacking, MIME, referrer, permissions, cross-origin, and static-asset cache headers are present; CSP permits frames only from the exact Google Maps and Waze embed origins.
 7. Privacy, keyboard focus, mobile navigation, gallery lightbox, reduced motion, and Axe smoke checks pass.
 8. External destinations remain inactive unless exact approved values were configured; Google Maps and Waze remain unloaded until selected and resolve to the same property pin with working zoom controls.
-9. Analytics and inquiry endpoints remain unavailable while their production flags are false.
+9. Before analytics choice, no analytics identifier or request exists. With analytics enabled, malformed endpoint probes return `415`; one authorized live-storage test must return `201` and be deleted exactly. With inquiry submission disabled, `/api/contact` returns the documented `404` disabled response.
 10. Browser bundles and rendered output contain no server secret, private caretaker contact, test credential, internal identifier, or raw inquiry record.
 
 ## Rollback
@@ -161,10 +163,13 @@ Vercel deployments are immutable. If a release fails:
 3. Revert the faulty Git commit with a new commit on `main`, run the full release gate, push normally, and deploy again.
 4. If a database migration is involved, stop feature traffic first and follow a reviewed forward-fix/data-recovery plan. Do not destructively reverse a production migration without a backup and explicit owner approval.
 
+For an analytics-specific rollback, set the Production `ANALYTICS_ENABLED` value to false and create a fresh production deployment because the public layout consumes the flag during build. Confirm both analytics endpoints return `204`, the consent control is absent, and a fresh browser creates no analytics identifier/request. Keep migration `008` applied; it is safe while collection is disabled and should be corrected only by an additive migration. Remove the backend secret and redeploy only if the server insertion boundary itself is suspect.
+
 ## Support and current limitations
 
-- Official property photographs, approved external destinations, public owner contacts, rates, and several inclusion details remain unresolved and are represented by explicit placeholders or disabled controls.
-- Administrator access and empty dashboard/inquiry administration routes are operational. Analytics collection and public inquiry storage remain disabled pending their separate privacy, retention, insertion, deletion, rate-limit, and reconciliation gates.
-- The in-process anonymous rate limiter is not globally atomic across serverless instances. Select an approved privacy-compatible distributed/WAF control before enabling collection at launch scale.
-- Retention, deletion, privacy-request handling, provider review, and any jurisdiction-specific consent control remain owner/legal/operational decisions.
+- Forty-one approved photographs and the approved booking/social/messaging/map/WhatsApp/caretaker/email destinations are active. Blue Kubo, Green Kubo, parking, public owner telephone, rates, and several inclusion details remain unresolved and use reserved slots, qualification, or disabled controls.
+- Administrator access, consent-based analytics storage, dashboard reporting, page/link CSV export, and inquiry administration routes are operational. Public inquiry storage remains disabled pending its separate retention, insertion, status, deletion, operator, and export gates.
+- Analytics-only retention runs daily after events become older than 365 days. Scheduled execution can be delayed by the daily interval or a paused provider project; do not promise exact-to-the-second deletion.
+- The in-process anonymous rate limiter is not globally atomic across serverless instances. Add an approved privacy-compatible distributed/WAF control before sustained or adversarial launch-scale traffic.
+- The public Contact route is the configured privacy-request channel. Responsible handling, provider review, jurisdiction-specific obligations, and the separate inquiry process remain owner/legal/operational responsibilities.
 - Private caretaker numbers from the planning package must never be published or used as default contact configuration.

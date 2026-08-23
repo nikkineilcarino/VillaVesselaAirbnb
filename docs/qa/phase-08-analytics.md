@@ -1,5 +1,7 @@
 # Phase 8 QA — Privacy-safe Analytics
 
+> **Historical snapshot.** The live-storage/configured-link blockers below were closed on 2026-08-10 with explicit visitor choice, Waze support, production `201` page/link delivery, exact readback, failure isolation, and exact cleanup; see [`analytics-activation-2026-08-10.md`](analytics-activation-2026-08-10.md). The original phase evidence remains unchanged below.
+
 ## Status
 
 **Completed with live-storage/configured-link blockers.** Identifier lifecycles, minimization, deduplication, administrator exclusion, destination validation, request bounds, same-origin checks, rate limits, delivery fallbacks, failure isolation, regression, build, secret, and privacy checks pass. No page view/link click could be inserted or read back from a live database because no Supabase runtime/project credentials exist. No configured approved external link exists for a real navigation/delivery check. The phase is therefore not labelled `QA passed`.

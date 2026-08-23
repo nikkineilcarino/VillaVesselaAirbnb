@@ -1,5 +1,23 @@
 # Changelog
 
+## 2026-08-24 — Final analytics remediation handoff
+
+- Reconciled the current architecture, deployment runbook, owner handoff, decisions, QA checklist, implementation plan, content register, and historical follow-up notes with the verified consent-based production state.
+- Added the dated analytics activation report without rewriting the evidence or limitations recorded in earlier phase snapshots.
+- Re-ran lint, strict types, 77 unit/component tests, the complete isolated Chromium matrix and mutually exclusive branches, dependency audits, linked schema checks, a clean production build, and local production-mode smoke checks.
+- Preserved `CONTACT_INQUIRY_ENABLED=false`, the retained owner administrator, all genuine production data, and the mandatory analytics rollback boundary.
+
+## 2026-08-10 — Consent-based analytics and administrator reporting activation
+
+- Added an explicit Allow/Decline analytics choice and persistent settings control; undecided, declined, storage-blocked, and feature-disabled states create no analytics identifier or request.
+- Added distinct Waze tracking/reporting, analytics-only daily 365-day retention, and accurate active-state Privacy wording.
+- Added protected operational status, safe last-event timestamps, refresh feedback, and visible totals for all nine external-link categories.
+- Applied and linted production migrations `001` through `008`; activated one approved owner administrator and kept public inquiry submission disabled.
+- Configured the full-privilege Supabase backend secret only as a sensitive Production server variable and retained authenticated RLS clients for all administrator reads.
+- Corrected an incomplete initial Vercel secret transfer under the mandatory disabled-state rollback, then redeployed and proved enabled write health without exposing the value.
+- Stored one consented `/contact` page view and one approved Airbnb Contact click with `201`, proved native navigation/failure isolation, and reconciled exact rows with five RPCs, six summary cards, nine link-category cards, five chart tables, recent activity, refresh, and page/link CSV exports.
+- Proved logged-out and authenticated-unapproved denial, removed the exact two synthetic rows and both disposable users, preserved the owner profile and all non-QA data, and returned the immediate post-cleanup production analytics/inquiry snapshot to zero.
+
 ## 2026-08-08 — Final public contact selection
 
 - Removed Evelyn from the public caretaker list, runtime configuration, and telephone destination allowlist following the owner's updated instruction.

@@ -1,5 +1,7 @@
 # Caretaker telephone activation — 2026-07-27
 
+> **Historical snapshot.** Contact destinations were later revised and consent-based analytics was activated on 2026-08-10. Current analytics evidence is in [`analytics-activation-2026-08-10.md`](analytics-activation-2026-08-10.md); the destination values remain intentionally absent from Git.
+
 > **Superseded contact scope (2026-08-08):** The owner retained Nida and removed Evelyn from the public contact list. Current releases must expose only Nida's approved caretaker telephone and must not configure `NEXT_PUBLIC_CARETAKER_EVELYN_PHONE`. The details below remain as historical evidence for the 2026-07-27 release.
 
 ## Authority and scope

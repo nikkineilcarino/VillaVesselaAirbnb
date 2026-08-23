@@ -9,7 +9,7 @@ This directory owns framework-independent helpers, carefully separated Supabase 
 - `utils.ts` exports `cn`, the shared conditional-class and Tailwind-conflict resolver.
 - `supabase/client.ts` creates an optional browser client using only public configuration.
 - `supabase/server.ts` creates an optional cookie-aware server client that remains subject to RLS.
-- `supabase/service.ts` creates the privileged server-only client reserved for future validated endpoints.
+- `supabase/service.ts` creates the full-privilege server-only client used by the two validated analytics insert handlers and available to the default-disabled validated inquiry handler.
 - `supabase/README.md` documents configuration, trust boundaries, and required live role tests.
 - `supabase/proxy.ts` verifies/refreshes request sessions and preserves response cookies/private cache headers for `/admin/*`.
 - `supabase/config.ts` validates the public endpoint/key pair and applies SameSite plus production-Secure cookie options consistently.
@@ -42,7 +42,7 @@ Create a feature subdirectory only when responsibilities are substantial. Keep p
 
 ## Environment variables
 
-Supabase factories read the documented public project values or the server-only `SUPABASE_SERVICE_ROLE_KEY`. Analytics activation uses `ANALYTICS_ENABLED`; inquiry form/endpoint activation uses the server runtime `CONTACT_INQUIRY_ENABLED` flag. Missing/unsafe configuration returns `null`; the service key and test credentials are never browser-readable.
+Supabase factories read the documented public project values or the server-only `SUPABASE_SERVICE_ROLE_KEY`. The modern backend secret bypasses RLS, so its effective scope comes from Production-only isolation and narrow reviewed call sites rather than an insert-only database privilege. Analytics activation uses `ANALYTICS_ENABLED`; inquiry form/endpoint activation uses the server runtime `CONTACT_INQUIRY_ENABLED` flag. Missing/unsafe configuration returns `null`; the backend secret and test credentials are never browser-readable.
 
 ## Testing
 

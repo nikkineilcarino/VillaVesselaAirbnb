@@ -16,13 +16,15 @@ Status values are **Not started**, **In progress**, **Blocked**, **Completed**, 
 | 3 | Complete homepage sections and centralized homepage content | Phase 2; labelled image placeholders | QA passed |
 | 4 | Accommodation, amenities, guest guide, house rules, FAQ, attractions | Phase 3 | QA passed |
 | 5 | Gallery/lightbox, reviews, map/location, contact options, inquiry UI shell | Phase 4; official media/URLs optional and configurable | QA passed |
-| 6 | Supabase migrations, constraints, indexes, RLS, typed schema, safe sample seed | Phase 1; Supabase design review | Completed |
+| 6 | Supabase migrations, constraints, indexes, RLS, typed schema, safe sample seed | Phase 1; Supabase design review | QA passed |
 | 7 | Admin login/logout, session refresh, server authorization, route protection | Phase 6; Supabase credentials for live QA | Completed |
-| 8 | Anonymous visitor/session IDs, page views, tracked links, validation, rate limits | Phases 5–7; approved destinations for full QA | Completed |
+| 8 | Anonymous visitor/session IDs, page views, tracked links, validation, rate limits | Phases 5–7; approved destinations for full QA | QA passed |
 | 9 | Dashboard cards, charts, date filters, tables, loading/empty/error states | Phase 8; database or labelled sample data | Completed |
 | 10 | Inquiry submission/admin status and protected CSV exports | Phases 6, 7, and 9; feature flag decision | Completed |
-| 11 | SEO, structured data, accessibility, performance, security, privacy hardening | All feature phases | Completed |
-| 12 | Regression QA, production build, docs audit, Supabase/Vercel release runbook | Phases 1–11 | Not started |
+| 11 | SEO, structured data, accessibility, performance, security, privacy hardening | All feature phases | QA passed |
+| 12 | Regression QA, production build, docs audit, Supabase/Vercel release runbook | Phases 1–11 | QA passed |
+
+**Dated follow-up — 2026-08-10:** The detailed phase completion notes below preserve what was known when each phase originally closed; their blocked statements are historical rather than current. Production administrator activation and the analytics remediation later closed the Supabase, core Auth/RLS, retention, insertion/readback, populated dashboard, page/link CSV, and cleanup gates for Phases 6–9 and 11–12. Forced token-expiry refresh and production-authenticated mobile chart tooltip/legend interaction remain narrow non-release follow-ups, so Phases 7 and 9 stay `Completed`. Inquiry submission remains disabled, so Phase 10 also remains `Completed`. See `docs/qa/admin-activation-2026-08-10.md` and `docs/qa/analytics-activation-2026-08-10.md`.
 
 ## Detailed phases
 
@@ -111,11 +113,11 @@ Status values are **Not started**, **In progress**, **Blocked**, **Completed**, 
 
 ### Phase 12 — Final QA and deployment readiness
 
-- **Status:** Completed with Supabase-dependent acceptance criteria blocked.
+- **Status:** QA passed for the released public site, administrator boundary, and consent-based analytics. Public inquiry submission remains an intentionally disabled optional feature rather than an unreported release failure.
 - **Tasks:** full regression, dependency and documentation review, build, final Vercel/Supabase runbook, production checklist and owner-verification list.
 - **Expected files:** final QA report and updates to all project/directory documents.
 - **QA:** lint, typecheck, unit tests, full Playwright suite, build, route matrix, access-control and privacy regression. Any credential-dependent check remains explicitly blocked until executed.
-- **Completion note:** The owner-attributed `main` branch is published at `nikkineilcarino/VillaVesselaAirbnb`. Vercel project `villa-vessela-airbnb` is deployed in the requested team and aliased to `https://villa-vessela-airbnb.vercel.app` from application commit `8275f9840d3bc306bddf2d7bfd697d69da776be7`. The audited Node line is pinned to 22.x. Only the canonical origin plus explicit false analytics/inquiry flags are configured; no Supabase credential, test credential, private contact, or public destination was added. Local lint, types, 67 unit tests, 47 browser checks with 2 explicit live skips, the separate 3-check inquiry run, audit, lockfile simulation, and build pass. The final deployment reports Ready and 39 production browser checks plus route/header/privacy/bundle/cookie scans pass. Supabase migrations, RLS role probes, administrator access, data insertion/readback, retention, and deletion remain blocked. Evidence is in `docs/qa/phase-12-release.md`.
+- **Completion note:** The original public-release evidence remains in `docs/qa/phase-12-release.md`. On 2026-08-10, the owner-approved Supabase project reached migrations `001` through `008`; administrator authentication/RLS, explicit analytics choice, Waze reporting, analytics-only retention, live page/link `201` insertion, exact readback, protected dashboard/RPC/CSV reconciliation, unapproved denial, failure isolation, and exact synthetic cleanup all passed. Production uses the audited Node 22 line at `https://villa-vessela-airbnb.vercel.app`; inquiry submission remains false. Current evidence is in `docs/qa/admin-activation-2026-08-10.md` and `docs/qa/analytics-activation-2026-08-10.md`.
 
 ## Directory README plan
 

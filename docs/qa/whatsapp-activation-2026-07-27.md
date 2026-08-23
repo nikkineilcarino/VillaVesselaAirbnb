@@ -1,5 +1,7 @@
 # WhatsApp activation — 2026-07-27
 
+> **Historical snapshot.** Consent-based production analytics was activated on 2026-08-10; see [`analytics-activation-2026-08-10.md`](analytics-activation-2026-08-10.md). The approved public destination value remains intentionally absent from Git.
+
 ## Outcome
 
 The owner-supplied WhatsApp contact is active on the production Contact page through one validated `wa.me` action. The actual number is intentionally omitted from Git, this report, logs, and screenshots; it is stored only in Vercel production configuration and is necessarily visible in the public link after deployment.

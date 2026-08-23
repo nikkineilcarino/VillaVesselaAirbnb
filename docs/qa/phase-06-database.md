@@ -1,5 +1,7 @@
 # Phase 6 QA — Supabase Database
 
+> **Historical snapshot.** The database blockers recorded below were closed for analytics/administrator scope on 2026-08-10. Migrations `001` through `008`, local/linked lint, RLS role behavior, retention, and exact synthetic cleanup passed; see [`analytics-activation-2026-08-10.md`](analytics-activation-2026-08-10.md). Its current full-privilege backend secret supersedes the older insert-only-service-role wording below: narrowness now comes from Production-only isolation and reviewed handler call sites. Public inquiry submission remains disabled and its live workflow is not claimed.
+
 **Date:** 2026-07-23  
 **Status:** Completed with live database checks blocked  
 **Environment:** Windows PowerShell; Node.js v22.18.0; npm 10.9.3; Supabase CLI 2.109.1; Docker CLI installed but Docker Desktop engine unavailable  

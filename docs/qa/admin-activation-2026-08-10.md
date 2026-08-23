@@ -1,5 +1,7 @@
 # Production administrator activation — 2026-08-10
 
+> **Dated follow-up.** The analytics/storage/reporting blockers listed in this administrator-activation snapshot were closed later on 2026-08-10; see [`analytics-activation-2026-08-10.md`](analytics-activation-2026-08-10.md). Public inquiry submission remains disabled.
+
 ## Outcome
 
 Villa Vessela production administrator authentication is active at `https://villa-vessela-airbnb.vercel.app/admin/login`. One owner-approved, email-confirmed Supabase Auth identity has one matching `public.admin_profiles` row with role `admin`. The approved identity can open the empty Analytics dashboard and Inquiries page; public visitors and authenticated identities without a profile remain denied.

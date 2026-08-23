@@ -16,7 +16,7 @@ This directory owns the Next.js App Router tree, document shell, public/administ
 - `(public)/reviews/page.tsx` presents supplied Airbnb ratings/excerpts and unfilled Messenger review positions.
 - `(public)/location/page.tsx` presents the confirmed address, approach directions, address-copy action, and opt-in zoomable Google Maps/Waze views.
 - `(public)/contact/page.tsx` is dynamic so one server-only runtime flag can select the safe disabled inquiry preview or the operational form.
-- `(public)/privacy/page.tsx` documents actual conditional collection, browser storage, administrator access, provider/external-site boundaries, and unresolved retention/deletion/request controls.
+- `(public)/privacy/page.tsx` documents explicit analytics choice, browser storage, analytics-only daily 365-day retention, administrator access, provider/external-site boundaries, the configured Contact request route, and the still-separate inquiry-retention boundary.
 - `admin/login/` provides dynamic, noindex email/password sign-in through a bounded Server Action without registration.
 - `admin/(protected)/layout.tsx` repeats server-side identity/profile authorization before rendering the dashboard shell.
 - `admin/(protected)/dashboard/page.tsx` resolves the reporting period, runs the authenticated Phase 9 query, and composes cards, charts, activity, definitions, and truthful data states.

@@ -24,9 +24,9 @@ This directory owns the versioned PostgreSQL schema, deny-by-default Row Level S
 | `anon` direct database access | None | None | None |
 | Authenticated but unapproved user | None | None | None |
 | Approved authenticated administrator | Read | Read | Read and update `status` only |
-| Validated server endpoints | Service role may provision approved profiles out of band | Insert-only event grants | Insert-only inquiry grant |
+| Full-privilege backend secret | Approved profiles may be provisioned only out of band | Used only by the two validated analytics insert handlers | Available only to the default-disabled validated inquiry insert handler |
 
-There is intentionally no public insert policy. Phase 8 analytics endpoints and the default-disabled Phase 10 inquiry endpoint independently validate/rate-limit payloads before using the isolated server-only service client. Administrator inquiry reads, status changes, and exports use the authenticated RLS client instead. The service role bypasses RLS and therefore remains a narrowly controlled exception, not a public client.
+There is intentionally no public insert policy. Analytics endpoints and the default-disabled inquiry endpoint independently validate/rate-limit payloads before using the isolated server-only service client. The modern backend secret maps to a full-privilege role and bypasses RLS; the database does not make that credential insert-only. Its effective narrowness comes from Production-only secret isolation and the reviewed handler call sites. Administrator dashboard/inquiry reads, status changes, and exports use the authenticated RLS client instead.
 
 ## Local setup and commands
 
@@ -58,7 +58,7 @@ Public signup remains disabled. Create the administrator Auth identity through t
 - Inquiry fields are bounded and require a contact method, ordered dates when both exist, positive bounded guests, a message, and true consent.
 - The guest-count maximum is an anti-abuse storage bound, not a booking/capacity promise.
 - Migration `008` schedules one database-local job at 18:15 GMT (02:15 Asia/Manila) to delete only `page_views` and `link_clicks` once they are older than 365 days. A daily schedule can add up to one scheduling interval of delay.
-- The private retention function accepts no caller-controlled cutoff, uses invoker rights, and is unavailable to `public`, `anon`, `authenticated`, and `service_role`. Its scheduling owner retains the required table authority.
+- The private retention function accepts no caller-controlled cutoff, uses invoker rights, and is unavailable to `public`, `anon`, `authenticated`, and `service_role`. Its scheduling owner retains the required table authority. This EXECUTE denial does not reduce the deployed backend secret's separate full table authority.
 - Inquiry retention remains separate and unresolved; the analytics job never reads or deletes `contact_inquiries`.
 - Seed destinations use the reserved `.invalid` domain and seed inquiry identity is explicitly synthetic.
 - Administrator profiles are never seeded because they require a real Auth user and explicit approval.

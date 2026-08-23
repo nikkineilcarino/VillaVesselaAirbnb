@@ -1,5 +1,7 @@
 # Phase 11 QA — SEO, accessibility, performance, security, and privacy
 
+> **Historical snapshot.** Explicit analytics choice, active privacy wording, analytics-only daily 365-day retention, linked database/RLS proof, and production delivery/reporting checks later passed on 2026-08-10; see [`analytics-activation-2026-08-10.md`](analytics-activation-2026-08-10.md). Inquiry operations remain separately disabled.
+
 **Date:** 2026-07-23  
 **Status:** Completed, not fully QA passed
 

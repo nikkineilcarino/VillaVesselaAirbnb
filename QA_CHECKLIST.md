@@ -8,7 +8,7 @@ Use `[x]` only for a check supported by evidence. Use `[ ]` for pending checks a
 - [x] Existing framework, package manager files, dependencies, tests, and conventions checked
 - [x] Empty/non-Git starting state recorded
 - [x] Root planning documents created without application scaffolding
-- [ ] Git repository initialized or connected when the owner chooses
+- [x] Git repository connected to the owner repository; local `main`, upstream, and live remote equality verified
 - [x] Next.js/npm project scaffolded and lockfile created
 - [x] `.gitignore` excludes secrets, build artifacts, and local test artifacts
 - [x] `.env.example` documents every variable without real secrets
@@ -25,7 +25,7 @@ Use `[x]` only for a check supported by evidence. Use `[ ]` for pending checks a
 
 - [x] Strict TypeScript enabled
 - [x] No unjustified `any` types in current application/tests
-- [ ] Content, environment configuration, database rows, events, and form data typed
+- [x] Content, environment configuration, database rows, events, and form data typed
 - [x] `npm run typecheck` passes
 
 ## Public pages
@@ -98,31 +98,31 @@ Use `[x]` only for a check supported by evidence. Use `[ ]` for pending checks a
 
 - [x] No guest login or guest registration
 - [x] No public administrator registration
-- [ ] Admin email/password login works with configured test credentials (blocked: no Supabase project/test account)
-- [ ] Session refresh is reliable live (implementation/static review pass; blocked: no issued session)
-- [ ] Authenticated admin is redirected away from login (blocked: no approved test account)
-- [ ] Logout clears/revokes the live session (implementation/static review pass; blocked: no approved test account)
+- [x] Admin email/password login works in production for an approved profile
+- [ ] Forced token-expiry/session-refresh behavior has not been separately exercised; ordinary issued-session protected navigation passed
+- [x] Authenticated approved admin is redirected away from login to the protected dashboard
+- [x] Logout clears the live session and protected routes deny the logged-out browser
 - [x] Errors do not reveal sensitive account state
 
 ## Authorization
 
 - [x] `/admin/login` remains public
 - [x] Other `/admin/*` routes redirect unauthenticated visitors to one fixed login route
-- [ ] Authenticated users without `admin_profiles` membership are denied live (code/RLS review pass; blocked: no unapproved test identity)
+- [x] Authenticated users without `admin_profiles` membership are denied live with a generic response
 - [x] Approved administrator membership is checked server-side independently of the request proxy
-- [x] Admin queries, status action, and export handler enforce authorization independently; live approved/unapproved data probes remain blocked
+- [x] Admin queries, status action, and export handler enforce authorization independently; live approved/unapproved data probes pass
 - [x] Hiding navigation is not treated as authorization
 
 ## Database
 
-- [x] Seven migrations are ordered, fully documented, and covered by a structural contract test
-- [ ] Migrations apply reproducibly to a disposable local/remote database (blocked: Docker engine/project unavailable)
+- [x] Eight migrations are ordered, fully documented, and covered by a structural contract test
+- [x] Migrations apply reproducibly to a disposable local database and match the linked production history
 - [x] Migration SQL defines the required tables, constraints, indexes, and defaults
 - [x] Device, browser, link, role, and inquiry-status values are constrained
 - [x] Text, contact, date-order, consent, and guest-count bounds are defined
 - [x] Seed records are repeatable, safe, visibly labelled sample data and create no administrator
 - [x] Reviewed application database types mirror the migration contract
-- [ ] Generated live database types match the reviewed mirror (blocked with database execution)
+- [x] Generated/effective database schema was reconciled with the reviewed application type mirror
 
 ## Row Level Security
 
@@ -131,8 +131,8 @@ Use `[x]` only for a check supported by evidence. Use `[ ]` for pending checks a
 - [x] No anon policy or direct public insert policy exists
 - [x] Administrator grants are limited to protected reads and inquiry `status` updates
 - [x] Security-definer membership helper uses a private schema and empty search path
-- [x] Analytics and inquiry inserts are server-mediated, independently validated, bounded, and rate-limited; live insertion remains blocked
-- [ ] Policy behavior tested with anon, unapproved authenticated, approved admin, and service identities (blocked: database runtime/identities unavailable)
+- [x] Analytics and inquiry inserts are server-mediated, independently validated, bounded, and rate-limited; one isolated live analytics pair returned `201`
+- [x] Policy behavior tested with anonymous, unapproved authenticated, approved admin, and privileged server identities
 
 ## Analytics
 
@@ -142,8 +142,11 @@ Use `[x]` only for a check supported by evidence. Use `[ ]` for pending checks a
 - [x] Administrator routes are outside the tracker layout and reject analytics paths
 - [x] Paths/categories are allowlisted and length-limited; referrers are reduced to HTTP(S) origins
 - [x] Tracking/storage failures never disrupt public browsing or internal navigation
-- [x] Phase 6 analytics schema contains no raw IP, exact GPS, personal name, or invasive fingerprint field
+- [x] Phase 6 analytics schema contains no raw IP, visitor/device geolocation, personal name, or invasive fingerprint field; the approved public property pin may appear in an allowlisted destination but is not visitor/device geolocation
 - [x] Phase 6 aggregate views use documented Asia/Manila date handling
+- [x] No analytics identifier or request exists before explicit Allow; Decline and settings changes fail closed and preserve site use
+- [x] One live consented page view and approved Contact click returned `201`, matched exact stored rows, and were deleted exactly
+- [x] Analytics-only records older than 365 days are pruned by one reviewed daily job; inquiries are outside that routine
 
 ## External-link tracking
 
@@ -153,6 +156,7 @@ Use `[x]` only for a check supported by evidence. Use `[ ]` for pending checks a
 - [x] `sendBeacon` and keepalive fallback behave safely
 - [x] Tracking failure does not block native anchor navigation
 - [x] Missing destinations render inactive, not guessed, actions
+- [x] Booking, social, messaging, telephone, email, Google Maps, and Waze actions use the tracked-link boundary; Waze has its own reporting type
 
 ## Administrator dashboard
 
@@ -163,7 +167,7 @@ Use `[x]` only for a check supported by evidence. Use `[ ]` for pending checks a
 - [x] Activity rows omit event IDs, destination URLs, messages, consent, and exact contact values
 - [x] Responsive wrapping admin navigation plus invalid, loading, empty, unavailable, and error states are implemented
 - [x] Synthetic seed data is detected and visibly labelled
-- [ ] Live approved-administrator populated/empty/error state rendering (blocked: no database runtime/project/identity)
+- [x] Live approved-administrator populated and empty states reconcile with exact rows/RPCs; unavailable/error states pass focused local coverage
 
 ## Charts
 
@@ -172,8 +176,8 @@ Use `[x]` only for a check supported by evidence. Use `[ ]` for pending checks a
 - [x] Link-click comparison bar chart
 - [x] Device distribution doughnut chart
 - [x] Most-viewed pages bar chart
-- [ ] Charts resize without clipping in an authenticated browser (blocked: no approved live administrator runtime)
-- [ ] Tooltips/legends are usable in a live browser (blocked); all five textual table summaries pass static rendering checks
+- [ ] Production-authenticated mobile chart resize has not been separately repeated; responsive component/browser coverage and all five live table summaries pass
+- [ ] Production-authenticated tooltip/legend interaction has not been separately repeated; all five accessible textual tables reconcile live
 
 ## CSV export
 
@@ -183,7 +187,7 @@ Use `[x]` only for a check supported by evidence. Use `[ ]` for pending checks a
 - [x] Columns and fixed filenames are human-readable
 - [x] Database IDs, session IDs, destination URLs, and secret/internal fields are excluded
 - [x] Page-view, link-click, and inquiry mappings plus CSV encoding are structurally/unit tested
-- [ ] Live approved-administrator downloads and contents (blocked: no database/identity)
+- [x] Live approved-administrator page-view and link-click downloads reconcile exactly; inquiry CSV was intentionally not downloaded because inquiry data can contain PII
 
 ## SEO
 
@@ -212,12 +216,13 @@ Use `[x]` only for a check supported by evidence. Use `[ ]` for pending checks a
 
 ## Privacy
 
-- [x] Private caretaker numbers remain absent from repository source, documentation, seed, built output, GitHub, and deployed output through Phase 12
+- [x] Unapproved/withdrawn private caretaker values remain absent from repository source, documentation, seed, built output, GitHub, and deployed output through the 2026-08-24 closure; the separately approved public caretaker contact remains environment-backed
 - [x] Unknown public owner contact details remain pending
-- [x] Public privacy page matches actual conditional collection, browser storage, administrator access, and unresolved retention behavior
+- [x] Public privacy page matches explicit analytics choice, browser storage, administrator access, active analytics retention, and disabled inquiry behavior
 - [x] Public/dashboard analytics copy says anonymous/estimated and never “who clicked”
 - [x] Inquiry consent, response purpose, and non-booking status are explicit in enabled UI
-- [ ] Retention/deletion procedures documented before production
+- [x] Analytics retention/deletion procedure is documented, scheduled, and proved with synthetic records
+- [ ] Inquiry retention/deletion procedure remains unapproved while public inquiry submission is disabled
 - [ ] Messenger review media removes private profile details unless approved
 
 ## Performance
@@ -239,18 +244,18 @@ Use `[x]` only for a check supported by evidence. Use `[ ]` for pending checks a
 - [x] Dependency installation and lockfile dry run succeed
 - [x] `npm run lint` passes
 - [x] `npm run typecheck` passes
-- [x] `npm run test` passes (67 tests across utility, database, auth, analytics, dashboard, inquiry, CSV, SEO, structured-data, system-route, and header boundaries)
-- [x] Default credential-independent Playwright coverage passes (47 passed, 2 live checks skipped); the separate enabled-inquiry run passes (3 passed)
+- [x] `npm run test` passes (77 tests across utility, database, auth, analytics, dashboard, inquiry, CSV, SEO, structured-data, system-route, and header boundaries)
+- [x] Isolated credential-independent Chromium coverage passes (50 passed, 3 environment-explicit checks skipped); the mutually exclusive analytics-disabled branch passes (1 passed) and the enabled-inquiry branch passes (3 passed)
 - [x] `npm run build` passes
 - [x] Built output scan contains no private caretaker numbers
 
 ## Deployment readiness
 
-- [x] Vercel project and the three intentionally minimal production environment variables documented
-- [ ] Supabase migrations applied in order
-- [ ] RLS and production admin membership verified
-- [x] Canonical URL configured; unapproved external destinations remain omitted
-- [x] Official photography and unapproved public contacts remain explicitly omitted/placeheld
-- [x] Post-deploy public access, admin denial, inactive links/data features, privacy, accessibility, metadata, headers, and error checks pass
+- [x] Vercel project, Production-only analytics configuration, public configuration, and disabled inquiry flag documented without values
+- [x] Supabase migrations `001` through `008` applied in order
+- [x] RLS and production admin membership verified
+- [x] Canonical URL configured; approved destinations are environment-backed and unapproved destinations remain omitted
+- [x] Forty-one approved photographs are published; Blue Kubo, Green Kubo, and parking retain explicit reserved slots
+- [x] Post-deploy public access, admin denial, consent-active analytics, inquiry-disabled behavior, privacy, accessibility, metadata, headers, and error checks pass
 - [x] Rollback and support limitations documented
-- [x] All QA evidence, changelog, decisions, content TODO, and deployment runbook are current through Phase 12
+- [x] All QA evidence, changelog, decisions, content TODO, and deployment runbook are current through the 2026-08-10 activation and 2026-08-24 closure

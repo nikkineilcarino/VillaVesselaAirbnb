@@ -1,5 +1,7 @@
 # Phase 10 QA — Inquiries and protected CSV exports
 
+> **Historical snapshot.** Production authentication and page/link CSV authorization/reconciliation later passed for analytics scope; see [`analytics-activation-2026-08-10.md`](analytics-activation-2026-08-10.md). Public inquiry submission remains disabled, and no live inquiry insertion, status mutation, or inquiry CSV workflow is claimed.
+
 **Date:** 2026-07-23  
 **Status:** Completed, not fully QA passed
 

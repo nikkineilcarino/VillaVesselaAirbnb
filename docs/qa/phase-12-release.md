@@ -1,5 +1,7 @@
 # Phase 12 QA — Final release and deployment
 
+> **Historical snapshot.** This report records the original non-collecting public release. Supabase administrator activation and consent-based analytics were completed later on 2026-08-10; see [`admin-activation-2026-08-10.md`](admin-activation-2026-08-10.md) and [`analytics-activation-2026-08-10.md`](analytics-activation-2026-08-10.md). Inquiry submission remains disabled.
+
 **Date:** 2026-07-23  
 **Status:** Public release QA passed; Supabase-dependent acceptance criteria blocked
 

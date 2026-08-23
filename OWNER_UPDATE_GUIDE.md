@@ -2,7 +2,7 @@
 
 This guide records the safe extension points left for information and photographs that are not available yet. Missing values stay disabled, omitted, or visibly reserved; they must never be guessed.
 
-See `FINAL_HANDOFF.md` for the verified release snapshot and the boundary between simple content updates and optional backend activation.
+See `FINAL_HANDOFF.md` for the verified release snapshot and the boundary between simple content/destination updates and the still-optional inquiry activation.
 
 ## Easiest update workflow
 
@@ -38,9 +38,9 @@ Additional approved photographs can be appended to `galleryItems` without changi
 - Keep nearby-attraction captions separate from property photographs.
 - Keep food, pet, kubo, cottage, tour, and optional-service conditions visible.
 
-## Future booking, map, and contact destinations
+## Booking, map, and contact destination updates
 
-The website already has disabled configuration slots for future public destinations. Add approved values to the Vercel project environment, then redeploy:
+The website has validated configuration slots for public destinations. The owner-approved booking, social, messaging, map, WhatsApp, caretaker-telephone, and email values are active; use the same slots to replace an approved value or add the still-unconfirmed owner telephone, then redeploy:
 
 | Purpose | Environment variable |
 | --- | --- |
@@ -62,4 +62,4 @@ These are intentionally public values. The owner approved the Airbnb listing, Fa
 
 `CONTENT_TODO.md` is the authoritative checklist for rates, fees, expanded capacity, kubo/cottage inclusion, bathroom details, washer availability, inquiry activation, retention, and other unresolved facts. Resolve an item there before changing its public copy in `src/data/`.
 
-Inquiry submission and database-backed administration remain separate features. Do not activate them until the database, administrator identities, retention/deletion process, privacy channel, and production verification are complete.
+Database-backed administrator access and consent-based analytics are operational and verified. Inquiry submission remains separate and disabled. Do not activate it until its retention/deletion process, responsible operator, live insert/status/inquiry-CSV authorization checks, failure behavior, and exact cleanup are approved and complete.
