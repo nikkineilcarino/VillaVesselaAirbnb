@@ -1,4 +1,10 @@
+import { isContactInquiryVisible } from "@/lib/config/features";
+
 export default function InquiryLoading() {
+  if (!isContactInquiryVisible()) {
+    return null;
+  }
+
   return (
     <section aria-busy="true" aria-live="polite">
       <div className="rounded-[1.75rem] border border-border bg-surface p-7 shadow-soft">
@@ -13,4 +19,3 @@ export default function InquiryLoading() {
     </section>
   );
 }
-

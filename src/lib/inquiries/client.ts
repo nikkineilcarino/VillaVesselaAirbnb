@@ -23,6 +23,10 @@ function generateUuid() {
   }
 }
 
+export function createInquirySubmissionId() {
+  return generateUuid();
+}
+
 export function getInquiryClientId() {
   try {
     const existing = sessionStorage.getItem(INQUIRY_CLIENT_KEY);
@@ -52,4 +56,3 @@ export function getInquiryClientId() {
 
   return generated;
 }
-

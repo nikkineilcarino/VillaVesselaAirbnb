@@ -6,4 +6,4 @@ The analytics endpoint compares the submitted destination and type with this exa
 
 All values use `NEXT_PUBLIC_` names and must be assumed browser-visible. Never add a service key, password, unapproved contact, or unapproved destination here. Approved contact values belong in environment configuration, not source files.
 
-`features.ts` owns exact server/build feature-switch parsing. `CONTACT_INQUIRY_ENABLED` is disabled unless its trimmed, case-insensitive value is exactly `true`; it must never be renamed with a `NEXT_PUBLIC_` prefix.
+`features.ts` owns exact server/build feature-switch parsing. `CONTACT_INQUIRY_VISIBLE` keeps unfinished guest and administrator inquiry surfaces absent unless its trimmed, case-insensitive value is exactly `true`. `CONTACT_INQUIRY_ENABLED` separately controls storage and is disabled unless exactly `true`; enabled collection always implies visibility so data cannot be collected through a hidden feature. Neither value may use a `NEXT_PUBLIC_` prefix.

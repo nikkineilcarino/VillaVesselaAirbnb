@@ -1,4 +1,5 @@
 import { getAdminAccess } from "@/lib/auth/admin";
+import { isContactInquiryVisible } from "@/lib/config/features";
 import { resolveDashboardDateRange } from "@/lib/dashboard/dateRange";
 import { createProtectedCsvExport } from "@/lib/csv/export";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
@@ -35,6 +36,9 @@ export async function GET(request: Request, context: ExportRouteContext) {
 
   const { type: rawType } = await context.params;
   if (!csvExportTypes.includes(rawType as CsvExportType)) {
+    return adminExportError(404);
+  }
+  if (rawType === "inquiries" && !isContactInquiryVisible()) {
     return adminExportError(404);
   }
 
@@ -79,4 +83,3 @@ export async function GET(request: Request, context: ExportRouteContext) {
     status: 200,
   });
 }
-

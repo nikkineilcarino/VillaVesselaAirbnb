@@ -12,10 +12,9 @@ const inquiryGlobalLimiter = new FixedWindowRateLimiter({
 });
 
 export function allowInquiryRequest() {
-  return inquiryGlobalLimiter.allow("all");
+  return inquiryGlobalLimiter.consume("all");
 }
 
 export function allowInquirySubmission(clientId: string) {
-  return inquiryClientLimiter.allow(clientId);
+  return inquiryClientLimiter.consume(clientId);
 }
-

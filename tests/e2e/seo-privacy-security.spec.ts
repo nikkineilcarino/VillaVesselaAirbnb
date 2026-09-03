@@ -9,6 +9,11 @@ const testOrigin = new URL(
 const isPublicHttpsOrigin =
   testOrigin.startsWith("https://") &&
   !testOrigin.endsWith(".invalid");
+const inquiryEnabled =
+  process.env.CONTACT_INQUIRY_ENABLED?.trim().toLowerCase() === "true";
+const inquiryVisible =
+  inquiryEnabled ||
+  process.env.CONTACT_INQUIRY_VISIBLE?.trim().toLowerCase() === "true";
 
 function absoluteTestUrl(path: string) {
   return path === "/" ? testOrigin : new URL(path, `${testOrigin}/`).toString();
@@ -182,10 +187,18 @@ test("privacy page is public, accurate, responsive, keyboard-visible, and Axe-cl
   await expect(page.getByText(/Administrator routes are excluded from public analytics/)).toBeVisible();
   await expect(page.getByText(/vv_analytics_preference/)).toBeVisible();
   await expect(page.getByText(/Choosing Decline stops future analytics/)).toBeVisible();
-  await expect(page.getByText(/older than 365 days/)).toBeVisible();
+  await expect(page.getByText(/older than 365 days/).first()).toBeVisible();
   await expect(page.getByText(/deletes eligible analytics records daily/)).toBeVisible();
   await expect(page.getByText(/database project is paused/)).toBeVisible();
-  await expect(page.getByText(/Inquiry collection is disabled/).first()).toBeVisible();
+  if (inquiryVisible) {
+    await expect(
+      inquiryEnabled
+        ? page.getByText(/Website inquiry collection is active/)
+        : page.getByText(/Inquiry collection is disabled/).first(),
+    ).toBeVisible();
+  } else {
+    await expect(page.locator("main")).not.toContainText(/inquir/i);
+  }
   await expect(page.getByRole("link", { name: "Contact page" })).toHaveAttribute(
     "href",
     "/contact",

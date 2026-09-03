@@ -1,8 +1,14 @@
 import type { Metadata } from "next";
 import { AlertTriangle, ChevronLeft, ChevronRight, Inbox } from "lucide-react";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
-import { updateInquiryStatus } from "@/app/admin/(protected)/inquiries/actions";
+import {
+  deleteInquiry,
+  updateInquiryStatus,
+} from "@/app/admin/(protected)/inquiries/actions";
+import { InquiryDeleteSubmitButton } from "@/components/admin/InquiryDeleteSubmitButton";
+import { InquiryOperationalStatus } from "@/components/admin/InquiryOperationalStatus";
 import { InquiryStatusSubmitButton } from "@/components/admin/InquiryStatusSubmitButton";
 import {
   formatInquiryDates,
@@ -11,16 +17,25 @@ import {
 import {
   getAdminInquiries,
 } from "@/lib/inquiries/admin";
+import { isContactInquiryVisible } from "@/lib/config/features";
 import {
   resolveInquiryListFilters,
   type InquiryStatusFilter,
 } from "@/lib/inquiries/filters";
+import { getInquiryOperationalStatus } from "@/lib/inquiries/status";
 import { inquiryStatuses } from "@/types/inquiries";
 
-export const metadata: Metadata = {
-  description: "Protected Villa Vessela inquiry review and status management.",
-  title: "Inquiries",
-};
+export function generateMetadata(): Metadata {
+  if (!isContactInquiryVisible()) {
+    return { title: "Administrator" };
+  }
+
+  return {
+    description:
+      "Protected Villa Vessela inquiry review, status, and exact-record deletion.",
+    title: "Inquiries",
+  };
+}
 
 type InquiryPageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -36,6 +51,18 @@ const statusOptions: { label: string; value: InquiryStatusFilter }[] = [
 ];
 
 const notices = {
+  deleted: {
+    kind: "success",
+    message: "The exact inquiry was deleted from the active database.",
+  },
+  "delete-failed": {
+    kind: "error",
+    message: "The inquiry could not be deleted. Nothing is reported as removed; please try again.",
+  },
+  "delete-invalid": {
+    kind: "error",
+    message: "That deletion request was not valid or was not confirmed.",
+  },
   failed: {
     kind: "error",
     message: "The inquiry status could not be updated. Please try again.",
@@ -64,9 +91,14 @@ function readableStatus(value: string) {
 }
 
 export default async function InquiryPage({ searchParams }: InquiryPageProps) {
+  if (!isContactInquiryVisible()) {
+    notFound();
+  }
+
   const parameters = await searchParams;
   const filterResult = resolveInquiryListFilters(parameters);
   const notice = notices[firstValue(parameters.notice) as keyof typeof notices];
+  const operationalStatus = await getInquiryOperationalStatus();
 
   return (
     <section aria-labelledby="inquiries-heading">
@@ -84,6 +116,8 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
           Review voluntary guest details and update workflow status. Treat every record as private; booking and availability remain unconfirmed until the host replies.
         </p>
       </div>
+
+      <InquiryOperationalStatus status={operationalStatus} />
 
       {notice ? (
         <p
@@ -184,6 +218,7 @@ async function InquiryResults({
           <div className="mt-4 grid gap-5">
             {inquiries.map((inquiry) => {
               const updateAction = updateInquiryStatus.bind(null, inquiry.id);
+              const deleteAction = deleteInquiry.bind(null, inquiry.id);
 
               return (
                 <article className="rounded-card border border-border bg-surface p-5 shadow-soft sm:p-6" key={inquiry.id}>
@@ -235,6 +270,24 @@ async function InquiryResults({
                       {inquiry.message}
                     </p>
                   </div>
+
+                  <details className="mt-5 rounded-xl border border-danger/25 bg-danger/5 p-4">
+                    <summary className="cursor-pointer font-semibold text-danger">
+                      Delete this inquiry
+                    </summary>
+                    <div className="mt-3 max-w-3xl text-sm leading-6 text-foreground/70">
+                      <p>
+                        This permanently removes only this exact record from the
+                        active inquiry table and cannot be undone here. It does
+                        not automatically erase provider backups, browser copies,
+                        downloaded CSV files, or details copied into another
+                        approved contact channel.
+                      </p>
+                      <form action={deleteAction} className="mt-4">
+                        <InquiryDeleteSubmitButton />
+                      </form>
+                    </div>
+                  </details>
                 </article>
               );
             })}

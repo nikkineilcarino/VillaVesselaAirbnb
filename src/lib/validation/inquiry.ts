@@ -4,6 +4,7 @@ import {
   addCalendarDays,
   getManilaCalendarDate,
 } from "@/lib/dashboard/dateRange";
+import { INQUIRY_PRIVACY_NOTICE_VERSION } from "@/lib/inquiries/constants";
 import type {
   InquiryFieldErrors,
   InquiryFieldName,
@@ -131,6 +132,10 @@ const inquirySchema = z
           (value.length >= 7 && phoneCharacters.test(value)),
         "Enter a valid phone or messaging number.",
       ),
+    privacyNoticeVersion: z.literal(INQUIRY_PRIVACY_NOTICE_VERSION, {
+      error: "The privacy notice changed. Refresh the page before submitting.",
+    }),
+    submissionId: z.uuidv4({ message: "Please refresh the page and try again." }),
     website: z.string().max(200),
   })
   .superRefine((value, context) => {
@@ -278,6 +283,7 @@ export function parseInquirySubmission(
       phone: result.data.phone || null,
       preferredCheckIn: result.data.checkIn,
       preferredCheckOut: result.data.checkOut,
+      submissionId: result.data.submissionId,
     },
     status: "valid",
   };
@@ -288,4 +294,3 @@ export const inquiryValidationConstants = {
   maximumFillTimeMs: MAXIMUM_FILL_TIME_MS,
   minimumFillTimeMs: MINIMUM_FILL_TIME_MS,
 } as const;
-

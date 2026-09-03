@@ -15,13 +15,13 @@ This directory owns the Next.js App Router tree, document shell, public/administ
 - `(public)/gallery/page.tsx` presents 41 supplied photographs and three explicit open photo slots through an accessible lightbox experience.
 - `(public)/reviews/page.tsx` presents supplied Airbnb ratings/excerpts and unfilled Messenger review positions.
 - `(public)/location/page.tsx` presents the confirmed address, approach directions, address-copy action, and opt-in zoomable Google Maps/Waze views.
-- `(public)/contact/page.tsx` is dynamic so one server-only runtime flag can select the safe disabled inquiry preview or the operational form.
-- `(public)/privacy/page.tsx` documents explicit analytics choice, browser storage, analytics-only daily 365-day retention, administrator access, provider/external-site boundaries, the configured Contact request route, and the still-separate inquiry-retention boundary.
+- `(public)/contact/page.tsx` is dynamic so the server-only publication boundary can omit unfinished inquiry UI, show the published-disabled preview, or show the operational form when collection is enabled.
+- `(public)/privacy/page.tsx` is dynamic under the same publication and collection boundaries. Hidden mode omits inquiry-specific disclosures; published-disabled and enabled modes accurately document browser/form storage, intake fields and identifiers, administrator/export access, separate daily 365-day analytics and inquiry retention, exact early deletion, provider/copy limits, no-notification behavior, and the configured Contact request route.
 - `admin/login/` provides dynamic, noindex email/password sign-in through a bounded Server Action without registration.
 - `admin/(protected)/layout.tsx` repeats server-side identity/profile authorization before rendering the dashboard shell.
-- `admin/(protected)/dashboard/page.tsx` resolves the reporting period, runs the authenticated Phase 9 query, and composes cards, charts, activity, definitions, and truthful data states.
-- `admin/(protected)/inquiries/page.tsx` lists twenty RLS-authorized inquiries per page and binds only allowlisted status updates to its Server Action.
-- `admin/exports/[type]/route.ts` independently authorizes and returns bounded page-view, link-click, or inquiry CSV attachments.
+- `admin/(protected)/dashboard/page.tsx` resolves the reporting period, runs the authenticated Phase 9 query, and composes cards, charts, activity, definitions, and truthful data states; hidden mode does not fetch or render recent inquiry rows.
+- `admin/(protected)/inquiries/page.tsx` lists twenty RLS-authorized inquiries per page and binds only allowlisted status updates to its Server Action when inquiry publication is visible; otherwise the page and its mutation actions return the not-found boundary.
+- `admin/exports/[type]/route.ts` independently authorizes and returns bounded page-view or link-click CSV attachments, plus inquiry CSV only while inquiry publication is visible.
 - `admin/(protected)/dashboard/loading.tsx` and `error.tsx` provide dashboard-specific non-revealing states inside the protected shell.
 - `admin/loading.tsx` and `admin/error.tsx` provide non-revealing private-route states.
 - `api/analytics/page-view/route.ts` validates, limits, and best-effort inserts minimized public route events.
@@ -54,7 +54,7 @@ Routes import reusable components from `src/components`, utilities from `src/lib
 
 ## Environment variables
 
-`NEXT_PUBLIC_SITE_URL` supplies the canonical base URL. Public indexing requires a valid public HTTPS origin; missing/local/unsafe/reserved values fail closed to noindex and disallow-all robots. Administrator routes require Supabase and an approved Auth/profile identity. Analytics mounts only when its server/build flag is exactly true. Inquiry submission is enabled only when `CONTACT_INQUIRY_ENABLED` is exactly true. Both public insert features need the Supabase URL plus server-only service key to persist; public rendering remains independent of storage. Server-only/test-only values must never be interpolated into metadata or client props.
+`NEXT_PUBLIC_SITE_URL` supplies the canonical base URL. Public indexing requires a valid public HTTPS origin; missing/local/unsafe/reserved values fail closed to noindex and disallow-all robots. Administrator routes require Supabase and an approved Auth/profile identity. Analytics mounts only when its server/build flag is exactly true. Unfinished inquiry surfaces remain absent unless server-only `CONTACT_INQUIRY_VISIBLE` is true or collection is enabled; inquiry submission itself requires `CONTACT_INQUIRY_ENABLED` exactly true. Both public insert features need the Supabase URL plus server-only service key to persist; public rendering remains independent of storage. Server-only/test-only values must never be interpolated into metadata or client props.
 
 ## Testing
 

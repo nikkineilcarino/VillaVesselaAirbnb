@@ -36,6 +36,7 @@ on conflict (id) do nothing;
 
 insert into public.contact_inquiries (
   id,
+  submission_id,
   name,
   email,
   phone,
@@ -44,11 +45,13 @@ insert into public.contact_inquiries (
   number_of_guests,
   message,
   consent,
+  privacy_notice_version,
   status,
   created_at
 )
 values (
   '30000000-0000-4000-8000-000000000001',
+  '30000000-0000-4000-8000-000000000101',
   '[DEMO] Sample Inquiry',
   'sample-inquiry@example.invalid',
   null,
@@ -57,6 +60,7 @@ values (
   4,
   '[DEMO DATA] Synthetic inquiry used only to verify empty, loading, and populated administrator states.',
   true,
+  '2026-08-24',
   'new',
   now() - interval '12 hours'
 )

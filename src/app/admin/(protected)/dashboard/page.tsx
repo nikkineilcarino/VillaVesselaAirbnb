@@ -8,6 +8,7 @@ import { DashboardDateFilters } from "@/components/admin/DashboardDateFilters";
 import { DashboardExportLinks } from "@/components/admin/DashboardExportLinks";
 import { DashboardMetricCards } from "@/components/admin/DashboardMetricCards";
 import { DashboardOperationalStatus } from "@/components/admin/DashboardOperationalStatus";
+import { isContactInquiryVisible } from "@/lib/config/features";
 import { resolveDashboardDateRange } from "@/lib/dashboard/dateRange";
 import { getDashboardData } from "@/lib/dashboard/query";
 import { getDashboardOperationalStatus } from "@/lib/dashboard/status";
@@ -46,6 +47,7 @@ export default async function AdminDashboardPage({
   const rangeResult = resolveDashboardDateRange(parameters, now);
   const fallbackResult = resolveDashboardDateRange({}, now);
   const operationalStatus = await getDashboardOperationalStatus();
+  const inquiryVisible = isContactInquiryVisible();
 
   if (!fallbackResult.success) {
     throw new Error("Dashboard date initialization failed.");
@@ -69,7 +71,9 @@ export default async function AdminDashboardPage({
           Analytics dashboard
         </h1>
         <p className="mt-4 max-w-3xl leading-7 text-foreground/70">
-          Review privacy-safe website activity and inquiry totals. Every value comes from the authenticated database connection; no sample fallback is substituted for missing data.
+          {inquiryVisible
+            ? "Review privacy-safe website activity and inquiry totals. Every value comes from the authenticated database connection; no sample fallback is substituted for missing data."
+            : "Review privacy-safe website activity. Every value comes from the authenticated database connection; no sample fallback is substituted for missing data."}
         </p>
       </div>
 
@@ -102,21 +106,28 @@ export default async function AdminDashboardPage({
           </div>
         </div>
       ) : (
-        <DashboardResults range={rangeResult.range} />
+        <DashboardResults
+          inquiryVisible={inquiryVisible}
+          range={rangeResult.range}
+        />
       )}
     </section>
   );
 }
 
 async function DashboardResults({
+  inquiryVisible,
   range,
 }: {
+  inquiryVisible: boolean;
   range: Extract<
     ReturnType<typeof resolveDashboardDateRange>,
     { success: true }
   >["range"];
 }) {
-  const result = await getDashboardData(range);
+  const result = await getDashboardData(range, {
+    includeInquiries: inquiryVisible,
+  });
 
   if (result.status === "unavailable") {
     return (
@@ -148,7 +159,7 @@ async function DashboardResults({
   const empty =
     data.summary.totalPageViews === 0 &&
     data.summary.totalExternalLinkClicks === 0 &&
-    data.recentInquiries.length === 0;
+    (!inquiryVisible || data.recentInquiries.length === 0);
 
   return (
     <>
@@ -173,12 +184,18 @@ async function DashboardResults({
         <div className="mt-6 rounded-card border border-dashed border-border bg-surface-muted/55 p-6" role="status">
           <h2 className="font-semibold">No activity in this period</h2>
           <p className="mt-2 text-sm leading-6 text-foreground/65">
-            The database query succeeded, but it returned no page views, link clicks, or inquiries for these dates.
+            {inquiryVisible
+              ? "The database query succeeded, but it returned no page views, link clicks, or inquiries for these dates."
+              : "The database query succeeded, but it returned no page views or link clicks for these dates."}
           </p>
         </div>
       ) : null}
 
-      <DashboardMetricCards links={data.links} summary={data.summary} />
+      <DashboardMetricCards
+        links={data.links}
+        showInquiries={inquiryVisible}
+        summary={data.summary}
+      />
       <DashboardCharts
         daily={data.daily}
         devices={data.devices}
@@ -189,8 +206,9 @@ async function DashboardResults({
         inquiries={data.recentInquiries}
         links={data.recentLinks}
         pages={data.recentPages}
+        showInquiries={inquiryVisible}
       />
-      <DashboardExportLinks range={range} />
+      <DashboardExportLinks range={range} showInquiries={inquiryVisible} />
 
       <details className="mt-7 rounded-card border border-border bg-surface p-5">
         <summary className="cursor-pointer font-semibold text-primary">Metric definitions</summary>

@@ -14,12 +14,15 @@ import { PageHero } from "@/components/public/PageHero";
 import { PageSectionHeading } from "@/components/public/PageSectionHeading";
 import { Container } from "@/components/ui/Container";
 import { contactChannels } from "@/data/contact";
-import { isContactInquiryEnabled } from "@/lib/config/features";
+import {
+  isContactInquiryEnabled,
+  isContactInquiryVisible,
+} from "@/lib/config/features";
 import { createPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata: Metadata = createPageMetadata({
   description:
-    "Review Villa Vessela's configured booking and contact channels and, when enabled, send a validated website inquiry.",
+    "Review Villa Vessela's configured, owner-approved booking and contact channels.",
   path: "/contact",
   title: "Contact",
 });
@@ -37,6 +40,7 @@ const channelIcons = {
 
 export default function ContactPage() {
   const inquiryEnabled = isContactInquiryEnabled();
+  const inquiryVisible = isContactInquiryVisible();
   const hasApprovedDestination = contactChannels.some((channel) => channel.destination);
   const hasPendingDestination = contactChannels.some((channel) => !channel.destination);
 
@@ -122,25 +126,27 @@ export default function ContactPage() {
         </Container>
       </section>
 
-      <section aria-labelledby="inquiry-shell" className="bg-surface-muted py-20 sm:py-24">
-        <Container className="grid items-start gap-10 lg:grid-cols-[0.72fr_1.28fr]" size="wide">
-          <PageSectionHeading
-            description={
-              inquiryEnabled
-                ? "Share only the details needed for the host to review and respond. Submission does not confirm availability or a booking."
-                : "The optional form remains safely unavailable until the owner enables website inquiries. The contact options above continue to work independently."
-            }
-            eyebrow="Optional website inquiry"
-            id="inquiry-shell"
-            title={
-              inquiryEnabled
-                ? "Ask the host about your stay"
-                : "Website inquiries are currently disabled"
-            }
-          />
-          <ContactInquiryForm enabled={inquiryEnabled} />
-        </Container>
-      </section>
+      {inquiryVisible ? (
+        <section aria-labelledby="inquiry-shell" className="bg-surface-muted py-20 sm:py-24">
+          <Container className="grid items-start gap-10 lg:grid-cols-[0.72fr_1.28fr]" size="wide">
+            <PageSectionHeading
+              description={
+                inquiryEnabled
+                  ? "Share only the details needed for an approved administrator to review and respond. This intake is not an availability confirmation, booking, or payment, and it sends no automatic reply or operator notification."
+                  : "The optional form remains safely unavailable and creates no new inquiry record. The contact options above continue to work independently."
+              }
+              eyebrow="Optional website inquiry"
+              id="inquiry-shell"
+              title={
+                inquiryEnabled
+                  ? "Ask the host about your stay"
+                  : "Website inquiries are currently disabled"
+              }
+            />
+            <ContactInquiryForm enabled={inquiryEnabled} />
+          </Container>
+        </section>
+      ) : null}
     </main>
   );
 }

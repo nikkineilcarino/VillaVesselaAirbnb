@@ -30,6 +30,7 @@ export default defineConfig({
     env: {
       ANALYTICS_ENABLED: process.env.ANALYTICS_ENABLED ?? "true",
       CONTACT_INQUIRY_ENABLED: process.env.CONTACT_INQUIRY_ENABLED ?? "false",
+      CONTACT_INQUIRY_VISIBLE: process.env.CONTACT_INQUIRY_VISIBLE ?? "false",
       ...(process.env.NEXT_PUBLIC_AIRBNB_URL
         ? { NEXT_PUBLIC_AIRBNB_URL: process.env.NEXT_PUBLIC_AIRBNB_URL }
         : {}),

@@ -23,9 +23,11 @@ function formatCount(value: number) {
 
 export function DashboardMetricCards({
   links,
+  showInquiries,
   summary,
 }: {
   links: DashboardLinkTotal[];
+  showInquiries: boolean;
   summary: DashboardSummary;
 }) {
   const metrics: MetricDefinition[] = [
@@ -59,13 +61,16 @@ export function DashboardMetricCards({
       label: "Click-through rate",
       value: `${summary.clickThroughRate.toFixed(1)}%`,
     },
-    {
+  ];
+
+  if (showInquiries) {
+    metrics.push({
       description: "Inquiries currently carrying new status",
       icon: Send,
       label: "New inquiries",
       value: formatCount(summary.newInquiries),
-    },
-  ];
+    });
+  }
 
   return (
     <section aria-labelledby="dashboard-summary-heading" className="mt-7">

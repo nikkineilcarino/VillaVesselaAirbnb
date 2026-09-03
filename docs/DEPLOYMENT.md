@@ -13,9 +13,9 @@
 - Verified analytics activation deployment: `dpl_Hq2gcedwbYnEJCht5fLdqR2HnxWy` (Ready and assigned to the canonical alias on 2026-08-10)
 - Database/authentication provider: Supabase (administrator authentication active)
 
-The public information site and outbound navigation remain usable if Supabase or analytics delivery is temporarily unavailable. Production administrator login is connected to an approved Supabase project with all eight migrations applied; one manually authorized owner identity can reach the dashboard and inquiry administration routes. Consent-based page-view and approved external-link analytics is active. Public inquiry submission remains disabled.
+The public information site and outbound navigation remain usable if Supabase or analytics delivery is temporarily unavailable. Production administrator login is connected to an approved Supabase project with all eight migrations applied; one manually authorized owner identity can reach the analytics dashboard. Consent-based page-view and approved external-link analytics is active. The Step 4 dormant target hides unfinished public and administrator inquiry surfaces and keeps submission disabled; the activation plan distinguishes that target from the pre-Step 4 deployment's earlier disabled preview until provider verification is complete.
 
-The production environment keeps `NEXT_PUBLIC_SITE_URL=https://villa-vessela-airbnb.vercel.app`, `ANALYTICS_ENABLED=true`, and `CONTACT_INQUIRY_ENABLED=false`, together with the separately approved public booking, social, map, WhatsApp, and caretaker-contact variables. `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` are configured for Auth/RLS. One modern Supabase backend secret is configured as sensitive, Production-only `SUPABASE_SERVICE_ROLE_KEY`; no `SUPABASE_TEST_*` credential is deployed. The backend secret is full privilege and must never be copied to a browser, public variable, log, file, command argument, or documentation.
+The dormant target keeps `NEXT_PUBLIC_SITE_URL=https://villa-vessela-airbnb.vercel.app`, `ANALYTICS_ENABLED=true`, `CONTACT_INQUIRY_VISIBLE=false` (missing also fails closed), and `CONTACT_INQUIRY_ENABLED=false`, together with the separately approved public booking, social, map, WhatsApp, and caretaker-contact variables. `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` are configured for Auth/RLS. One modern Supabase backend secret is configured as sensitive, Production-only `SUPABASE_SERVICE_ROLE_KEY`; no `SUPABASE_TEST_*` credential is deployed. The backend secret is full privilege and must never be copied to a browser, public variable, log, file, command argument, or documentation.
 
 Production may contain the owner-approved `NEXT_PUBLIC_CARETAKER_NIDA_PHONE` and `NEXT_PUBLIC_CONTACT_EMAIL` values. The caretaker telephone and public email remain intentionally omitted from Git and deployment documentation. Evelyn's former caretaker contact was withdrawn from public use on 2026-08-08 and `NEXT_PUBLIC_CARETAKER_EVELYN_PHONE` must not be configured. Telephone approval does not establish WhatsApp availability.
 
@@ -42,6 +42,7 @@ Review the complete development tree separately with `npm audit`. The known deve
 The credential-independent browser suite must report two live administrator checks as explicitly skipped unless dedicated non-production credentials are supplied. Run the enabled inquiry branch separately only against an intentionally enabled test server:
 
 ```powershell
+$env:CONTACT_INQUIRY_VISIBLE = "true"
 $env:CONTACT_INQUIRY_ENABLED = "true"
 npx playwright test tests/e2e/inquiry-workflow.spec.ts
 ```
@@ -69,6 +70,7 @@ Configure only reviewed values. Missing optional values intentionally keep their
 | --- | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | Required: exact final Vercel/custom HTTPS origin | Rebuild, then inspect canonical, Open Graph, sitemap, and robots output |
 | `ANALYTICS_ENABLED` | `true` | Rebuild after any change; explicit browser choice, minimized collection, retention, write/readback, dashboard/CSV, failure-isolation, and rollback QA must remain valid |
+| `CONTACT_INQUIRY_VISIBLE` | `false`/absent | Keep unfinished guest/admin surfaces hidden; publish only after migration/admin prerequisites pass; retain true during a post-activation collection rollback |
 | `CONTACT_INQUIRY_ENABLED` | `false` | Approved storage, consent wording, retention/deletion process, operator, rate-limit review, and live inquiry/admin/export QA |
 | `NEXT_PUBLIC_SUPABASE_URL` | Configured for production administrator authentication | Approved Supabase project |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Configured for production administrator authentication | Public key; safe only with verified RLS |
@@ -83,6 +85,7 @@ Example non-interactive configuration for non-secret flags after the project is 
 ```powershell
 'https://final-origin.example' | npx vercel@latest env add NEXT_PUBLIC_SITE_URL production --force --yes
 'true' | npx vercel@latest env add ANALYTICS_ENABLED production --sensitive --force --yes
+'false' | npx vercel@latest env add CONTACT_INQUIRY_VISIBLE production --sensitive --force --yes
 'false' | npx vercel@latest env add CONTACT_INQUIRY_ENABLED production --sensitive --force --yes
 ```
 
@@ -168,7 +171,7 @@ For an analytics-specific rollback, set the Production `ANALYTICS_ENABLED` value
 ## Support and current limitations
 
 - Forty-one approved photographs and the approved booking/social/messaging/map/WhatsApp/caretaker/email destinations are active. Blue Kubo, Green Kubo, parking, public owner telephone, rates, and several inclusion details remain unresolved and use reserved slots, qualification, or disabled controls.
-- Administrator access, consent-based analytics storage, dashboard reporting, page/link CSV export, and inquiry administration routes are operational. Public inquiry storage remains disabled pending its separate retention, insertion, status, deletion, operator, and export gates.
+- Administrator access, consent-based analytics storage, dashboard reporting, and page/link CSV export are operational. Inquiry collection remains unpublished and disabled; the dormant application release keeps its direct administration/export surfaces hidden pending the separate migration, publication, storage, status, deletion, operator, and live-proof gates.
 - Analytics-only retention runs daily after events become older than 365 days. Scheduled execution can be delayed by the daily interval or a paused provider project; do not promise exact-to-the-second deletion.
 - The in-process anonymous rate limiter is not globally atomic across serverless instances. Add an approved privacy-compatible distributed/WAF control before sustained or adversarial launch-scale traffic.
 - The public Contact route is the configured privacy-request channel. Responsible handling, provider review, jurisdiction-specific obligations, and the separate inquiry process remain owner/legal/operational responsibilities.

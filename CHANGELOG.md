@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-08-31 — Unfinished inquiry visibility boundary
+
+- Added a separate fail-closed server-only inquiry publication flag after the owner requested that unfinished guest and administrator inquiry surfaces remain hidden.
+- Removed hidden-mode inquiry content from public Contact/Privacy and administrator navigation/dashboard/activity/exports; skipped recent-inquiry row queries; and made direct approved inquiry pages, mutations, and inquiry CSV exports return not found while unpublished.
+- Preserved the private/no-store disabled API, enabled-visible mode, and a separately tested published-disabled rollback mode for retained-record privacy and administrator duties.
+- Aligned the displayed 31 August Privacy revision, form freshness assertion, server validation, and stored consent-notice provenance behind one version constant.
+- Extended executed unit and Chromium coverage across enabled-visible, published-disabled, and unfinished-hidden configurations. The application ships dormant and hidden; database migration and collection activation remain separate controlled steps.
+
 ## 2026-08-24 — Final analytics remediation handoff
 
 - Reconciled the current architecture, deployment runbook, owner handoff, decisions, QA checklist, implementation plan, content register, and historical follow-up notes with the verified consent-based production state.

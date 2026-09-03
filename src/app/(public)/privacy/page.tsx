@@ -14,6 +14,11 @@ import { DisclosureNote } from "@/components/public/DisclosureNote";
 import { PageHero } from "@/components/public/PageHero";
 import { PageSectionHeading } from "@/components/public/PageSectionHeading";
 import { Container } from "@/components/ui/Container";
+import {
+  isContactInquiryEnabled,
+  isContactInquiryVisible,
+} from "@/lib/config/features";
+import { INQUIRY_PRIVACY_NOTICE_VERSION } from "@/lib/inquiries/constants";
 import { createPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata: Metadata = createPageMetadata({
@@ -23,63 +28,123 @@ export const metadata: Metadata = createPageMetadata({
   title: "Privacy",
 });
 
-const informationCards = [
-  {
-    icon: ChartNoAxesCombined,
-    title: "Anonymous website analytics",
-    content: (
-      <>
+export const dynamic = "force-dynamic";
+
+function getInformationCards(
+  inquiryEnabled: boolean,
+  inquiryVisible: boolean,
+) {
+  return [
+    {
+      icon: ChartNoAxesCombined,
+      title: "Anonymous website analytics",
+      content: (
+        <>
+          <p>
+            Analytics is optional. The site waits for an explicit Allow analytics choice
+            before it creates analytics identifiers or sends a page-view or approved
+            external-link event.
+          </p>
+          <p>
+            When allowed, an event can include a random visitor ID, a separate session ID,
+            the public page path, an origin-only referrer when available, coarse device and
+            browser categories, and a timestamp. An approved external-link click can also
+            include the link type, configured destination, and source page.
+          </p>
+          <p>
+            The application does not intentionally collect or store a visitor name, raw IP
+            address, exact location, full referrer path, search terms, device fingerprint,
+            or a claim about who clicked a link.
+          </p>
+        </>
+      ),
+    },
+    ...(inquiryVisible
+      ? [
+          {
+            icon: FileText,
+            title: "Website inquiries",
+            content: (
+              <>
+                {inquiryEnabled ? (
+                  <>
+                    <p>
+                      Website inquiry collection is active. If you choose to submit, the
+                      form collects your name, at least one email or phone/messaging
+                      contact, your message and consent, plus any guest count or preferred
+                      dates you choose to provide.
+                    </p>
+                    <p>
+                      The stored record also includes a random submission identifier used
+                      to prevent duplicate retry records, the applicable privacy-notice
+                      version, its review status, and its submission time. A separate random
+                      form-session identifier supports rate limiting and is not stored with
+                      the inquiry.
+                    </p>
+                    <p>
+                      Villa Vessela uses the record to review and respond to the request. An
+                      inquiry is not an availability confirmation, booking, payment, or
+                      promise of a response time. The website sends no automatic reply and
+                      no email, SMS, or push notification to the operator.
+                    </p>
+                  </>
+                ) : (
+                  <p>
+                    Website inquiry collection is currently disabled. The preview form
+                    cannot be submitted, so it creates no new inquiry record. Previously
+                    collected records, if any, remain subject to the access, retention, and
+                    deletion practices below. Guests can instead choose an owner-approved
+                    channel on the Contact page.
+                  </p>
+                )}
+                <p>
+                  The form never asks for payment-card information. Do not send
+                  payment-card, banking, password, government-ID, or medical details
+                  through the website or an external contact channel.
+                </p>
+              </>
+            ),
+          },
+        ]
+      : []),
+    {
+      icon: UserRoundCheck,
+      title: "Administrator access",
+      content: inquiryVisible ? (
+        <>
+          <p>
+            Only an authenticated account with a separately approved administrator profile
+            may read stored analytics or inquiry records. An approved administrator may
+            update an inquiry&apos;s review status, export a bounded inquiry CSV, or delete one
+            exact inquiry after confirmation. Database Row Level Security remains
+            authoritative for administrator reads and status changes.
+          </p>
+          <p>
+            The protected inquiry page is the operator&apos;s inbox and is checked daily while
+            collection is active. Administrator routes are excluded from public analytics
+            and do not create public page-view or link-click events.
+          </p>
+        </>
+      ) : (
         <p>
-          Analytics is optional. The site waits for an explicit Allow analytics choice
-          before it creates analytics identifiers or sends a page-view or approved
-          external-link event.
+          Only an authenticated account with a separately approved administrator profile
+          may read stored analytics. Administrator routes are excluded from public
+          analytics and do not create public page-view or link-click events. Database Row
+          Level Security remains authoritative for administrator reads.
         </p>
-        <p>
-          When allowed, an event can include a random visitor ID, a separate session ID,
-          the public page path, an origin-only referrer when available, coarse device and
-          browser categories, and a timestamp. An approved external-link click can also
-          include the link type, configured destination, and source page.
-        </p>
-        <p>
-          The application does not intentionally collect or store a visitor name, raw IP
-          address, exact location, full referrer path, search terms, device fingerprint,
-          or a claim about who clicked a link.
-        </p>
-      </>
-    ),
-  },
-  {
-    icon: FileText,
-    title: "Website inquiries",
-    content: (
-      <>
-        <p>
-          Website inquiry collection is currently disabled. The preview form cannot be
-          submitted, so it does not create an inquiry record. Guests can instead choose
-          an owner-approved channel on the Contact page.
-        </p>
-        <p>
-          The preview never asks for payment-card information. Do not send payment-card
-          details through the website or an external contact channel.
-        </p>
-      </>
-    ),
-  },
-  {
-    icon: UserRoundCheck,
-    title: "Administrator access",
-    content: (
-      <p>
-        Only an authenticated account with a separately approved administrator profile
-        may read stored analytics. Administrator routes are excluded from public
-        analytics and do not create public page-view or link-click events. Database Row
-        Level Security remains authoritative for administrator reads.
-      </p>
-    ),
-  },
-] as const;
+      ),
+    },
+  ] as const;
+}
 
 export default function PrivacyPage() {
+  const inquiryEnabled = isContactInquiryEnabled();
+  const inquiryVisible = isContactInquiryVisible();
+  const informationCards = getInformationCards(
+    inquiryEnabled,
+    inquiryVisible,
+  );
+
   return (
     <main id="main-content">
       <PageHero
@@ -93,7 +158,11 @@ export default function PrivacyPage() {
       <section aria-labelledby="privacy-overview" className="py-20 sm:py-24">
         <Container size="wide">
           <PageSectionHeading
-            description="Public visitors never need an account. Core property information remains readable when analytics, inquiries, or Supabase storage are unavailable."
+            description={
+              inquiryVisible
+                ? "Public visitors never need an account. Core property information remains readable when analytics, inquiries, or Supabase storage are unavailable."
+                : "Public visitors never need an account. Core property information remains readable when analytics or Supabase storage is unavailable."
+            }
             eyebrow="Current technical behavior"
             id="privacy-overview"
             title="Purpose-limited collection with explicit boundaries"
@@ -107,7 +176,11 @@ export default function PrivacyPage() {
             </p>
           </DisclosureNote>
 
-          <div className="mt-10 grid gap-6 lg:grid-cols-3">
+          <div
+            className={`mt-10 grid gap-6 ${
+              inquiryVisible ? "lg:grid-cols-3" : "lg:grid-cols-2"
+            }`}
+          >
             {informationCards.map(({ content, icon: Icon, title }) => (
               <article
                 className="rounded-card border border-border bg-surface p-6 shadow-soft sm:p-8"
@@ -169,14 +242,29 @@ export default function PrivacyPage() {
                   more than 30 minutes of inactivity.
                 </dd>
               </div>
-              <div className="grid gap-2 p-6 sm:grid-cols-[12rem_1fr] sm:p-7">
-                <dt className="font-semibold">Inquiry form storage</dt>
-                <dd className="text-sm leading-6 text-foreground/75">
-                  Inquiry collection is disabled. The preview does not write an inquiry
-                  identifier or form answers to browser storage and cannot submit them to
-                  the database.
-                </dd>
-              </div>
+              {inquiryVisible ? (
+                <div className="grid gap-2 p-6 sm:grid-cols-[12rem_1fr] sm:p-7">
+                  <dt className="font-semibold">Inquiry form storage</dt>
+                  <dd className="text-sm leading-6 text-foreground/75">
+                    {inquiryEnabled ? (
+                      <>
+                        Form answers remain in the open page after an unsuccessful attempt
+                        so you can correct or retry them; this application does not copy
+                        those answers into local or session storage. A random form-session
+                        UUID may be kept in session storage for rate limiting. A separate
+                        random submission UUID stays with the open form across retries and
+                        is replaced after the request is accepted.
+                      </>
+                    ) : (
+                      <>
+                        Inquiry collection is disabled. The preview does not create an
+                        inquiry identifier, write form answers to browser storage, or submit
+                        them to the database.
+                      </>
+                    )}
+                  </dd>
+                </div>
+              ) : null}
               <div className="grid gap-2 p-6 sm:grid-cols-[12rem_1fr] sm:p-7">
                 <dt className="font-semibold">Administrator cookies</dt>
                 <dd className="text-sm leading-6 text-foreground/75">
@@ -202,10 +290,13 @@ export default function PrivacyPage() {
                 Analytics is used only for aggregate traffic, device, page, and approved
                 link reporting after a visitor allows it.
               </li>
-              <li>
-                Website inquiry collection remains disabled; the site does not currently
-                store inquiry form submissions.
-              </li>
+              {inquiryVisible ? (
+                <li>
+                  {inquiryEnabled
+                    ? "Submitted inquiry details are used only to review and respond to the property request."
+                    : "Website inquiry collection is disabled; the preview cannot create a new inquiry record."}
+                </li>
+              ) : null}
               <li>
                 The application contains no advertising, data-broker, or sale-of-data
                 integration.
@@ -214,6 +305,14 @@ export default function PrivacyPage() {
                 Hosting and database providers may process network and stored data needed
                 to operate the service.
               </li>
+              {inquiryVisible ? (
+                <li>
+                  An approved administrator can export inquiry records to a private CSV
+                  when operationally necessary. A downloaded file is a separate copy and
+                  must be deleted separately when it is no longer needed or when a verified
+                  request covers it.
+                </li>
+              ) : null}
             </ul>
           </article>
 
@@ -257,6 +356,17 @@ export default function PrivacyPage() {
               scheduled run cannot execute, deletion can be delayed until the project is
               active and a later run succeeds.
             </p>
+            {inquiryVisible ? (
+              <p className="mt-4 text-base leading-7 text-white/80">
+                Website inquiry collection may be enabled only after its daily active-table
+                retention process is operational. While that process is active, stored
+                inquiry records are checked daily and deleted once they are strictly older
+                than 365 days from submission, regardless of review status. Preferred dates
+                can be later than that retention period, so confirmed booking and payment
+                communication must remain in the approved booking channel rather than
+                relying on the inquiry row.
+              </p>
+            ) : null}
           </div>
 
           <div className="rounded-card border border-white/20 bg-white/10 p-6 sm:p-8">
@@ -264,8 +374,20 @@ export default function PrivacyPage() {
             <ul className="mt-4 space-y-3 text-sm leading-7 text-white/80">
               <li>Declining analytics keeps all public property content available.</li>
               <li>Use Analytics settings to change your choice at any time.</li>
-              <li>Inquiry collection is disabled and is not part of the analytics schedule.</li>
+              {inquiryVisible ? (
+                <li>
+                  {inquiryEnabled
+                    ? "Submitting an inquiry does not change your separate analytics choice."
+                    : "Inquiry collection is disabled; no new inquiry can be submitted."}
+                </li>
+              ) : null}
               <li>Analytics identifiers are random and are not intended to identify you.</li>
+              {inquiryVisible ? (
+                <li>
+                  After verifying a request, the approved operator can delete one exact
+                  inquiry from the active table before its scheduled expiry.
+                </li>
+              ) : null}
             </ul>
             <p className="mt-6 text-sm leading-6 text-white/80">
               For a privacy question or request about website data, use an owner-approved
@@ -280,6 +402,14 @@ export default function PrivacyPage() {
               . This notice does not embed a contact value, so the configured Contact
               route remains the source of truth.
             </p>
+            {inquiryVisible ? (
+              <p className="mt-4 text-sm leading-6 text-white/70">
+                Active-table deletion does not instantly remove provider backup copies,
+                browser autofill or history, a downloaded CSV, or information copied to an
+                external booking or messaging channel. Those copies follow their own
+                provider and secure-deletion lifecycles.
+              </p>
+            ) : null}
           </div>
         </Container>
       </section>
@@ -290,9 +420,15 @@ export default function PrivacyPage() {
             Privacy notice updates
           </h2>
           <p className="text-sm leading-6 text-foreground/70">
-            Last updated <time dateTime="2026-08-10">10 August 2026</time>. Update this
-            notice whenever collection, storage, providers, retention, contact channels,
-            or guest choices change.
+            Last updated{" "}
+            <time dateTime={INQUIRY_PRIVACY_NOTICE_VERSION}>
+              {new Intl.DateTimeFormat("en-GB", {
+                dateStyle: "long",
+                timeZone: "UTC",
+              }).format(new Date(`${INQUIRY_PRIVACY_NOTICE_VERSION}T00:00:00Z`))}
+            </time>
+            . Update this notice whenever collection, storage, providers, retention,
+            contact channels, or guest choices change.
           </p>
         </Container>
       </section>

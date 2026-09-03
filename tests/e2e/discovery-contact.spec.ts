@@ -18,6 +18,11 @@ import {
 const testOrigin = new URL(
   process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000",
 ).origin;
+const inquiryEnabled =
+  process.env.CONTACT_INQUIRY_ENABLED?.trim().toLowerCase() === "true";
+const inquiryVisible =
+  inquiryEnabled ||
+  process.env.CONTACT_INQUIRY_VISIBLE?.trim().toLowerCase() === "true";
 
 const phaseFiveRoutes = [
   {
@@ -262,7 +267,7 @@ test("configured Waze navigation dispatches its exact analytics category without
   await expect(page).toHaveURL(/\/location$/);
 });
 
-test("contact channels expose only approved destinations while inquiries remain disabled", async ({
+test("contact channels expose only approved destinations and accurate inquiry mode", async ({
   page,
 }) => {
   await page.goto("/contact");
@@ -335,16 +340,34 @@ test("contact channels expose only approved destinations while inquiries remain 
   }
 
   const form = page.getByRole("form");
-  expect(await form.getAttribute("action")).toBeNull();
-  await expect(form.locator("fieldset")).toHaveAttribute("disabled", "");
-  const disabledFields = form.locator("input, textarea");
-  await expect(disabledFields).toHaveCount(8);
-  for (const field of await disabledFields.all()) {
-    await expect(field).toBeDisabled();
+  if (!inquiryVisible) {
+    await expect(form).toHaveCount(0);
+    await expect(page.locator("main")).not.toContainText(/inquir/i);
+  } else if (inquiryEnabled) {
+    expect(await form.getAttribute("action")).toBeNull();
+    await expect(form.locator("fieldset")).toHaveCount(0);
+    await expect(page.getByRole("button", { name: "Send inquiry" })).toBeEnabled();
+    await expect(form.getByRole("link", { name: "Privacy notice" })).toHaveAttribute(
+      "href",
+      "/privacy",
+    );
+    await expect(form).toContainText("sends no automatic reply or operator notification");
+  } else {
+    expect(await form.getAttribute("action")).toBeNull();
+    await expect(form.locator("fieldset")).toHaveAttribute("disabled", "");
+    const disabledFields = form.locator("input, textarea");
+    await expect(disabledFields).toHaveCount(8);
+    for (const field of await disabledFields.all()) {
+      await expect(field).toBeDisabled();
+    }
+    await expect(
+      page.getByRole("button", { name: "Inquiry submission unavailable" }),
+    ).toBeDisabled();
   }
-  await expect(form.locator('input[type="password"], input[autocomplete="cc-number"]')).toHaveCount(0);
-  await expect(page.getByRole("button", { name: "Inquiry submission unavailable" })).toBeDisabled();
-  await expect(page.getByText(/Never send payment-card details/)).toBeVisible();
+  if (inquiryVisible) {
+    await expect(form.locator('input[type="password"], input[autocomplete="cc-number"]')).toHaveCount(0);
+    await expect(page.getByText(/Never send payment-card details/)).toBeVisible();
+  }
 });
 
 test("Phase 5 routes expose only configured external destinations", async ({ page }) => {

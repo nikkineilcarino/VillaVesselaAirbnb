@@ -59,7 +59,7 @@ For the shortest safe update, send the new material and state what it depicts, w
 
 ## Backend and optional collection state
 
-The production database, authentication boundary, analytics dashboard, inquiry administration page, and protected CSV interfaces are operational for the approved owner account. Consent-based analytics is active; inquiry submission remains intentionally inactive.
+The production database, authentication boundary, analytics dashboard, and analytics CSV interfaces are operational for the approved owner account. Consent-based analytics is active. The Step 4 dormant inquiry release is configured to hide unfinished guest and administrator inquiry surfaces while keeping submission inactive; exact provider verification and the pre-release disabled-preview baseline are recorded in `WEBSITE_INQUIRY_ACTIVATION_PLAN.md`.
 
 - Analytics uses random first-party visitor/session UUIDs only after Allow, minimized page/link fields, exact destination allowlisting, and no raw IP, exact location, fingerprint, name, or message data.
 - Migration `008` gives Waze its own reporting category and runs analytics-only deletion daily once events are older than 365 days. Scheduler/project pauses can delay a run.
@@ -67,7 +67,7 @@ The production database, authentication boundary, analytics dashboard, inquiry a
 - The in-process limiter is not globally atomic across serverless instances. A privacy-compatible distributed/WAF control remains advisable for sustained or adversarial traffic.
 - Before inquiry activation, approve its retention/deletion process and responsible operator, then prove live insertion, status mutation, inquiry CSV handling, authorization, failure behavior, and exact cleanup.
 
-Keep `ANALYTICS_ENABLED=true` and `CONTACT_INQUIRY_ENABLED=false` for the verified current state. If analytics write/privacy/reporting behavior regresses, set analytics false and rebuild immediately using the runbook rollback. Never place test credentials or the Supabase backend secret in a public variable.
+Keep `ANALYTICS_ENABLED=true`, leave `CONTACT_INQUIRY_VISIBLE` false/absent, and keep `CONTACT_INQUIRY_ENABLED=false` for the dormant target state. If analytics write/privacy/reporting behavior regresses, set analytics false and rebuild immediately using the runbook rollback. Never place test credentials or the Supabase backend secret in a public variable.
 
 ## Ongoing maintenance
 

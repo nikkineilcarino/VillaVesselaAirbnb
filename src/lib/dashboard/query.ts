@@ -24,8 +24,10 @@ export type DashboardQueryResult =
 
 export async function getDashboardData(
   range: DashboardDateRange,
+  options: { includeInquiries?: boolean } = {},
 ): Promise<DashboardQueryResult> {
   const supabase = await createServerSupabaseClient();
+  const includeInquiries = options.includeInquiries ?? true;
 
   if (!supabase) {
     return { status: "unavailable" };
@@ -37,6 +39,18 @@ export async function getDashboardData(
   };
 
   try {
+    const recentInquiryQuery = includeInquiries
+      ? supabase
+          .from("contact_inquiries")
+          .select(
+            "created_at, email, name, number_of_guests, phone, preferred_check_in, preferred_check_out, status",
+          )
+          .gte("created_at", range.startUtc)
+          .lt("created_at", range.endExclusiveUtc)
+          .order("created_at", { ascending: false })
+          .limit(15)
+      : Promise.resolve({ data: [], error: null });
+
     const [
       summaryResult,
       dailyResult,
@@ -68,15 +82,7 @@ export async function getDashboardData(
         .lt("created_at", range.endExclusiveUtc)
         .order("created_at", { ascending: false })
         .limit(15),
-      supabase
-        .from("contact_inquiries")
-        .select(
-          "created_at, email, name, number_of_guests, phone, preferred_check_in, preferred_check_out, status",
-        )
-        .gte("created_at", range.startUtc)
-        .lt("created_at", range.endExclusiveUtc)
-        .order("created_at", { ascending: false })
-        .limit(15),
+      recentInquiryQuery,
     ]);
 
     const results = [
@@ -94,7 +100,12 @@ export async function getDashboardData(
       return { status: "unavailable" };
     }
 
-    const summary = normalizeDashboardSummary(summaryResult.data?.[0] ?? null);
+    const summary = {
+      ...normalizeDashboardSummary(summaryResult.data?.[0] ?? null),
+      ...(!includeInquiries
+        ? { hasDemonstrationData: false, newInquiries: 0 }
+        : {}),
+    };
     const data: DashboardData = {
       daily: createDailyAnalyticsSeries(range, dailyResult.data ?? []),
       devices: normalizeDeviceTotals(deviceResult.data ?? []),
@@ -103,17 +114,19 @@ export async function getDashboardData(
         path: row.path,
         total: toDashboardCount(row.total_page_views),
       })),
-      recentInquiries: (recentInquiryResult.data ?? []).map((row) => ({
-        contactMethod: describeContactMethod(row.email, row.phone),
-        guestCount: row.number_of_guests,
-        name: row.name.slice(0, 100),
-        occurredAt: formatManilaTimestamp(row.created_at),
-        preferredDates: formatInquiryDates(
-          row.preferred_check_in,
-          row.preferred_check_out,
-        ),
-        status: row.status,
-      })),
+      recentInquiries: includeInquiries
+        ? (recentInquiryResult.data ?? []).map((row) => ({
+            contactMethod: describeContactMethod(row.email, row.phone),
+            guestCount: row.number_of_guests,
+            name: row.name.slice(0, 100),
+            occurredAt: formatManilaTimestamp(row.created_at),
+            preferredDates: formatInquiryDates(
+              row.preferred_check_in,
+              row.preferred_check_out,
+            ),
+            status: row.status,
+          }))
+        : [],
       recentLinks: (recentLinkResult.data ?? []).map((row) => ({
         linkType: normalizeLinkType(row.link_type),
         occurredAt: formatManilaTimestamp(row.created_at),
@@ -136,4 +149,3 @@ export async function getDashboardData(
     return { status: "unavailable" };
   }
 }
-

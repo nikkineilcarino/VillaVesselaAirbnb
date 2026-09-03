@@ -24,7 +24,8 @@ jobs:
     env:
       ANALYTICS_ENABLED: "true"
       CI: "true"
-      CONTACT_INQUIRY_ENABLED: "false"
+      CONTACT_INQUIRY_ENABLED: "true"
+      CONTACT_INQUIRY_VISIBLE: "true"
       NEXT_PUBLIC_SITE_URL: http://localhost:3000
       NEXT_TELEMETRY_DISABLED: "1"
     steps:
@@ -64,3 +65,21 @@ jobs:
 
       - name: Run credential-independent browser tests
         run: npm run test:e2e
+
+      - name: Run inquiry-disabled browser fallback
+        env:
+          CONTACT_INQUIRY_ENABLED: "false"
+          CONTACT_INQUIRY_VISIBLE: "true"
+        run: >-
+          npx playwright test tests/e2e/inquiry-workflow.spec.ts
+          tests/e2e/discovery-contact.spec.ts
+          tests/e2e/seo-privacy-security.spec.ts
+
+      - name: Run unfinished inquiry-hidden browser fallback
+        env:
+          CONTACT_INQUIRY_ENABLED: "false"
+          CONTACT_INQUIRY_VISIBLE: "false"
+        run: >-
+          npx playwright test tests/e2e/inquiry-workflow.spec.ts
+          tests/e2e/discovery-contact.spec.ts
+          tests/e2e/seo-privacy-security.spec.ts

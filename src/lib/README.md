@@ -42,7 +42,7 @@ Create a feature subdirectory only when responsibilities are substantial. Keep p
 
 ## Environment variables
 
-Supabase factories read the documented public project values or the server-only `SUPABASE_SERVICE_ROLE_KEY`. The modern backend secret bypasses RLS, so its effective scope comes from Production-only isolation and narrow reviewed call sites rather than an insert-only database privilege. Analytics activation uses `ANALYTICS_ENABLED`; inquiry form/endpoint activation uses the server runtime `CONTACT_INQUIRY_ENABLED` flag. Missing/unsafe configuration returns `null`; the backend secret and test credentials are never browser-readable.
+Supabase factories read the documented public project values or the server-only `SUPABASE_SERVICE_ROLE_KEY`. The modern backend secret bypasses RLS, so its effective scope comes from Production-only isolation and narrow reviewed call sites rather than an insert-only database privilege. Analytics activation uses `ANALYTICS_ENABLED`; inquiry publication uses server-only `CONTACT_INQUIRY_VISIBLE`, while endpoint collection separately requires `CONTACT_INQUIRY_ENABLED`. Enabled collection always implies visibility. Missing/unsafe configuration returns `null`; the backend secret and test credentials are never browser-readable.
 
 ## Testing
 

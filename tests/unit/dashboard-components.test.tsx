@@ -71,6 +71,7 @@ describe("dashboard presentation states", () => {
     const metrics = renderToStaticMarkup(
       <DashboardMetricCards
         links={completeLinkTotals}
+        showInquiries
         summary={{
           airbnbClicks: 0,
           clickThroughRate: 0,
@@ -88,7 +89,12 @@ describe("dashboard presentation states", () => {
       />,
     );
     const tables = renderToStaticMarkup(
-      <DashboardActivityTables inquiries={[]} links={[]} pages={[]} />,
+      <DashboardActivityTables
+        inquiries={[]}
+        links={[]}
+        pages={[]}
+        showInquiries
+      />,
     );
 
     expect(metrics).toContain("0.0%");
@@ -102,6 +108,49 @@ describe("dashboard presentation states", () => {
     expect(tables).toContain("No external-link clicks were recorded");
     expect(tables).toContain("No inquiries were received");
     expect(tables).not.toMatch(/destination_url|session_id|message|consent/i);
+  });
+
+  it("omits unfinished inquiry metrics and activity from the administrator dashboard", () => {
+    const metrics = renderToStaticMarkup(
+      <DashboardMetricCards
+        links={completeLinkTotals}
+        showInquiries={false}
+        summary={{
+          airbnbClicks: 0,
+          clickThroughRate: 0,
+          estimatedUniqueVisitors: 0,
+          facebookClicks: 0,
+          googleMapsClicks: 0,
+          hasDemonstrationData: false,
+          newInquiries: 7,
+          sessions: 0,
+          totalExternalLinkClicks: 0,
+          totalPageViews: 0,
+          uniqueClickingVisitors: 0,
+          whatsappClicks: 0,
+        }}
+      />,
+    );
+    const tables = renderToStaticMarkup(
+      <DashboardActivityTables
+        inquiries={[
+          {
+            contactMethod: "Email",
+            guestCount: 2,
+            name: "Hidden Guest",
+            occurredAt: "31 Aug 2026, 10:00",
+            preferredDates: "Not provided",
+            status: "new",
+          },
+        ]}
+        links={[]}
+        pages={[]}
+        showInquiries={false}
+      />,
+    );
+
+    expect(metrics).not.toContain("New inquiries");
+    expect(tables).not.toMatch(/inquir|Hidden Guest/i);
   });
 
   it("renders truthful disabled, unavailable, configured-no-data, activity, and refresh states", () => {

@@ -7,9 +7,10 @@ import { Button } from "@/components/ui/Button";
 
 type AdminHeaderProps = {
   displayName: string;
+  showInquiries: boolean;
 };
 
-export function AdminHeader({ displayName }: AdminHeaderProps) {
+export function AdminHeader({ displayName, showInquiries }: AdminHeaderProps) {
   return (
     <header className="border-b border-border bg-surface">
       <div className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-4 px-5 py-4 sm:px-8">
@@ -32,13 +33,15 @@ export function AdminHeader({ displayName }: AdminHeaderProps) {
             <BarChart3 aria-hidden="true" size={16} />
             Dashboard
           </Link>
-          <Link
-            className="inline-flex min-h-10 items-center gap-2 rounded-full px-4 text-sm font-semibold text-primary transition-colors hover:bg-surface-muted"
-            href="/admin/inquiries"
-          >
-            <Inbox aria-hidden="true" size={16} />
-            Inquiries
-          </Link>
+          {showInquiries ? (
+            <Link
+              className="inline-flex min-h-10 items-center gap-2 rounded-full px-4 text-sm font-semibold text-primary transition-colors hover:bg-surface-muted"
+              href="/admin/inquiries"
+            >
+              <Inbox aria-hidden="true" size={16} />
+              Inquiries
+            </Link>
+          ) : null}
           <Link
             className="inline-flex min-h-10 items-center gap-2 rounded-full px-4 text-sm font-semibold text-primary transition-colors hover:bg-surface-muted"
             href="/"

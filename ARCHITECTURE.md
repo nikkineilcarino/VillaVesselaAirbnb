@@ -177,7 +177,7 @@ Static tests verify ordering, migration documentation, constraints/indexes, RLS 
 
 ## Contact-inquiry flow
 
-The feature is disabled unless server runtime configuration sets `CONTACT_INQUIRY_ENABLED` exactly to `true`. The dynamic Contact route and `/api/contact` evaluate the same boundary. When disabled, the safe booking/contact options and a no-action disabled fieldset remain available; the endpoint returns 404.
+Inquiry publication and collection use separate fail-closed server boundaries. With `CONTACT_INQUIRY_VISIBLE` false/absent and collection disabled, unfinished inquiry content is omitted from public Contact/Privacy and administrator navigation/dashboard/routes/exports. With visibility true and collection false, the reviewed disabled form and retained-record privacy/admin rollback surfaces remain available. `CONTACT_INQUIRY_ENABLED=true` always implies visibility and alone enables the dynamic form plus `/api/contact`; the disabled endpoint returns private/no-store `404` regardless of visibility.
 
 When enabled, a small Client Component submits JSON no larger than 8 KiB with a random session-scoped form client UUID. Zod sanitizes and bounds name/contact/message fields, requires at least one contact method plus consent, accepts either an ordered valid date pair or neither, bounds guests to 1–20, rejects past/over-two-year check-ins and Luhn-valid payment-card patterns, and never stores the client UUID. Same-origin checks, a hidden honeypot, two-second minimum/one-day maximum fill time, a three-per-hour client window, and 60-per-minute global window provide layered abuse resistance without retaining raw IP.
 
@@ -187,7 +187,7 @@ Public users receive no read route. Protected administrator reads and status upd
 
 ## CSV export flow
 
-The dashboard presents fixed links for page views, link clicks, and inquiries using its selected Asia/Manila dates. The protected handler rejects unknown types/dates and unauthenticated/unapproved/unavailable callers. It returns attachment/no-store/nosniff/no-referrer headers and fixed filenames. Every cell is quoted, embedded quotes are doubled, formula-like values are prefixed, and output uses UTF-8 BOM plus CRLF. Exports omit database IDs, session IDs, and destination URLs; inquiry exports necessarily contain voluntary contact/message data and must be handled as private.
+The dashboard presents fixed links for page views and link clicks, and adds inquiries only after the inquiry surface is published, using its selected Asia/Manila dates. The protected handler rejects hidden/unknown types, invalid dates, and unauthenticated/unapproved/unavailable callers. It returns attachment/no-store/nosniff/no-referrer headers and fixed filenames. Every cell is quoted, embedded quotes are doubled, formula-like values are prefixed, and output uses UTF-8 BOM plus CRLF. Exports omit database IDs, session IDs, and destination URLs; inquiry exports necessarily contain voluntary contact/message data and must be handled as private.
 
 ## SEO, accessibility, and performance architecture
 

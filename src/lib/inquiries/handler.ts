@@ -4,15 +4,31 @@ import {
   readBoundedInquiryJson,
 } from "@/lib/inquiries/request";
 import { parseInquirySubmission } from "@/lib/validation/inquiry";
+import type { FixedWindowRateLimitResult } from "@/lib/rateLimit";
 import type { ValidatedInquiry } from "@/types/inquiries";
 
+export type InquiryStoreResult =
+  | "conflict"
+  | "created"
+  | "duplicate"
+  | "unavailable";
+
 export type InquiryHandlerDependencies = {
-  allowRequest: () => boolean;
-  allowSubmission: (clientId: string) => boolean;
+  allowRequest: () => FixedWindowRateLimitResult;
+  allowSubmission: (clientId: string) => FixedWindowRateLimitResult;
   enabled: boolean;
+  expectedOrigin: string;
   now?: Date;
-  store: (inquiry: ValidatedInquiry) => Promise<boolean>;
+  store: (inquiry: ValidatedInquiry) => Promise<InquiryStoreResult>;
 };
+
+function rateLimitedResponse(result: FixedWindowRateLimitResult) {
+  return inquiryJsonResponse(
+    429,
+    { status: "rate-limited" },
+    { "Retry-After": String(result.retryAfterSeconds) },
+  );
+}
 
 export async function handleInquiryRequest(
   request: Request,
@@ -22,12 +38,13 @@ export async function handleInquiryRequest(
     return inquiryJsonResponse(404, { status: "disabled" });
   }
 
-  if (!isSameOriginInquiryRequest(request)) {
+  if (!isSameOriginInquiryRequest(request, dependencies.expectedOrigin)) {
     return inquiryJsonResponse(403, { status: "rejected" });
   }
 
-  if (!dependencies.allowRequest()) {
-    return inquiryJsonResponse(429, { status: "rate-limited" });
+  const requestLimit = dependencies.allowRequest();
+  if (!requestLimit.allowed) {
+    return rateLimitedResponse(requestLimit);
   }
 
   const body = await readBoundedInquiryJson(request);
@@ -57,17 +74,28 @@ export async function handleInquiryRequest(
     });
   }
 
-  if (!dependencies.allowSubmission(parsed.clientId)) {
-    return inquiryJsonResponse(429, { status: "rate-limited" });
+  const submissionLimit = dependencies.allowSubmission(parsed.clientId);
+  if (!submissionLimit.allowed) {
+    return rateLimitedResponse(submissionLimit);
   }
 
   try {
-    const stored = await dependencies.store(parsed.data);
-    return inquiryJsonResponse(stored ? 201 : 503, {
-      status: stored ? "received" : "unavailable",
-    });
+    const result = await dependencies.store(parsed.data);
+
+    if (result === "created") {
+      return inquiryJsonResponse(201, { status: "received" });
+    }
+
+    if (result === "duplicate") {
+      return inquiryJsonResponse(200, { status: "received" });
+    }
+
+    if (result === "conflict") {
+      return inquiryJsonResponse(409, { status: "conflict" });
+    }
+
+    return inquiryJsonResponse(503, { status: "unavailable" });
   } catch {
     return inquiryJsonResponse(503, { status: "unavailable" });
   }
 }
-

@@ -7,11 +7,11 @@
 
 ## Scope delivered
 
-Phase 10 implements the optional inquiry workflow without activating it by default. `CONTACT_INQUIRY_ENABLED` must be exactly `true` at server runtime for both the operational form and `/api/contact`; otherwise the Contact page retains its safe disabled preview and the endpoint returns 404.
+Phase 10 implements the optional inquiry workflow without activating or publishing it by default. With both server flags false, unfinished inquiry surfaces are omitted from guest and administrator UI and direct administrator inquiry operations return not found. `CONTACT_INQUIRY_VISIBLE=true` publishes the safe disabled preview, disclosures, and retained-record administration without enabling collection. `CONTACT_INQUIRY_ENABLED=true` enables both the operational form and `/api/contact` and implies visible inquiry surfaces; otherwise the endpoint returns 404.
 
 Enabled submissions use same-origin JSON limited to 8 KiB. Validation sanitizes and bounds name, email, phone/messaging, message, dates, and guest count; requires name, message, consent, and at least one contact method; accepts two ordered preferred dates or neither; rejects past/over-two-year check-ins and Luhn-valid payment-card patterns; and never stores the session-scoped form client UUID. Honeypot, fill-time, per-client, and global limits add bounded abuse controls without retaining raw IP.
 
-Approved administrators receive an RLS-backed inquiry page with an allowlisted status filter, twenty records per page, distinct loading/invalid/empty/unavailable/error states, and a status-only Server Action. Dashboard links expose three fixed export types. Each export independently repeats administrator authorization, validates the date range, reads through the authenticated RLS client in 1,000-row pages, stops at 10,000 rows, and returns a fixed attachment filename.
+When inquiry publication is visible, approved administrators receive an RLS-backed inquiry page with an allowlisted status filter, twenty records per page, distinct loading/invalid/empty/unavailable/error states, and a status-only Server Action. Dashboard links always expose two analytics exports and add the third inquiry export only while published. Each export independently repeats administrator authorization, validates the date range, reads through the authenticated RLS client in 1,000-row pages, stops at 10,000 rows, and returns a fixed attachment filename.
 
 ## Security and privacy assertions
 

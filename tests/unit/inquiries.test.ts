@@ -3,10 +3,16 @@ import { join } from "node:path";
 
 import { describe, expect, it, vi } from "vitest";
 
+import {
+  createInquirySubmissionId,
+  getInquiryClientId,
+} from "@/lib/inquiries/client";
 import { handleInquiryRequest } from "@/lib/inquiries/handler";
 import {
   resolveInquiryListFilters,
 } from "@/lib/inquiries/filters";
+import { readBoundedInquiryJson } from "@/lib/inquiries/request";
+import { FixedWindowRateLimiter } from "@/lib/rateLimit";
 import type { ValidatedInquiry } from "@/types/inquiries";
 import {
   containsPaymentCardNumber,
@@ -29,6 +35,8 @@ function validPayload() {
     name: "Sample Guest",
     numberOfGuests: 4,
     phone: "",
+    privacyNoticeVersion: "2026-08-31",
+    submissionId: "22222222-2222-4222-8222-222222222222",
     website: "",
   };
 }
@@ -68,6 +76,7 @@ describe("inquiry validation and sanitization", () => {
         phone: null,
         preferredCheckIn: "2026-07-30",
         preferredCheckOut: "2026-08-02",
+        submissionId: "22222222-2222-4222-8222-222222222222",
       },
       status: "valid",
     });
@@ -80,6 +89,13 @@ describe("inquiry validation and sanitization", () => {
       { ...validPayload(), email: "", phone: "" },
       { ...validPayload(), consent: false },
       { ...validPayload(), numberOfGuests: 21 },
+      { ...validPayload(), privacyNoticeVersion: "2026-08-10" },
+      { ...validPayload(), submissionId: "not-a-uuid" },
+      {
+        ...validPayload(),
+        submissionId: "22222222-2222-1222-8222-222222222222",
+      },
+      { ...validPayload(), privacyNoticeVersion: "1999-01-01" },
       { ...validPayload(), unexpected: "field" },
     ];
 
@@ -142,23 +158,34 @@ describe("inquiry validation and sanitization", () => {
 describe("inquiry request handler", () => {
   function dependencies(overrides: Partial<Parameters<typeof handleInquiryRequest>[1]> = {}) {
     return {
-      allowRequest: () => true,
-      allowSubmission: () => true,
+      allowRequest: () => ({ allowed: true, retryAfterSeconds: 0 }),
+      allowSubmission: () => ({ allowed: true, retryAfterSeconds: 0 }),
       enabled: true,
+      expectedOrigin: "https://villa.example",
       now,
-      store: vi.fn(async () => true),
+      store: vi.fn(async () => "created" as const),
       ...overrides,
     };
   }
 
   it("is genuinely unavailable when disabled", async () => {
+    const allowRequest = vi.fn(() => ({ allowed: true, retryAfterSeconds: 0 }));
+    const store = vi.fn<
+      (inquiry: ValidatedInquiry) => Promise<"created">
+    >(async () => "created");
     const response = await handleInquiryRequest(
-      inquiryRequest(validPayload()),
-      dependencies({ enabled: false }),
+      new Request("https://villa.example/api/contact", {
+        body: "not-json",
+        method: "POST",
+      }),
+      dependencies({ allowRequest, enabled: false, store }),
     );
 
     expect(response.status).toBe(404);
     expect(response.headers.get("cache-control")).toContain("no-store");
+    expect(await response.json()).toEqual({ status: "disabled" });
+    expect(allowRequest).not.toHaveBeenCalled();
+    expect(store).not.toHaveBeenCalled();
   });
 
   it("rejects cross-origin, unsupported, oversized, malformed, and invalid requests", async () => {
@@ -168,10 +195,35 @@ describe("inquiry request handler", () => {
     );
     expect(crossOrigin.status).toBe(403);
 
+    const missingOrigin = await handleInquiryRequest(
+      new Request("https://villa.example/api/contact", {
+        body: JSON.stringify(validPayload()),
+        headers: { "Content-Type": "application/json" },
+        method: "POST",
+      }),
+      dependencies(),
+    );
+    expect(missingOrigin.status).toBe(403);
+
+    const configuredOriginMismatch = await handleInquiryRequest(
+      inquiryRequest(validPayload()),
+      dependencies({ expectedOrigin: "https://canonical.example" }),
+    );
+    expect(configuredOriginMismatch.status).toBe(403);
+
+    const malformedConfiguredOrigin = await handleInquiryRequest(
+      inquiryRequest(validPayload()),
+      dependencies({ expectedOrigin: "not-a-valid-origin" }),
+    );
+    expect(malformedConfiguredOrigin.status).toBe(403);
+
     const unsupported = await handleInquiryRequest(
       new Request("https://villa.example/api/contact", {
         body: "{}",
-        headers: { "Content-Type": "text/plain" },
+        headers: {
+          "Content-Type": "text/plain",
+          Origin: "https://villa.example",
+        },
         method: "POST",
       }),
       dependencies(),
@@ -187,7 +239,10 @@ describe("inquiry request handler", () => {
     const malformed = await handleInquiryRequest(
       new Request("https://villa.example/api/contact", {
         body: "{",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Origin: "https://villa.example",
+        },
         method: "POST",
       }),
       dependencies(),
@@ -205,27 +260,30 @@ describe("inquiry request handler", () => {
     });
   });
 
-  it("applies global/client rate limits before storage", async () => {
-    expect(
-      (
-        await handleInquiryRequest(
-          inquiryRequest(validPayload()),
-          dependencies({ allowRequest: () => false }),
-        )
-      ).status,
-    ).toBe(429);
-    expect(
-      (
-        await handleInquiryRequest(
-          inquiryRequest(validPayload()),
-          dependencies({ allowSubmission: () => false }),
-        )
-      ).status,
-    ).toBe(429);
+  it("applies global/client rate limits with an accurate retry duration", async () => {
+    const requestLimited = await handleInquiryRequest(
+      inquiryRequest(validPayload()),
+      dependencies({
+        allowRequest: () => ({ allowed: false, retryAfterSeconds: 37 }),
+      }),
+    );
+    expect(requestLimited.status).toBe(429);
+    expect(requestLimited.headers.get("retry-after")).toBe("37");
+
+    const submissionLimited = await handleInquiryRequest(
+      inquiryRequest(validPayload()),
+      dependencies({
+        allowSubmission: () => ({ allowed: false, retryAfterSeconds: 3598 }),
+      }),
+    );
+    expect(submissionLimited.status).toBe(429);
+    expect(submissionLimited.headers.get("retry-after")).toBe("3598");
   });
 
-  it("stores only validated data and returns real storage outcomes", async () => {
-    const store = vi.fn(async (inquiry: ValidatedInquiry) => Boolean(inquiry));
+  it("stores only validated data and distinguishes created, duplicate, and unavailable outcomes", async () => {
+    const store = vi.fn<
+      (inquiry: ValidatedInquiry) => Promise<"created">
+    >(async () => "created");
     const success = await handleInquiryRequest(
       inquiryRequest(validPayload()),
       dependencies({ store }),
@@ -236,19 +294,34 @@ describe("inquiry request handler", () => {
         consent: true,
         email: "guest@example.invalid",
         name: "Sample Guest",
+        submissionId: "22222222-2222-4222-8222-222222222222",
       }),
     );
     expect(store.mock.calls[0]?.[0]).not.toHaveProperty("clientId");
 
+    const duplicate = await handleInquiryRequest(
+      inquiryRequest(validPayload()),
+      dependencies({ store: async () => "duplicate" }),
+    );
+    expect(duplicate.status).toBe(200);
+    expect(await duplicate.json()).toEqual({ status: "received" });
+
+    const conflict = await handleInquiryRequest(
+      inquiryRequest(validPayload()),
+      dependencies({ store: async () => "conflict" }),
+    );
+    expect(conflict.status).toBe(409);
+    expect(await conflict.json()).toEqual({ status: "conflict" });
+
     const unavailable = await handleInquiryRequest(
       inquiryRequest(validPayload()),
-      dependencies({ store: async () => false }),
+      dependencies({ store: async () => "unavailable" }),
     );
     expect(unavailable.status).toBe(503);
   });
 
   it("returns a decoy success for honeypot traffic without storage", async () => {
-    const store = vi.fn(async () => true);
+    const store = vi.fn(async () => "created" as const);
     const response = await handleInquiryRequest(
       inquiryRequest({ website: "filled.example" }),
       dependencies({ store }),
@@ -256,6 +329,69 @@ describe("inquiry request handler", () => {
 
     expect(response.status).toBe(202);
     expect(store).not.toHaveBeenCalled();
+  });
+});
+
+describe("inquiry transport helpers", () => {
+  it("creates independent UUIDs for submission retries and rate-limit sessions", () => {
+    const first = createInquirySubmissionId();
+    const second = createInquirySubmissionId();
+    const rateLimitSession = getInquiryClientId();
+
+    expect(first).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i);
+    expect(second).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i);
+    expect(rateLimitSession).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i);
+    expect(first).not.toBe(second);
+    expect(first).not.toBe(rateLimitSession);
+  });
+
+  it("stops reading a streamed request as soon as its actual bytes exceed 8 KiB", async () => {
+    let cancelled = false;
+    let pullCount = 0;
+    const chunks = [new Uint8Array(5_000), new Uint8Array(3_193), new Uint8Array(5_000)];
+    const body = new ReadableStream<Uint8Array>({
+      cancel() {
+        cancelled = true;
+      },
+      pull(controller) {
+        const chunk = chunks[pullCount];
+        pullCount += 1;
+        if (chunk) {
+          controller.enqueue(chunk);
+        } else {
+          controller.close();
+        }
+      },
+    });
+    const request = new Request("https://villa.example/api/contact", {
+      body,
+      headers: { "Content-Type": "application/json" },
+      method: "POST",
+      duplex: "half",
+    } as RequestInit);
+
+    await expect(readBoundedInquiryJson(request)).resolves.toEqual({
+      status: "too-large",
+    });
+    expect(cancelled).toBe(true);
+    expect(pullCount).toBeLessThan(chunks.length);
+  });
+
+  it("reports the remaining fixed-window duration in whole seconds", () => {
+    const limiter = new FixedWindowRateLimiter({
+      limit: 1,
+      maxKeys: 1,
+      windowMs: 5_000,
+    });
+
+    expect(limiter.consume("client", 100)).toEqual({
+      allowed: true,
+      retryAfterSeconds: 0,
+    });
+    expect(limiter.consume("client", 1_101)).toEqual({
+      allowed: false,
+      retryAfterSeconds: 4,
+    });
   });
 });
 
@@ -297,6 +433,12 @@ describe("administrator inquiry boundaries", () => {
     );
 
     expect(publicRoute).toContain("createServiceRoleSupabaseClient");
+    expect(publicRoute).toContain('.rpc("store_contact_inquiry"');
+    expect(publicRoute).toContain("p_submission_id: inquiry.submissionId");
+    expect(publicRoute).toContain(
+      "p_privacy_notice_version: INQUIRY_PRIVACY_NOTICE_VERSION",
+    );
+    expect(publicRoute).not.toContain('.select("submission_id")');
     expect(adminQuery).toContain("createServerSupabaseClient");
     expect(adminQuery).not.toContain("createServiceRoleSupabaseClient");
     expect(statusAction).toContain("requireAdmin");

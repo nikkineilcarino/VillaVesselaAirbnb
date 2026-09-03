@@ -34,6 +34,8 @@ export type InquirySubmissionPayload = {
   name: string;
   numberOfGuests: number | null;
   phone: string;
+  privacyNoticeVersion: string;
+  submissionId: string;
   website: string;
 };
 
@@ -46,5 +48,5 @@ export type ValidatedInquiry = {
   phone: string | null;
   preferredCheckIn: string | null;
   preferredCheckOut: string | null;
+  submissionId: string;
 };
-

@@ -7,10 +7,14 @@ import {
   useRef,
   useState,
 } from "react";
+import Link from "next/link";
 
 import { Button } from "@/components/ui/Button";
 import { getManilaCalendarDate } from "@/lib/dashboard/dateRange";
-import { getInquiryClientId } from "@/lib/inquiries/client";
+import {
+  createInquirySubmissionId,
+  getInquiryClientId,
+} from "@/lib/inquiries/client";
 import type {
   InquiryFieldErrors,
   InquiryFieldName,
@@ -45,9 +49,15 @@ function fieldAttributes(errors: InquiryFieldErrors, field: InquiryFieldName) {
   };
 }
 
-export function EnabledContactInquiryForm() {
+export function EnabledContactInquiryForm({
+  privacyNoticeVersion,
+}: {
+  privacyNoticeVersion: string;
+}) {
+  const feedbackRef = useRef<HTMLParagraphElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const startedAtRef = useRef(0);
+  const submissionIdRef = useRef<string | null>(null);
   const [errors, setErrors] = useState<InquiryFieldErrors>({});
   const [state, setState] = useState<SubmissionState>({ kind: "idle" });
   const [today] = useState(() => getManilaCalendarDate());
@@ -56,19 +66,32 @@ export function EnabledContactInquiryForm() {
     startedAtRef.current = Date.now();
   }, []);
 
+  useEffect(() => {
+    if (state.kind !== "error") {
+      return;
+    }
+
+    const firstInvalidField =
+      formRef.current?.querySelector<HTMLElement>('[aria-invalid="true"]');
+    (firstInvalidField ?? feedbackRef.current)?.focus();
+  }, [errors, state]);
+
   async function submitInquiry(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setErrors({});
     setState({ kind: "pending" });
 
     const clientId = getInquiryClientId();
-    if (!clientId || startedAtRef.current === 0) {
+    const submissionId =
+      submissionIdRef.current ?? createInquirySubmissionId();
+    if (!clientId || !submissionId || startedAtRef.current === 0) {
       setState({
         kind: "error",
         message: "Please refresh the page and try again.",
       });
       return;
     }
+    submissionIdRef.current = submissionId;
 
     const form = event.currentTarget;
     const values = new FormData(form);
@@ -86,6 +109,8 @@ export function EnabledContactInquiryForm() {
       name: String(values.get("name") ?? ""),
       numberOfGuests: guestValue ? Number(guestValue) : null,
       phone: String(values.get("phone") ?? ""),
+      privacyNoticeVersion,
+      submissionId,
       website: String(values.get("website") ?? ""),
     };
 
@@ -100,9 +125,15 @@ export function EnabledContactInquiryForm() {
         | { errors?: InquiryFieldErrors; status?: string }
         | null;
 
-      if (response.status === 201 || response.status === 202) {
+      if (
+        (response.status === 200 ||
+          response.status === 201 ||
+          response.status === 202) &&
+        body?.status === "received"
+      ) {
         form.reset();
         startedAtRef.current = Date.now();
+        submissionIdRef.current = null;
         setState({
           kind: "success",
           message:
@@ -115,7 +146,9 @@ export function EnabledContactInquiryForm() {
         setErrors(body.errors);
         setState({
           kind: "error",
-          message: "Please correct the highlighted fields and try again.",
+          message:
+            body.errors.form ??
+            "Please correct the highlighted fields and try again.",
         });
         return;
       }
@@ -132,6 +165,15 @@ export function EnabledContactInquiryForm() {
         setState({
           kind: "error",
           message: "Website inquiries are not currently accepting submissions.",
+        });
+        return;
+      }
+
+      if (response.status === 409) {
+        setState({
+          kind: "error",
+          message:
+            "A previous attempt with this form identity may already have been stored with different details. Your entries remain here; refresh the page before starting a separate inquiry or use an approved contact channel.",
         });
         return;
       }
@@ -154,7 +196,9 @@ export function EnabledContactInquiryForm() {
 
   return (
     <form
-      aria-describedby="inquiry-purpose inquiry-payment-warning"
+      aria-describedby={`inquiry-purpose inquiry-payment-warning${
+        state.kind === "error" ? " inquiry-form-feedback" : ""
+      }`}
       aria-labelledby="inquiry-shell"
       className="rounded-[1.75rem] border border-border bg-surface p-6 shadow-soft sm:p-8"
       noValidate
@@ -166,7 +210,10 @@ export function EnabledContactInquiryForm() {
         <div>
           <h2 className="text-xl font-semibold">Send a website inquiry</h2>
           <p className="mt-2 text-sm leading-6 text-foreground/75" id="inquiry-purpose">
-            These details are used only to review and respond to your property inquiry. Submission does not confirm availability or a booking.
+            These details are used only to review and respond to your property inquiry.
+            An approved Villa Vessela administrator checks this website inbox daily while
+            it is active. Submission does not confirm availability or a booking, and the
+            website sends no automatic reply or operator notification.
           </p>
         </div>
       </div>
@@ -274,26 +321,49 @@ export function EnabledContactInquiryForm() {
         <label className="flex gap-3 text-sm leading-6 text-foreground/75 sm:col-span-2">
           <input
             {...fieldAttributes(errors, "consent")}
+            aria-describedby={
+              errors.consent
+                ? "inquiry-consent-details inquiry-consent-error"
+                : "inquiry-consent-details"
+            }
             className="mt-1 size-4 shrink-0"
             name="consent"
             required
             type="checkbox"
           />
           <span>
-            I consent to Villa Vessela storing these details and using them to respond to this inquiry.
+            I consent to Villa Vessela storing these submitted details and using them to
+            review and respond to this inquiry.
             <ErrorText errors={errors} field="consent" />
           </span>
         </label>
+        <p
+          className="text-xs font-normal leading-5 text-foreground/70 sm:col-span-2"
+          id="inquiry-consent-details"
+        >
+          This intake is not a booking or payment. Active inquiry records are scheduled
+          for deletion after they are more than 365 days old. Read the{" "}
+          <Link
+            className="rounded-sm font-semibold text-secondary underline underline-offset-4"
+            href="/privacy"
+            prefetch={false}
+          >
+            Privacy notice
+          </Link>{" "}
+          before submitting for details about administrator access, early deletion
+          requests, providers, and separately retained copies.
+        </p>
       </div>
 
-      {errors.form ? (
-        <p className="mt-5 text-sm font-medium text-danger" id="inquiry-form-error">
-          {errors.form}
-        </p>
-      ) : null}
-
       {state.kind === "error" ? (
-        <p className="mt-5 rounded-xl border border-danger/30 bg-danger/5 p-4 text-sm leading-6 text-danger" role="alert">
+        <p
+          aria-atomic="true"
+          className="mt-5 rounded-xl border border-danger/30 bg-danger/5 p-4 text-sm leading-6 text-danger"
+          id="inquiry-form-feedback"
+          ref={feedbackRef}
+          role="alert"
+          tabIndex={-1}
+        >
           {state.message}
         </p>
       ) : null}

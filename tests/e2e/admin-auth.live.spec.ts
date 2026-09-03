@@ -4,6 +4,11 @@ const adminEmail = process.env.SUPABASE_TEST_ADMIN_EMAIL;
 const adminPassword = process.env.SUPABASE_TEST_ADMIN_PASSWORD;
 const nonAdminEmail = process.env.SUPABASE_TEST_NON_ADMIN_EMAIL;
 const nonAdminPassword = process.env.SUPABASE_TEST_NON_ADMIN_PASSWORD;
+const inquiryEnabled =
+  process.env.CONTACT_INQUIRY_ENABLED?.trim().toLowerCase() === "true";
+const inquiryVisible =
+  inquiryEnabled ||
+  process.env.CONTACT_INQUIRY_VISIBLE?.trim().toLowerCase() === "true";
 
 test("an approved non-production administrator can sign in, open the dashboard, and sign out", async ({
   page,
@@ -24,11 +29,23 @@ test("an approved non-production administrator can sign in, open the dashboard, 
   await expect(page.getByRole("heading", { level: 2, name: "Recent activity" })).toBeVisible();
   await expect(page.getByRole("heading", { level: 2, name: "CSV exports" })).toBeVisible();
 
-  await page.getByRole("link", { name: "Inquiries", exact: true }).click();
-  await expect(page).toHaveURL(/\/admin\/inquiries$/);
-  await expect(
-    page.getByRole("heading", { level: 1, name: "Website inquiries" }),
-  ).toBeVisible();
+  const inquiryLink = page.getByRole("link", { name: "Inquiries", exact: true });
+  if (inquiryVisible) {
+    await inquiryLink.click();
+    await expect(page).toHaveURL(/\/admin\/inquiries$/);
+    await expect(
+      page.getByRole("heading", { level: 1, name: "Website inquiries" }),
+    ).toBeVisible();
+  } else {
+    await expect(inquiryLink).toHaveCount(0);
+    await expect(page.getByText("New inquiries", { exact: true })).toHaveCount(0);
+    await expect(page.getByText("Recent inquiries", { exact: true })).toHaveCount(0);
+    await expect(page.getByRole("link", { name: "Export Inquiries" })).toHaveCount(0);
+
+    const hiddenPage = await page.goto("/admin/inquiries");
+    expect(hiddenPage?.status()).toBe(404);
+    await page.goto("/admin/dashboard");
+  }
 
   await page.getByRole("button", { name: "Sign out" }).click();
   await expect(page).toHaveURL(/\/admin\/login\?notice=signed-out$/);

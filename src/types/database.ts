@@ -1,5 +1,5 @@
 /**
- * Typed mirror of the Phase 6 public Supabase schema.
+ * Typed mirror of the public Supabase schema through migration 009.
  * Regenerate and review this file against the linked project after every applied migration.
  * Dates and timestamps are serialized strings at the client boundary.
  */
@@ -42,7 +42,9 @@ export type Database = {
           phone: string | null;
           preferred_check_in: string | null;
           preferred_check_out: string | null;
+          privacy_notice_version: string;
           status: "closed" | "contacted" | "new" | "reviewed" | "spam";
+          submission_id: string;
         };
         Insert: {
           consent: boolean;
@@ -55,7 +57,9 @@ export type Database = {
           phone?: string | null;
           preferred_check_in?: string | null;
           preferred_check_out?: string | null;
+          privacy_notice_version: string;
           status?: "closed" | "contacted" | "new" | "reviewed" | "spam";
+          submission_id: string;
         };
         Update: {
           consent?: boolean;
@@ -68,7 +72,9 @@ export type Database = {
           phone?: string | null;
           preferred_check_in?: string | null;
           preferred_check_out?: string | null;
+          privacy_notice_version?: string;
           status?: "closed" | "contacted" | "new" | "reviewed" | "spam";
+          submission_id?: string;
         };
         Relationships: [];
       };
@@ -233,6 +239,26 @@ export type Database = {
           path: string;
           total_page_views: number;
         }[];
+      };
+      delete_contact_inquiry: {
+        Args: {
+          p_inquiry_id: string;
+        };
+        Returns: boolean;
+      };
+      store_contact_inquiry: {
+        Args: {
+          p_email: string | null;
+          p_message: string;
+          p_name: string;
+          p_number_of_guests: number | null;
+          p_phone: string | null;
+          p_preferred_check_in: string | null;
+          p_preferred_check_out: string | null;
+          p_privacy_notice_version: string;
+          p_submission_id: string;
+        };
+        Returns: string;
       };
     };
     Enums: Record<string, never>;

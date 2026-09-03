@@ -1,4 +1,5 @@
 import { LockKeyhole } from "lucide-react";
+import Link from "next/link";
 
 import { Button } from "@/components/ui/Button";
 
@@ -56,7 +57,8 @@ export function DisabledContactInquiryForm() {
           </label>
           <label className="flex gap-3 text-sm leading-6 text-foreground/75 sm:col-span-2">
             <input className="mt-1 size-4 shrink-0" name="consent" required type="checkbox" />
-            I consent to Villa Vessela using these details to respond to my inquiry.
+            Consent would be required before an enabled form could store or use these
+            details.
           </label>
         </div>
 
@@ -65,9 +67,17 @@ export function DisabledContactInquiryForm() {
         </Button>
       </fieldset>
       <p className="mt-5 text-xs leading-5 text-foreground/75">
-        Never send payment-card details through a property inquiry form.
+        Nothing entered in this disabled preview is submitted or stored. Read the{" "}
+        <Link
+          className="rounded-sm font-semibold text-secondary underline underline-offset-4"
+          href="/privacy"
+          prefetch={false}
+        >
+          Privacy notice
+        </Link>{" "}
+        for the website&apos;s current data practices. Never send payment-card details
+        through a property inquiry form.
       </p>
     </form>
   );
 }
-
