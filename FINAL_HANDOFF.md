@@ -59,7 +59,7 @@ For the shortest safe update, send the new material and state what it depicts, w
 
 ## Backend and optional collection state
 
-The production database, authentication boundary, analytics dashboard, and analytics CSV interfaces are operational for the approved owner account. Consent-based analytics is active. The Step 4 dormant inquiry release is configured to hide unfinished guest and administrator inquiry surfaces while keeping submission inactive; exact provider verification and the pre-release disabled-preview baseline are recorded in `WEBSITE_INQUIRY_ACTIVATION_PLAN.md`.
+The production database, authentication boundary, analytics dashboard, and analytics CSV interfaces are operational for the approved owner account. Consent-based analytics is active. The Step 4 source release is configured to hide unfinished guest and administrator inquiry surfaces while keeping submission inactive and has passed GitHub Quality, but no automatic Vercel deployment occurred. The canonical site therefore remains on the pre-Step 4 disabled preview until the controlled dormant deployment in Step 5; exact provider evidence is recorded in `WEBSITE_INQUIRY_ACTIVATION_PLAN.md`.
 
 - Analytics uses random first-party visitor/session UUIDs only after Allow, minimized page/link fields, exact destination allowlisting, and no raw IP, exact location, fingerprint, name, or message data.
 - Migration `008` gives Waze its own reporting category and runs analytics-only deletion daily once events are older than 365 days. Scheduler/project pauses can delay a run.

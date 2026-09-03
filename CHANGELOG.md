@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-09-04 — Controlled inquiry source release
+
+- Published the 67-file controlled inquiry implementation in owner-attributed commit `0f2ece8` after staged-scope, credential, artifact, whitespace, and independent hidden-boundary review passed.
+- Passed GitHub Quality run `33793249269`, including the credential-independent, published-disabled, and unfinished-hidden browser modes.
+- Observed no automatic Vercel deployment for the commit; the canonical site remains on the earlier Ready disabled-preview deployment, and the first dormant hidden deployment remains Step 5.
+- Kept production inquiry visibility/collection unchanged, left Supabase migration `009` unapplied, and made no production data or administrator-account mutation.
+
 ## 2026-08-31 — Unfinished inquiry visibility boundary
 
 - Added a separate fail-closed server-only inquiry publication flag after the owner requested that unfinished guest and administrator inquiry surfaces remain hidden.
