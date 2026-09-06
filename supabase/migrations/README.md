@@ -35,7 +35,7 @@ With a configured disposable database, verify anon and unapproved authenticated 
 
 ## Dormant application deployment boundary
 
-Migration `009` remains unapplied to the linked project even when its application integration is committed and deployed dormant. Do not apply the migration remotely, publish inquiry surfaces, or enable Production inquiry submission until the later controlled database and release gates pass. The remote production migration history remains `001`–`008`, and Production `CONTACT_INQUIRY_VISIBLE` plus `CONTACT_INQUIRY_ENABLED` remain false/absent at this boundary.
+Migration `009` was applied once through the linked migration ledger on 2026-09-06 and must now be treated as immutable production history. Local and remote histories match through `009`; linked lint plus the reviewed object, grant, RLS, function, Cron, denial, retention, analytics-isolation, and exact-cleanup probes passed. Database readiness alone does not publish the feature: Production `CONTACT_INQUIRY_VISIBLE` and `CONTACT_INQUIRY_ENABLED` remain false until the controlled live application workflow is explicitly authorized and passes.
 
 ## Environment and sensitive files
 

@@ -3,8 +3,8 @@
 **Created:** 2026-08-24
 **Production site:** `https://villa-vessela-airbnb.vercel.app`
 **Scope:** the public Contact inquiry form, personal-data storage and retention, protected administrator inquiry operations, inquiry CSV export, production activation, and complete QA
-**Current step:** Step 4 passed — waiting for the next exact `continue` before Step 5
-**Overall status:** The controlled inquiry implementation is published in owner-attributed commit `0f2ece8e082cf5f902ef8fba348202d43230aa77`, and GitHub Quality run `33793249269` passed all enabled, published-disabled, and unfinished-hidden gates. No automatic Vercel deployment was created for that commit, so the canonical site remains on the prior Ready disabled-preview deployment `dpl_F8ZpYmR1tS97u8jXQH56NZkVB227`. Linked Supabase migrations remain `001`–`008`, local migration `009` remains pending, and Step 4 made no Vercel environment, administrator-account, or production-data mutation.
+**Current step:** Step 5 passed — waiting for the next exact `continue` before Step 6
+**Overall status:** The controlled inquiry implementation and its Step 4 evidence are published through owner-attributed commit `be8fd8535a008afdf13e02977745f7230b1054fa`, with successful GitHub Quality runs for both the implementation and evidence commits. Linked Supabase migrations now match through `009` and lint cleanly. The canonical site is in the verified dormant hidden state with both Production inquiry controls false; deployment `dpl_FBaXNPi25tQBrCe3KidFdfjsbZ3q`, built from that exact commit, is the first immutable hidden rollback. Inquiry rows remain zero, no administrator account changed, and public inquiry collection remains unpublished and disabled pending Step 6.
 
 ## Purpose
 
@@ -97,7 +97,7 @@ These are operational engineering defaults, not a claim of legal compliance or j
 | 2 | Harden public, API, privacy, administrator, and CI behavior | Exact Origin requirement and streaming byte bound; truthful status/`Retry-After` responses; idempotent store; dynamic enabled/disabled Privacy wording; just-in-time Privacy/retention consent link; operator/no-notification guidance; protected confirmed delete action; active-state admin clarity; feature-aware tests and both CI modes; focused lint/type/unit/component/browser/security QA | Passed |
 | 3 | Run the complete isolated local release gate | Clean-install simulation; full and production dependency audits; lint; strict types; all unit/component tests; local migration reset/lint/generated-type comparison; complete Chromium coverage for unfinished-hidden plus focused published-disabled and enabled matrices; malformed/origin/size/spam/rate/idempotency/outage branches; hidden and protected admin/action/CSV boundaries; mobile/keyboard/Axe; production build and local production-mode smoke; secret/contact/PII/bundle/encoding/link scans | Passed |
 | 4 | Review, commit, and push the implementation | Inquiry-only diff reviewed; no secrets, PII, production artifacts, or unrelated files; exact files staged; owner-attributed implementation commit pushed; GitHub Quality passed all three inquiry modes; local `main`, `origin/main`, and live GitHub branch matched with a clean worktree; Production visibility and collection were not changed; no automatic Vercel deployment was created, so the prior Ready canonical deployment remained unchanged and the first hidden deployment stays reserved for Step 5 | Passed |
-| 5 | Apply the database lifecycle and deploy a dormant hidden release | Snapshot counts/IDs without PII; apply only migration `009`; local/remote `001`–`009` parity and linked lint; grants/RLS/function/cron ownership and denial checks; expired/current synthetic retention proof with exact cleanup; deploy exact clean commit with visibility false and collection false; canonical guest/admin inquiry surfaces absent, API private/no-store `404`, ordinary contacts/privacy/headers intact, and hidden rollback target verified | Pending |
+| 5 | Apply the database lifecycle and deploy a dormant hidden release | Snapshot counts/IDs without PII; apply only migration `009`; local/remote `001`–`009` parity and linked lint; grants/RLS/function/cron ownership and denial checks; expired/current synthetic retention proof with exact cleanup; deploy exact clean commit with visibility false and collection false; canonical guest/admin inquiry surfaces absent, API private/no-store `404`, ordinary contacts/privacy/headers intact, and hidden rollback target verified | Passed |
 | 6 | Publish, enable Production, and prove the full live inquiry workflow | Set Production visibility and collection true through a value-suppressed channel; deploy exact clean SHA; Ready/canonical/source verification; enabled Contact, Privacy, and administrator behavior; non-writing invalid/cross-origin/missing-origin/media/oversize/honeypot probes; one synthetic browser inquiry stored idempotently; exact database/admin/dashboard/filter/status/CSV reconciliation; unauthenticated/unapproved denial; protected exact delete; disposable-user and row cleanup; genuine data preserved; collection-only rollback with continued retained-record visibility on any post-storage critical failure | Pending |
 | 7 | Complete final regression, evidence, and handoff | Repeat complete local/CI and non-inserting production regression; document exact activation evidence and residual limits; reconcile README, architecture, checklist, decisions, TODO, owner guide, deployment runbook, Supabase docs, Phase 10 follow-up, changelog, handoff, Privacy date, and this plan; docs-only commit/push; final Ready deployment matches clean GitHub `main`; operator receives admin URL, daily routine, retention/deletion, CSV, monitoring, and rollback guidance | Pending |
 
@@ -142,14 +142,21 @@ Every row below must pass before Step 6 may leave Production inquiries enabled.
 
 ## Rollback
 
-The known pre-inquiry immutable fallback is:
+The preferred pre-activation immutable fallback is the first dormant hidden release:
+
+- Deployment: `dpl_FBaXNPi25tQBrCe3KidFdfjsbZ3q`
+- URL: `https://villa-vessela-airbnb-4szohn879-nikkineilcarino-2938s-projects.vercel.app`
+- Source: `be8fd8535a008afdf13e02977745f7230b1054fa`
+- Inquiry behavior: guest and administrator inquiry surfaces absent; private/no-store API `404`
+
+The earlier disabled-preview fallback remains available as historical recovery evidence:
 
 - Deployment: `dpl_F8ZpYmR1tS97u8jXQH56NZkVB227`
 - URL: `https://villa-vessela-airbnb-2tdigmfxx-nikkineilcarino-2938s-projects.vercel.app`
 - Source: `2c85f97d37c403ad5be4cc84a1e01c2e5823cd40`
 - Inquiry behavior: disabled form and private/no-store API `404`
 
-No automatic deployment was created during Step 4, so this remains the last known immutable deployed fallback. Its visible disabled preview does not satisfy the owner's newer unfinished-hidden request. Step 5 must create and verify the first dormant hidden deployment as the preferred pre-activation rollback without deleting this historical reference.
+The historical fallback's visible disabled preview does not satisfy the owner's newer unfinished-hidden request. Prefer the verified dormant hidden deployment before any live inquiry is stored; retain both immutable releases for bounded recovery.
 
 If activation fails:
 
@@ -246,6 +253,21 @@ If activation fails:
 - The canonical alias therefore still resolves to Ready deployment `dpl_F8ZpYmR1tS97u8jXQH56NZkVB227`, immutable URL `https://villa-vessela-airbnb-2tdigmfxx-nikkineilcarino-2938s-projects.vercel.app`, from source `2c85f97d37c403ad5be4cc84a1e01c2e5823cd40`. It remains the historical disabled-preview fallback; production hidden-state smoke was not represented as passed because the new hidden build was not deployed.
 - Production `CONTACT_INQUIRY_VISIBLE` remained absent, `CONTACT_INQUIRY_ENABLED` remained false, and linked Supabase migrations remained `001`–`008` with local `009` pending. No valid production inquiry request, database write, administrator sign-in, or account mutation occurred.
 
+## Step 5 evidence — 2026-09-06
+
+**Outcome:** Passed. Only migration `009` was applied to the linked database, its complete lifecycle and authorization boundary passed value-safe production proof with exact cleanup, and the reviewed source was deployed as a dormant hidden release. Inquiry publication and collection remain false; no public/browser inquiry was submitted, no inquiry row remained, and no analytics event, administrator sign-in, or account mutation was created.
+
+- The step began from a clean synchronized `main`/`origin/main` at `be8fd8535a008afdf13e02977745f7230b1054fa`. GitHub Quality runs `33793249269` and `33794360610` had passed the implementation and Step 4 evidence commits.
+- A privacy-safe preflight confirmed one retained `admin_profiles` row, one retained Auth user, zero inquiries, seven page views, and one link click. Identity-set digests were captured without selecting personal fields; migration `009` objects were absent, migration history matched through `008`, linked schema lint had no findings, and the separate analytics-retention job was active and exact.
+- The pinned Supabase CLI applied only `009_add_inquiry_lifecycle.sql` through the migration ledger. Local and linked histories then matched exactly through `009`, linked lint remained clean, and all expected columns, UUID-v4/notice/uniqueness constraints, owners, fixed search paths, grants, RLS policies, and the distinct active `18:25` GMT inquiry-retention Cron job matched the reviewed migration. The existing `18:15` GMT analytics-retention job was unchanged.
+- One server-side transaction proved anonymous storage denial; service-mediated `created`, identical `duplicate`, and changed-payload `conflict`; service prune denial; fabricated unapproved-user read/status/delete denial; approved read, status-only update, non-status-update denial, and exact one-UUID deletion; plus strict removal of one 366-day inquiry while preserving one 364-day control. Generated identifiers and row contents were not printed. The transaction committed only after exact cleanup returned the inquiry table to zero rows.
+- Post-proof identity digests and counts matched the preflight for the retained administrator, Auth user, page views, and link clicks. No administrator identity, analytics row, genuine inquiry, credential, or provider value was changed by the lifecycle proof.
+- Production `CONTACT_INQUIRY_VISIBLE` and `CONTACT_INQUIRY_ENABLED` were both set to literal false through a value-suppressed Production-only channel. Analytics and all unrelated environment settings were left unchanged.
+- Staged production deployment `dpl_FBaXNPi25tQBrCe3KidFdfjsbZ3q` reached Ready from exact clean source `be8fd8535a008afdf13e02977745f7230b1054fa`, passed hidden-mode checks at its immutable URL, and was then promoted to `https://villa-vessela-airbnb.vercel.app`. It is the first verified hidden rollback target.
+- Canonical non-writing QA passed all nine public routes on desktop and mobile; exact metadata, JSON-LD, breadcrumbs, images, system assets, zero horizontal overflow, and zero Axe violations. Contact and Privacy contained no inquiry UI or wording, the logged-out administrator inquiry route redirected to login without leaking inquiry content, and the contact API remained private/no-store/nosniff `404`. Six approved contact categories were inspected without clicking, Evelyn was absent, and opt-in Google Maps/Waze zoom behavior passed with iframe requests blocked.
+- Analytics remained untouched during production QA: zero analytics requests, cookies, visitor/session identifiers, or preference storage. Local ESLint, strict TypeScript, all 100 unit/component tests, the hidden production build, and the complete dependency audit passed with zero vulnerabilities. Temporary browser artifacts were removed.
+- Authenticated live inquiry-page/dashboard/CSV reconciliation and one valid public submission were intentionally not performed in this dormant step. Those require Step 6 publication and the exact synthetic workflow; Step 5 did not create, reset, or use an administrator credential.
+
 ## Next authorized action
 
-No further action is authorized in this step. The next exact `continue` authorizes **Step 5 only**: take value-safe database snapshots, apply only migration `009`, prove local/remote migration parity plus grants/RLS/functions/Cron/retention behavior with exact synthetic cleanup, and deploy the exact reviewed source as a dormant hidden release with Production visibility and collection false. Verify canonical guest and administrator inquiry surfaces are absent, `/api/contact` remains private/no-store `404`, ordinary contacts, Privacy, analytics, and headers remain intact, and record the first immutable hidden rollback. Do not publish or enable inquiry collection; those remain Step 6.
+No further action is authorized in this step. The next exact `continue` authorizes **Step 6 only**: publish and enable the inquiry surface, deploy the exact clean source, then perform the bounded full live synthetic workflow, authorized/unauthorized reconciliation, exact deletion, and rollback checks defined above. Until that continuation, keep both Production inquiry controls false and do not submit a live inquiry.

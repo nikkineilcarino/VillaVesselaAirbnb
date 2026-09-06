@@ -60,6 +60,6 @@ These are intentionally public values. The owner approved the Airbnb listing, Fa
 
 ## Business facts to confirm later
 
-`CONTENT_TODO.md` is the authoritative checklist for rates, fees, expanded capacity, kubo/cottage inclusion, bathroom details, washer availability, inquiry activation, retention, and other unresolved facts. Resolve an item there before changing its public copy in `src/data/`.
+`CONTENT_TODO.md` is the authoritative checklist for rates, fees, expanded capacity, kubo/cottage inclusion, bathroom details, washer availability, inquiry activation, and other unresolved facts. Resolve an item there before changing its public copy in `src/data/`.
 
-Database-backed administrator access and consent-based analytics are operational and verified. Inquiry submission remains separate and disabled. Do not activate it until its retention/deletion process, responsible operator, live insert/status/inquiry-CSV authorization checks, failure behavior, and exact cleanup are approved and complete.
+Database-backed administrator access and consent-based analytics are operational and verified. The inquiry retention/deletion lifecycle and existing owner-operator boundary are also applied and proved, but inquiry submission remains separate, hidden, and disabled. Do not activate it until the controlled live insert, authenticated status/dashboard/inquiry-CSV, unauthorized-denial, exact-cleanup, and rollback checks are explicitly authorized and ready to run.

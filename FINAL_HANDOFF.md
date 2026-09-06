@@ -1,6 +1,6 @@
 # Villa Vessela Website — Final Handoff
 
-**Handoff date:** 2026-08-24
+**Handoff date:** 2026-09-06
 
 **Repository:** [nikkineilcarino/VillaVesselaAirbnb](https://github.com/nikkineilcarino/VillaVesselaAirbnb)
 
@@ -20,10 +20,14 @@ The verified public-information website is complete, published from `main`, and 
 - Analytics-activation deployment proof (2026-08-10): `dpl_Hq2gcedwbYnEJCht5fLdqR2HnxWy`, Ready and assigned to the canonical alias at activation time
 - Final evidence Quality run: [`32654949226`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/actions/runs/32654949226), passed every job step
 - Final evidence deployment proof: `dpl_24MdnUs75ecrsTXSBiVbxu1f9otm`, Ready from exact commit `450f6f3c026123b06a907c94be5a6801704d5fea` and assigned both canonical aliases on 2026-08-24
+- Controlled inquiry implementation: [`0f2ece8`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/commit/0f2ece8e082cf5f902ef8fba348202d43230aa77), with Step 4 evidence through [`be8fd85`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/commit/be8fd8535a008afdf13e02977745f7230b1054fa)
+- Dormant inquiry Quality evidence: [`33793249269`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/actions/runs/33793249269) and [`33794360610`](https://github.com/nikkineilcarino/VillaVesselaAirbnb/actions/runs/33794360610), passed
+- First dormant hidden deployment: `dpl_FBaXNPi25tQBrCe3KidFdfjsbZ3q`, Ready from exact commit `be8fd8535a008afdf13e02977745f7230b1054fa` and promoted on 2026-09-06
 - Maintenance scope: compatible PostCSS, `nanoid`, `brace-expansion`, `minimatch`, and `js-yaml` security updates; incompatible ESLint 10 and TypeScript 7 major upgrades remain deliberately deferred
-- Final local verification: complete and production audits are clean; lint and strict types pass; 77 unit/component tests pass; the isolated Chromium matrix passes with 50 passed and 3 explicit environment skips, plus 1 analytics-disabled and 3 inquiry-enabled branch passes; linked schema parity/lint, the production build, and local production-mode smoke pass. Earlier out-of-band live checks passed approved sign-in/dashboard/inquiry access/logout and authenticated-unapproved denial.
+- Current local verification: complete dependency audit is clean; lint and strict types pass; all 100 unit/component tests pass; the hidden, published-disabled, and enabled inquiry Chromium branches pass in CI; linked schema parity/lint, the production build, and local production-mode smoke pass. Earlier out-of-band live checks passed approved sign-in/dashboard/inquiry access/logout and authenticated-unapproved denial.
 - Hosted verification: all nine public routes, consent choice, Contact's six approved channels, Google/Waze opt-in maps, security headers, accessibility, and protected-route denial pass. One isolated page view and approved Airbnb Contact click returned `201`, reconciled through Supabase, every in-scope dashboard/report surface, and page/link CSV, then were deleted exactly.
 - Final non-inserting production smoke passed 41 assertions after the evidence deployment. Supabase retained zero QA page/link/inquiry rows, one owner administrator/Auth user, and a healthy daily retention job with seven successful recent runs.
+- Step 5 non-writing production QA passed nine public routes on desktop/mobile, metadata, images, system assets, maps, headers, hidden inquiry boundaries, protected logged-out routing, and zero Axe violations without accepting analytics or clicking external contacts. The remote lifecycle transaction cleaned its exact temporary inquiry rows and preserved the existing analytics and owner identity sets.
 - Production performance revalidation: two mobile Lighthouse runs scored 99 and two desktop runs scored 100; accessibility, best practices, and SEO scored 100 in all four runs
 - GitHub maintenance snapshot as of 2026-08-10: 0 open pull requests and 0 open non-PR issues
 
@@ -37,7 +41,7 @@ These are deliberate release boundaries, not broken features:
 - Blue Kubo, Green Kubo, and parking retain visible photo slots. The owner-confirmed carport and three-to-four-car arrangement is published without implying that a dedicated parking photograph has been supplied. A higher-resolution front-of-villa hero remains recommended.
 - The spacious front yard, tropical garden, complete household utilities, and the kitchen kubo shared by Blue and Green Kubo guests are published as owner-confirmed facts. Fixed Wi-Fi is still not advertised, and main-villa-only access to the kitchen kubo remains confirmation-required.
 - Analytics is active only after a visitor explicitly chooses **Allow analytics**. Declining, changing the preference, or analytics failure never blocks public pages or native contact navigation. Contact inquiries remain disabled in production.
-- Supabase Auth/database access is configured through the production public URL and anon key, with eight applied migrations and one manually approved owner administrator. A modern full-privilege backend secret is configured only as sensitive Production `SUPABASE_SERVICE_ROLE_KEY`; two reviewed analytics handlers are active and the separately reviewed inquiry handler remains disabled. No test credential is deployed. Unauthorized routes and identities remain denied without revealing configuration details.
+- Supabase Auth/database access is configured through the production public URL and anon key, with nine applied migrations and one manually approved owner administrator. A modern full-privilege backend secret is configured only as sensitive Production `SUPABASE_SERVICE_ROLE_KEY`; two reviewed analytics handlers are active and the separately reviewed inquiry handler remains disabled. No test credential is deployed. Unauthorized routes and identities remain denied without revealing configuration details.
 - Rates, fees, expanded capacity, kubo/cottage inclusion, and other conflicting facts remain qualified or omitted.
 - The current site needs none of those optional items to remain live, indexable, and usable.
 
@@ -59,15 +63,15 @@ For the shortest safe update, send the new material and state what it depicts, w
 
 ## Backend and optional collection state
 
-The production database, authentication boundary, analytics dashboard, and analytics CSV interfaces are operational for the approved owner account. Consent-based analytics is active. The Step 4 source release is configured to hide unfinished guest and administrator inquiry surfaces while keeping submission inactive and has passed GitHub Quality, but no automatic Vercel deployment occurred. The canonical site therefore remains on the pre-Step 4 disabled preview until the controlled dormant deployment in Step 5; exact provider evidence is recorded in `WEBSITE_INQUIRY_ACTIVATION_PLAN.md`.
+The production database, authentication boundary, analytics dashboard, and analytics CSV interfaces are operational for the approved owner account. Consent-based analytics is active. Migration `009` and the dormant hidden inquiry release are now deployed: guest and administrator inquiry surfaces remain absent and submission remains inactive because both Production inquiry controls are false. The database lifecycle, authorization, separate retention job, denial behavior, and exact cleanup passed without leaving an inquiry row or changing the retained administrator. Exact evidence is recorded in `WEBSITE_INQUIRY_ACTIVATION_PLAN.md` and `docs/qa/inquiry-dormant-release-2026-09-06.md`.
 
 - Analytics uses random first-party visitor/session UUIDs only after Allow, minimized page/link fields, exact destination allowlisting, and no raw IP, exact location, fingerprint, name, or message data.
 - Migration `008` gives Waze its own reporting category and runs analytics-only deletion daily once events are older than 365 days. Scheduler/project pauses can delay a run.
 - Live `201` delivery, exact row readback, dashboard/RPC/date-range/chart/recent/refresh/page-link CSV reconciliation, unapproved denial, failure isolation, and exact synthetic deletion passed on 2026-08-10.
 - The in-process limiter is not globally atomic across serverless instances. A privacy-compatible distributed/WAF control remains advisable for sustained or adversarial traffic.
-- Before inquiry activation, approve its retention/deletion process and responsible operator, then prove live insertion, status mutation, inquiry CSV handling, authorization, failure behavior, and exact cleanup.
+- Before inquiry activation, perform the separately authorized live browser insertion, authenticated status/dashboard/inquiry CSV reconciliation, unauthorized denial, exact cleanup, and collection-only rollback. The retention/deletion database process and existing owner-operator boundary are already applied and verified.
 
-Keep `ANALYTICS_ENABLED=true`, leave `CONTACT_INQUIRY_VISIBLE` false/absent, and keep `CONTACT_INQUIRY_ENABLED=false` for the dormant target state. If analytics write/privacy/reporting behavior regresses, set analytics false and rebuild immediately using the runbook rollback. Never place test credentials or the Supabase backend secret in a public variable.
+Keep `ANALYTICS_ENABLED=true`, `CONTACT_INQUIRY_VISIBLE=false`, and `CONTACT_INQUIRY_ENABLED=false` for the dormant target state. If analytics write/privacy/reporting behavior regresses, set analytics false and rebuild immediately using the runbook rollback. Never place test credentials or the Supabase backend secret in a public variable.
 
 ## Ongoing maintenance
 

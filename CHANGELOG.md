@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-09-06 — Dormant inquiry lifecycle release
+
+- Applied only migration `009` to the linked Supabase project and verified exact `001`–`009` parity, clean linked lint, expected lifecycle objects/grants/RLS/functions, the distinct inquiry-retention Cron job, application-role denial, strict 365-day pruning, exact approved deletion, and unchanged analytics retention.
+- Completed a value-safe server-side lifecycle transaction covering created/duplicate/conflict storage, unauthorized denial, status-only authorization, expired/current retention controls, exact deletion, and exact cleanup back to zero inquiry rows without changing the retained administrator/Auth or analytics identity sets.
+- Forced both Production inquiry controls false, deployed exact clean source `be8fd85` as Ready deployment `dpl_FBaXNPi25tQBrCe3KidFdfjsbZ3q`, passed staged and canonical hidden-mode QA, and promoted it as the first dormant hidden rollback.
+- Passed all nine public routes on desktop/mobile with aligned metadata, images, system assets, no horizontal overflow, zero Axe violations, hidden inquiry surfaces, protected administrator routing, six inspected approved contact categories, Evelyn absent, working opt-in Google/Waze zoom, and zero analytics requests/cookies/storage. No external contact was clicked and no valid production inquiry was submitted.
+- Passed ESLint, strict TypeScript, all 100 unit/component tests, a hidden production build, and a zero-vulnerability dependency audit.
+
 ## 2026-09-04 — Controlled inquiry source release
 
 - Published the 67-file controlled inquiry implementation in owner-attributed commit `0f2ece8` after staged-scope, credential, artifact, whitespace, and independent hidden-boundary review passed.

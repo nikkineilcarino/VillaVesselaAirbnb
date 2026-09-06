@@ -44,7 +44,7 @@ npx --no-install supabase test db supabase/tests/009_inquiry_lifecycle.test.sql 
 
 `db:types` prints generated TypeScript to standard output. Save it to a temporary review file and reconcile it with `src/types/database.ts`; do not blindly overwrite the reviewed application contract. `db:reset` destroys the local database only and reapplies all migrations plus `seed.sql`.
 
-If Docker is unavailable, local reset, lint, generated-type comparison, role probes, and populated dashboard checks remain blocked rather than passed. Do not use lint against the older linked schema as evidence for a pending migration.
+If Docker is unavailable, local reset, lint, generated-type comparison, role probes, and populated dashboard checks remain blocked rather than passed. Linked lint proves only the schema currently applied to that linked project and never substitutes for a pending migration's isolated replay tests.
 
 ## Remote application
 
@@ -72,7 +72,7 @@ Public signup remains disabled. Create the administrator Auth identity through t
 
 ## Dormant application deployment boundary
 
-Migration `009` remains unapplied to the linked project while the completed application hardening may be committed and deployed in dormant hidden mode. The remote production database remains on migrations `001`–`008`; Production `CONTACT_INQUIRY_VISIBLE` and `CONTACT_INQUIRY_ENABLED` remain false/absent until the later migration, role, publication, live-workflow, cleanup, and rollback checks pass.
+Migration `009` was applied once through the linked migration ledger on 2026-09-06. Local and remote histories match through `009`; linked lint, object/grant/RLS/function/Cron checks, denial probes, 365-day retention, approved exact deletion, analytics isolation, and exact synthetic cleanup passed. This database readiness does not publish or enable the application. Production `CONTACT_INQUIRY_VISIBLE` and `CONTACT_INQUIRY_ENABLED` remain false until the later publication, live-workflow, cleanup, and rollback checks pass.
 
 ## Files requiring careful review
 

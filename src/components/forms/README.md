@@ -14,7 +14,7 @@ The Contact route first evaluates server-only `CONTACT_INQUIRY_VISIBLE`; when fa
 
 ## Activation requirements
 
-Enable submission only after the owner approves inquiries, migration `009` is applied, the service key is configured server-side, and the live insertion/retention/administrator workflow has been verified. The application may be deployed dormant with both inquiry flags false/absent while migration `009` remains unapplied remotely.
+Enable submission only after the owner approves publication and the live insertion/administrator/CSV/cleanup workflow is ready to run. Migration `009`, server-side service access, lifecycle authorization, retention, and exact cleanup are applied and verified, but the application remains safely dormant with both inquiry flags false until the controlled live workflow passes.
 
 ## Security and privacy
 

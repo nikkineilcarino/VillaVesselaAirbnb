@@ -115,7 +115,7 @@ Use `[x]` only for a check supported by evidence. Use `[ ]` for pending checks a
 
 ## Database
 
-- [x] Eight migrations are ordered, fully documented, and covered by a structural contract test
+- [x] Nine migrations are ordered, fully documented, and covered by structural and lifecycle contract tests
 - [x] Migrations apply reproducibly to a disposable local database and match the linked production history
 - [x] Migration SQL defines the required tables, constraints, indexes, and defaults
 - [x] Device, browser, link, role, and inquiry-status values are constrained
@@ -147,6 +147,7 @@ Use `[x]` only for a check supported by evidence. Use `[ ]` for pending checks a
 - [x] No analytics identifier or request exists before explicit Allow; Decline and settings changes fail closed and preserve site use
 - [x] One live consented page view and approved Contact click returned `201`, matched exact stored rows, and were deleted exactly
 - [x] Analytics-only records older than 365 days are pruned by one reviewed daily job; inquiries are outside that routine
+- [x] Inquiry records older than 365 days are pruned by a separate reviewed daily job; role denial, one expired/current control, analytics isolation, and exact cleanup passed remotely
 
 ## External-link tracking
 
@@ -222,7 +223,7 @@ Use `[x]` only for a check supported by evidence. Use `[ ]` for pending checks a
 - [x] Public/dashboard analytics copy says anonymous/estimated and never “who clicked”
 - [x] Inquiry consent, response purpose, and non-booking status are explicit in enabled UI
 - [x] Analytics retention/deletion procedure is documented, scheduled, and proved with synthetic records
-- [ ] Inquiry retention/deletion procedure remains unapproved while public inquiry submission is disabled
+- [x] Inquiry retention/exact-deletion procedure is approved, applied, separately scheduled, and proved; public submission remains disabled pending the live application workflow
 - [ ] Messenger review media removes private profile details unless approved
 
 ## Performance
@@ -244,18 +245,18 @@ Use `[x]` only for a check supported by evidence. Use `[ ]` for pending checks a
 - [x] Dependency installation and lockfile dry run succeed
 - [x] `npm run lint` passes
 - [x] `npm run typecheck` passes
-- [x] `npm run test` passes (77 tests across utility, database, auth, analytics, dashboard, inquiry, CSV, SEO, structured-data, system-route, and header boundaries)
-- [x] Isolated credential-independent Chromium coverage passes (50 passed, 3 environment-explicit checks skipped); the mutually exclusive analytics-disabled branch passes (1 passed) and the enabled-inquiry branch passes (3 passed)
+- [x] `npm run test` passes (100 tests across utility, database, auth, analytics, dashboard, inquiry, CSV, SEO, structured-data, system-route, and header boundaries)
+- [x] Isolated credential-independent Chromium coverage passes all hidden, published-disabled, and enabled inquiry branches in CI; the dormant canonical sweep passes all nine public routes on desktop/mobile with zero Axe violations and no analytics/contact/inquiry write
 - [x] `npm run build` passes
 - [x] Built output scan contains no private caretaker numbers
 
 ## Deployment readiness
 
 - [x] Vercel project, Production-only analytics configuration, public configuration, and disabled inquiry flag documented without values
-- [x] Supabase migrations `001` through `008` applied in order
+- [x] Supabase migrations `001` through `009` applied in order; linked history/lint and the separate inquiry lifecycle/retention boundary pass
 - [x] RLS and production admin membership verified
 - [x] Canonical URL configured; approved destinations are environment-backed and unapproved destinations remain omitted
 - [x] Forty-one approved photographs are published; Blue Kubo, Green Kubo, and parking retain explicit reserved slots
 - [x] Post-deploy public access, admin denial, consent-active analytics, inquiry-disabled behavior, privacy, accessibility, metadata, headers, and error checks pass
 - [x] Rollback and support limitations documented
-- [x] All QA evidence, changelog, decisions, content TODO, and deployment runbook are current through the 2026-08-10 activation and 2026-08-24 closure
+- [x] QA evidence, changelog, decisions, content TODO, and deployment runbook are current through the 2026-09-06 dormant inquiry lifecycle release
